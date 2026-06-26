@@ -1,0 +1,1524 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yunze 赛事预测记录系统｜球队实力+盘口多玩法模型版</title>
+  <style>
+    :root{
+      --bg:#f2f4f7; --ink:#101820; --muted:#6b7786; --card:#111923; --card2:#0d141d;
+      --text:#f7fafc; --sub:#8fa0b4; --gold:#f6c349; --green:#20b15a; --red:#e25555;
+      --blue:#4aa3ff; --purple:#9a7bff; --line:#263448; --shadow:0 16px 34px rgba(13,20,29,.16);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#eef2f5 0%,#f8fafc 100%);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",Arial,sans-serif;color:var(--ink);line-height:1.45}
+    .wrap{max-width:980px;margin:0 auto;padding:18px 14px 60px}
+    .header{background:#fff;border-radius:28px;padding:22px 20px 18px;box-shadow:var(--shadow);position:sticky;top:0;z-index:20}
+    .title-row{display:flex;align-items:center;gap:12px;justify-content:space-between}.round{width:44px;height:44px;border-radius:50%;background:#f0f2f4;display:grid;place-items:center;font-size:25px;font-weight:700}.more{letter-spacing:2px;font-size:20px}.title{text-align:center;flex:1}h1{font-size:28px;margin:0}.subtitle{margin:8px 0 0;color:var(--muted);font-size:14px;text-align:center}.toolbar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+    button,.file-btn{border:0;border-radius:14px;padding:12px 12px;font-weight:900;cursor:pointer;font-size:14px;background:#111923;color:#fff;box-shadow:0 7px 16px rgba(17,25,35,.12);text-align:center;white-space:nowrap}.file-btn input{display:none}.btn-gold{background:var(--gold);color:#111923}.btn-green{background:var(--green)}.btn-light{background:#f1f4f7;color:#111923}.btn-red{background:var(--red)}
+    .summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.sum-card{background:#fff;border-radius:18px;padding:15px 16px;box-shadow:var(--shadow)}.sum-label{font-size:13px;color:var(--muted);font-weight:800}.sum-value{font-size:28px;font-weight:950;margin-top:6px}.sum-value.green{color:var(--green)}.sum-value.gold{color:var(--gold)}.sum-value.red{color:var(--red)}
+    .panel{background:#fff;border-radius:20px;padding:16px 16px;box-shadow:var(--shadow);margin:16px 0}.panel h2{margin:0 0 10px;font-size:20px}.settings{display:none}.settings.open{display:block}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:6px;margin:8px 0}.field label{font-size:13px;color:var(--muted);font-weight:900}.field input,.field textarea,.field select{border:1px solid #d8dee6;background:#fff;border-radius:12px;padding:11px 12px;font-size:14px;font-family:inherit}.field textarea{min-height:82px;resize:vertical}.hint{color:var(--muted);font-size:13px;margin:8px 0}.section-title{font-size:18px;font-weight:950;color:#6a7583;margin:22px 6px 12px}.cards{display:grid;gap:18px}.match-card{background:var(--card);color:var(--text);border-radius:20px;padding:19px 18px 16px;box-shadow:var(--shadow);border-left:5px solid var(--gold)}.match-card.exact{border-left-color:var(--green)}.match-card.direction{border-left-color:var(--blue)}.match-card.miss{border-left-color:var(--red)}.match-card.pending{border-left-color:var(--gold)}.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.match-title{font-size:23px;font-weight:950;letter-spacing:.2px}.match-no{color:var(--gold);font-size:15px}.tag{border-radius:999px;padding:7px 11px;font-weight:950;font-size:13px;background:rgba(246,195,73,.16);color:var(--gold);border:1px solid rgba(246,195,73,.25);white-space:nowrap}.tag.green{background:rgba(32,177,90,.16);color:#71e690;border-color:rgba(32,177,90,.25)}.tag.blue{background:rgba(74,163,255,.15);color:#8dc7ff;border-color:rgba(74,163,255,.25)}.tag.red{background:rgba(226,85,85,.15);color:#ff9b9b;border-color:rgba(226,85,85,.25)}.kick{color:var(--sub);margin-top:5px;font-weight:700;font-size:13px}.boxes{display:grid;grid-template-columns:1.12fr .88fr;gap:13px;margin:15px 0 12px}.box{background:var(--card2);border:1px solid rgba(255,255,255,.04);border-radius:14px;padding:14px 15px;min-height:90px}.box-label{color:var(--sub);font-weight:850;font-size:14px;margin-bottom:7px}.box-value{font-size:25px;font-weight:950;letter-spacing:.4px}.gold{color:var(--gold)}.pills{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.pill{background:#182433;border:1px solid #263448;color:#dce6f1;border-radius:999px;padding:6px 10px;font-size:13px;font-weight:800}.pill.green{color:#76e895}.pill.gold{color:var(--gold)}.pill.red{color:#ff9b9b}.pill.blue{color:#8dc7ff}.prob{background:#0c121a;border:1px solid rgba(255,255,255,.04);border-radius:14px;padding:12px 13px;margin:12px 0}.prob-title{font-weight:950;margin-bottom:9px}.prob-row{display:grid;grid-template-columns:62px 1fr 46px;align-items:center;gap:8px;margin:8px 0;font-size:13.5px;color:#dce6f1}.bar{height:10px;background:#263448;border-radius:99px;overflow:hidden}.fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#4aa3ff,#20b15a)}.fill.draw{background:linear-gradient(90deg,#f6c349,#d6a62e)}.fill.away{background:linear-gradient(90deg,#ff8989,#e25555)}.factor-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.factor{background:#0c121a;border:1px solid rgba(255,255,255,.04);border-radius:14px;padding:11px 12px;color:#cad5e1;font-size:14px}.factor b{display:block;color:#fff;margin-bottom:4px}.reason{background:#0c121a;border:1px solid rgba(255,255,255,.04);border-radius:14px;padding:12px 13px;color:#cad5e1;font-size:14px;margin-top:11px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.actions button{padding:9px 12px;border-radius:12px;font-size:13px;box-shadow:none}.empty{background:#fff;border-radius:20px;padding:28px;text-align:center;color:var(--muted);box-shadow:var(--shadow)}
+    dialog{border:0;border-radius:22px;box-shadow:0 25px 60px rgba(0,0,0,.28);width:min(930px,calc(100vw - 24px));padding:0}dialog::backdrop{background:rgba(8,12,18,.55)}.modal-head{background:#111923;color:#fff;padding:18px 20px;border-radius:22px 22px 0 0;display:flex;justify-content:space-between;align-items:center}.modal-head h2{margin:0;font-size:21px}.modal-body{padding:16px 20px 20px;background:#fff;border-radius:0 0 22px 22px}.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:12px}.close-x{background:#273446;color:#fff;border-radius:50%;width:34px;height:34px;padding:0;font-size:18px;box-shadow:none}
+    .footer{color:var(--muted);font-size:12px;margin:22px 4px;text-align:center}.small{font-size:12px;color:var(--muted)}
+    .market{background:#0c121a;border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:12px 13px;margin:12px 0;color:#dce6f1}.market-title{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:950;margin-bottom:9px}.market-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.market-box{background:#111923;border:1px solid #263448;border-radius:12px;padding:10px}.market-box .lab{font-size:12px;color:#8fa0b4;font-weight:900}.market-box .val{font-size:18px;font-weight:950;margin-top:4px}.edge-pos{color:#76e895}.edge-neg{color:#ff9b9b}.alert-card{border-radius:13px;padding:11px 12px;margin-top:10px;font-size:14px;font-weight:850}.alert-low{background:rgba(32,177,90,.13);color:#90efad;border:1px solid rgba(32,177,90,.25)}.alert-mid{background:rgba(246,195,73,.13);color:#f6d978;border:1px solid rgba(246,195,73,.25)}.alert-high{background:rgba(226,85,85,.14);color:#ffaaaa;border:1px solid rgba(226,85,85,.28)}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
+
+    .record-group{margin:18px 0 28px}.record-group-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:20px 6px 12px}.record-group-title{font-size:20px;font-weight:950;color:#4b5563}.record-group-title.done::before{content:'✅ ';}.record-group-title.pending::before{content:'⏳ ';}.record-group-sub{font-size:13px;color:#7b8794;font-weight:800;text-align:right}.record-count{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;border-radius:999px;background:#111923;color:#fff;font-weight:950;margin-left:8px;padding:0 9px}.date-note{background:#fff;border:1px dashed #d8dee6;color:#6b7786;border-radius:14px;padding:10px 12px;margin:8px 0 14px;font-size:13px}.unknown-date{opacity:.86}
+    .view-tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 16px}.view-tab{background:#fff;color:#111923;border:1px solid #d8dee6;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 12px}.view-tab.active{background:#111923;color:#fff;border-color:#111923}.view-tab .badge{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:26px;border-radius:999px;background:rgba(17,25,35,.1);font-weight:950;padding:0 8px}.view-tab.active .badge{background:rgba(255,255,255,.18);color:#fff}.filter-hint{color:#6b7786;font-size:13px;margin:-2px 6px 12px;font-weight:700}
+
+
+    .lesson-panel h2{margin:0 0 6px}.lesson-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.lesson-head .hint{margin:0;color:#6b7786}.lesson-toggle{box-shadow:none;min-width:86px;padding:10px 14px}.lesson-body{margin-top:14px}.lesson-body[hidden]{display:none!important}.lesson-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.lesson{background:#f7f9fc;border:1px solid #e2e8f0;border-radius:15px;padding:12px 13px}.lesson b{display:block;margin-bottom:5px}.lesson span{color:#5d6a78;font-size:13.5px}.lesson-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.note-warn{background:#fff8e5;border:1px solid #f6d978;border-radius:14px;padding:10px 12px;color:#705200;font-size:13px;margin-top:10px}
+
+
+
+    .best-bets{background:linear-gradient(135deg,#111923 0%,#182433 100%);color:#f7fafc;border-radius:22px;padding:18px 18px 16px;box-shadow:var(--shadow);border:1px solid rgba(246,195,73,.28);margin:12px 0 18px}.best-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}.best-title{font-size:21px;font-weight:950}.best-sub{color:#aebbd0;font-size:13px;margin-top:4px}.best-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.best-card{background:#0c121a;border:1px solid #2a3a51;border-radius:16px;padding:13px 13px}.best-card .rank{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:950;margin-bottom:9px;background:rgba(246,195,73,.15);color:#f6d978;border:1px solid rgba(246,195,73,.25)}.best-card.safe .rank{background:rgba(32,177,90,.15);color:#8df0ad;border-color:rgba(32,177,90,.25)}.best-card.risky .rank{background:rgba(226,85,85,.13);color:#ffaaaa;border-color:rgba(226,85,85,.25)}.bet-line{font-size:16px;font-weight:950;color:#fff;margin:5px 0}.bet-detail{font-size:13.5px;color:#cad5e1;line-height:1.55}.bet-prob{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}.bet-prob span{background:#182433;border:1px solid #263448;border-radius:999px;color:#dce6f1;font-weight:900;font-size:12px;padding:5px 8px}.best-note{margin-top:12px;background:rgba(246,195,73,.10);border:1px solid rgba(246,195,73,.22);border-radius:14px;padding:10px 12px;color:#f6d978;font-size:13px;line-height:1.55}.avoid-list{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.avoid-list span{border-radius:999px;background:rgba(226,85,85,.10);border:1px solid rgba(226,85,85,.22);color:#ffb0b0;padding:5px 8px;font-size:12px;font-weight:900}
+
+    .play-panel{background:#0c121a;border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:12px 13px;margin:12px 0;color:#dce6f1}.play-title{font-weight:950;margin-bottom:9px;display:flex;justify-content:space-between;align-items:center}.play-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.play-item{background:#111923;border:1px solid #263448;border-radius:12px;padding:10px 11px}.play-item b{display:block;color:#fff;font-size:13px;margin-bottom:5px}.play-item span{color:#cad5e1;font-size:13px}.play-item .main{color:#f6c349;font-weight:950;font-size:16px}.prob-chip{display:inline-block;border-radius:999px;background:rgba(246,195,73,.13);color:#f6d978;border:1px solid rgba(246,195,73,.25);padding:3px 7px;margin:2px 4px 2px 0;font-size:12px;font-weight:900}
+    @media(max-width:720px){.best-grid{grid-template-columns:1fr}.best-head{flex-direction:column}.wrap{padding:0 10px 40px}.header{border-radius:0 0 26px 26px;margin:0 -10px;padding:17px 14px}.round{width:40px;height:40px}h1{font-size:22px}.toolbar{grid-template-columns:1fr 1fr}.summary{grid-template-columns:1fr 1fr}.grid2,.boxes,.factor-grid{grid-template-columns:1fr}.match-title{font-size:20px}.box-value{font-size:23px}.prob-row{grid-template-columns:55px 1fr 42px}.modal-body{padding:14px}.lesson-grid{grid-template-columns:1fr}.top{flex-direction:column}.tag{align-self:flex-start}}
+
+  .strength-panel{background:#0b1420;border:1px solid rgba(246,195,73,.20);border-radius:14px;padding:12px 13px;margin:12px 0;color:#dce6f1}.strength-title{font-weight:950;margin-bottom:9px;display:flex;justify-content:space-between;align-items:center}.strength-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.strength-item{background:#111923;border:1px solid #2a3a51;border-radius:12px;padding:10px 11px}.strength-item b{display:block;color:#fff;font-size:13px;margin-bottom:5px}.strength-item span{color:#cad5e1;font-size:13px;line-height:1.5}.strength-score{color:#f6c349;font-weight:950;font-size:16px}
+  @media(max-width:720px){.strength-grid{grid-template-columns:1fr}}
+
+  .sale-panel{background:#0a1320;border:1px solid rgba(246,195,73,.20);border-radius:14px;padding:12px 13px;margin:10px 0;color:#dce6f1}.sale-title{display:flex;justify-content:space-between;align-items:center;font-weight:950;margin-bottom:8px}.sale-line{font-size:13px;line-height:1.6;margin:5px 0}.sale-ok{color:#8df0ad;font-weight:900}.sale-no{color:#ffaaaa;font-weight:900}.sale-warn{color:#f6d978;font-weight:900}.combo-list{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}.combo-card{background:#0c121a;border:1px solid #2a3a51;border-radius:16px;padding:13px 13px}.combo-card b{color:#fff}.combo-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.combo-meta span{border-radius:999px;background:#182433;border:1px solid #263448;color:#dce6f1;padding:5px 8px;font-size:12px;font-weight:900}.combo-risk-low{border-left:4px solid #20b15a}.combo-risk-mid{border-left:4px solid #f6c349}.combo-risk-high{border-left:4px solid #e25555}
+  .market-snapshot{background:#09111a;border:1px solid rgba(118,184,255,.18);border-radius:14px;padding:12px 13px;margin:10px 0;color:#dce6f1}.market-snapshot b{color:#9fd1ff}.market-snapshot .line{margin:6px 0;font-size:13px;line-height:1.55}.market-snapshot .warn{color:#f6d978;font-weight:900}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="header">
+      <div class="title-row"><div class="round">×</div><div class="title"><h1>赛事预测记录</h1><div class="subtitle">Yunze 专属｜球队实力评分、体彩开售盘筛选、盘口赔率、多串关玩法、强队控局/轮换、赛后复盘模型</div></div><div class="round more">···</div></div>
+      <div class="toolbar">
+        <button class="btn-gold" id="addBtn">新增预测</button>
+        <button class="btn-light" id="settingsBtn">云同步设置</button>
+        <button class="btn-light" id="exportBtn">导出备份</button>
+        <label class="file-btn btn-light">导入备份<input type="file" id="importFile" accept="application/json"></label>
+      </div>
+    </section>
+
+    <section class="summary" id="summary"></section>
+
+    <section class="panel" id="accuracyPanel"></section>
+
+    <section class="panel lesson-panel" id="lessonPanel">
+      <div class="lesson-head">
+        <div>
+          <h2>复盘模型修正库</h2>
+          <div class="hint">这些规则来自我们前面已完赛预测的复盘，会用于后续判断比分、总进球、让球是否打穿以及冷门风险。</div>
+        </div>
+        <button type="button" class="btn-light lesson-toggle" id="lessonToggleBtn" aria-expanded="false" aria-controls="lessonBody">展开</button>
+      </div>
+      <div class="lesson-body" id="lessonBody" hidden>
+      <div class="lesson-grid">
+        <div class="lesson"><b>强队反弹局要上调大胜权重</b><span>首战不顺 + 次战面对明显弱队 + 需要净胜球时，不要只停在 2-0；要防 4-0/5-0。</span></div>
+        <div class="lesson"><b>高控球不等于高进球</b><span>控球型强队遇到低位铁桶、雨战、可接受平局时，0-0/1-0 权重要上调。</span></div>
+        <div class="lesson"><b>控场型反弹≠火力爆发</b><span>克罗地亚这类经验控场队，反弹可能只是 0-1/1-0，不一定打出 0-2/0-3。</span></div>
+        <div class="lesson"><b>能守不代表能进</b><span>弱队防守韧性强，不等于反击能稳定破门；双方进球要单独看进攻质量。</span></div>
+        <div class="lesson"><b>总进球需要独立判断</b><span>如果双方都有进攻点且防线不稳，哪怕胜负方向明确，也要防 3-2/2-2。</span></div>
+        <div class="lesson"><b>盘口热度要和战意一起看</b><span>热门低赔不一定错，但如果强队无需冒险或让球过深，要防让平/平局。</span></div>
+        <div class="lesson"><b>强队控局/挑对手风险</b><span>末轮或已出线强队可能接受平局、小胜或轮换，不主动追大胜；要结合另一场同步比分、净胜球、淘汰赛潜在路径判断。</span></div>
+        <div class="lesson"><b>热门强队首战也会爆冷平</b><span>西班牙0-0佛得角说明：超低主胜热度不能直接等于2球以上；若弱队低位铁桶、门将状态好，0-0要进防区。</span></div>
+        <div class="lesson"><b>热门客队小胜模型要防1-1</b><span>沙特1-1乌拉圭说明：客队旅途扰动、慢热、天气和对手定位球能力同时存在时，客胜小胜要下调为客队不败。</span></div>
+        <div class="lesson"><b>弱队不只是防守方</b><span>伊朗2-2新西兰说明：若弱队有支点、速度点或高效射正，不能只给0/1个进球，要防2-2开放平。</span></div>
+        <div class="lesson"><b>备选比分命中不等于主方向正确</b><span>瑞士2-1加拿大说明：预测区间覆盖到真实比分，也要回看概率排序；最高概率不能长期偏热门或偏平。</span></div>
+        <div class="lesson"><b>强队同组争净胜球时要防打穿</b><span>巴西0-3、摩洛哥4-2说明：末轮强队若仍要争小组名次/净胜球，不能只按“控局小胜”处理。</span></div>
+        <div class="lesson"><b>弱队大败后的防线裂缝会延续</b><span>卡塔尔连续失球样本提示：红牌/停赛/心理崩盘叠加时，2-1要上调为3-1/4-1。</span></div>
+        <div class="lesson"><b>球队实力必须独立量化</b><span>排名/Elo、阵容深度、球星质量先决定基础胜率；再用战意、轮换、盘口和天气修正“能不能打穿”。强队强不等于一定赢两球。</span></div>
+      </div>
+      <div class="note-warn">提示：如果你已经在旧版网页里录入过数据，点击下面按钮可把本次整理的历史复盘样本合并进当前记录，不会覆盖你已编辑过的同 ID 记录。</div>
+      <div class="lesson-actions"><button class="btn-green" id="mergeHistoryBtn">合并历史复盘样本</button><button class="btn-light" id="resetWithDefaultsBtn">重置为新版默认样本</button></div>
+      </div>
+    </section>
+
+    <section class="panel settings" id="settingsPanel">
+      <h2>云同步设置</h2>
+      <div class="hint">不配置也可以本机记录；配置 Google Apps Script 后，不同设备打开同一个网页、填入同一组接口和口令，就能同步同一份记录。</div>
+      <div class="grid2">
+        <div class="field"><label>云同步 API 地址</label><input id="cloudUrl" placeholder="粘贴 Apps Script Web App URL"></div>
+        <div class="field"><label>同步口令 Token</label><input id="cloudToken" placeholder="例如 yunZe_2026_private" type="password"></div>
+      </div>
+      <div class="toolbar">
+        <button id="saveCloudBtn" class="btn-green">保存设置</button>
+        <button id="pullCloudBtn" class="btn-light">从云端拉取</button>
+        <button id="pushCloudBtn" class="btn-light">推送本机数据</button>
+        <button id="clearLocalBtn" class="btn-red">清空本机</button>
+      </div>
+      <div class="small">提示：云同步采用 JSONP，适配 Google Apps Script。口令仅保存在当前浏览器本地。</div>
+    </section>
+
+    <div class="section-title">预测记录｜按比赛日期从早到晚排序</div>
+    <div class="view-tabs" aria-label="记录分类切换">
+      <button type="button" class="view-tab active" id="viewDoneBtn">✅ 完赛 <span class="badge" id="doneCountBadge">0</span></button>
+      <button type="button" class="view-tab" id="viewPendingBtn">⏳ 预测中 <span class="badge" id="pendingCountBadge">0</span></button>
+    </div>
+    <div class="filter-hint" id="filterHint">当前显示：已完赛复盘。点击“预测中”可切换查看还没填赛果的比赛。</div>
+    <section class="cards" id="cards"></section>
+    <div class="footer">比分与盘口分析仅用于记录和复盘，不构成投注建议；固定奖金与让球以出票时刻官方页面为准。</div>
+  </main>
+
+  <dialog id="editDialog">
+    <form method="dialog" id="recordForm">
+      <div class="modal-head"><h2 id="modalTitle">新增预测</h2><button class="close-x" value="cancel" type="button" id="closeDialog">×</button></div>
+      <div class="modal-body">
+        <input type="hidden" id="id">
+        <div class="grid2">
+          <div class="field"><label>编号</label><input id="matchNo" placeholder="049"></div>
+          <div class="field"><label>比赛名称</label><input id="matchName" placeholder="瑞士 vs 加拿大"></div>
+          <div class="field"><label>比赛时间</label><input id="kickoff" placeholder="2026-06-25 03:00"></div>
+          <div class="field"><label>主推胜平负</label><select id="pick"><option>主胜</option><option>平</option><option>客胜</option><option>主队不败</option><option>客队不败</option></select></div>
+          <div class="field"><label>预测比分，多比分用 / 隔开</label><input id="predictionScores" placeholder="2-0 / 3-0 / 2-1"></div>
+          <div class="field"><label>总进球建议</label><input id="totalGoals" placeholder="2 和 3"></div>
+          <div class="field"><label>实际比分</label><input id="actualScore" placeholder="赛后填写，如 1-0"></div>
+          <div class="field"><label>状态标签</label><select id="manualStatus"><option value="auto">自动判断</option><option>待验证</option><option>比分命中</option><option>方向命中</option><option>失手</option></select></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>主胜概率 %</label><input id="probHome" type="number" min="0" max="100" placeholder="45"></div>
+          <div class="field"><label>平局概率 %</label><input id="probDraw" type="number" min="0" max="100" placeholder="30"></div>
+          <div class="field"><label>客胜概率 %</label><input id="probAway" type="number" min="0" max="100" placeholder="25"></div>
+          <div class="field"><label>风险级别</label><select id="risk"><option>稳健</option><option>中等</option><option>偏险</option><option>高风险</option></select></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>球队实力评分</label><textarea id="strengthRating" placeholder="例如：日本 83｜瑞典 82｜实力差 +1"></textarea></div>
+          <div class="field"><label>实力差解读</label><textarea id="strengthNote" placeholder="排名/Elo/阵容深度/球星质量如何影响胜平负和打穿能力"></textarea></div>
+          <div class="field"><label>实力对概率的修正</label><textarea id="strengthImpact" placeholder="例如：基础客胜上调，但轮换/控局下调大胜概率"></textarea></div>
+          <div class="field"><label>强弱转化结论</label><textarea id="strengthConversion" placeholder="实力优势能否转化为2球以上？弱队能否守住？"></textarea></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>伤停/停赛</label><textarea id="injury" placeholder="核心球员伤停、红牌停赛、是否复出"></textarea></div>
+          <div class="field"><label>上一场上场时间/体能</label><textarea id="minutes" placeholder="核心球员是否踢满、替补、轮换、疲劳"></textarea></div>
+          <div class="field"><label>上一场状态表现</label><textarea id="form" placeholder="射门、助攻、xG、门将表现、防线状态"></textarea></div>
+          <div class="field"><label>战意/积分形势</label><textarea id="motivation" placeholder="必须赢、保平可接受、需要净胜球、可能轮换"></textarea></div>
+          <div class="field"><label>强队控局/挑对手风险</label><textarea id="controlIntent" placeholder="是否已出线、是否可能轮换、是否接受平局/小胜、是否可能为了淘汰赛路径控制名次"></textarea></div>
+          <div class="field"><label>天气/场地</label><textarea id="weather" placeholder="高温、雨战、湿滑、旅行距离"></textarea></div>
+          <div class="field"><label>赔率/让球变化</label><textarea id="odds" placeholder="例如：主胜降温/客胜升温/让球从 -1 调到 -2"></textarea></div>
+        </div>
+        <div class="panel" style="box-shadow:none;border:1px solid #e3e8ef;margin:12px 0;background:#fbfcfe">
+          <h2 style="font-size:18px;margin-bottom:4px">体彩盘口与倍率分析</h2>
+          <div class="hint">手动填入当前体彩固定奖金/赔率，页面会自动换算市场隐含概率，并和你的模型概率比较，给出冷门预警。</div>
+          <div class="grid2">
+            <div class="field"><label>胜平负倍率：主胜</label><input id="spfHomeOdds" type="number" step="0.01" min="1" placeholder="例如 1.55"></div>
+            <div class="field"><label>胜平负倍率：平</label><input id="spfDrawOdds" type="number" step="0.01" min="1" placeholder="例如 3.75"></div>
+            <div class="field"><label>胜平负倍率：客胜</label><input id="spfAwayOdds" type="number" step="0.01" min="1" placeholder="例如 5.80"></div>
+            <div class="field"><label>官方让球数</label><input id="rqLine" placeholder="主队让球数，如 -1 或 +1"></div>
+            <div class="field"><label>让球倍率：让胜</label><input id="rqHomeOdds" type="number" step="0.01" min="1" placeholder="例如 2.20"></div>
+            <div class="field"><label>让球倍率：让平</label><input id="rqDrawOdds" type="number" step="0.01" min="1" placeholder="例如 3.35"></div>
+            <div class="field"><label>让球倍率：让负</label><input id="rqAwayOdds" type="number" step="0.01" min="1" placeholder="例如 2.65"></div>
+            <div class="field"><label>盘口结论/冷门预警</label><input id="handicapNote" placeholder="例如：主胜过热，防让平；客胜被低估"></div>
+          </div>
+        </div>
+        <div class="field"><label>预测理由</label><textarea id="reason" placeholder="为什么选这个比分或这几个比分"></textarea></div>
+        <div class="field"><label>赛后复盘</label><textarea id="review" placeholder="赛后记录：错在哪里、哪些因素被低估、下次如何修正"></textarea></div>
+        <div class="modal-actions">
+          <button type="button" class="btn-light" id="cancelBtn">取消</button>
+          <button type="submit" class="btn-green">保存记录</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    const STORAGE_KEY='yunze_prediction_records_market_v2';
+    const LEGACY_STORAGE_KEY='yunze_prediction_records_market_v1';
+    const CLOUD_URL_KEY='yunze_prediction_cloud_url';
+    const CLOUD_TOKEN_KEY='yunze_prediction_cloud_token';
+    const HISTORICAL_RECORDS=[
+            {
+            "id": "hist-spain-cpv",
+            "matchNo": "复盘-01",
+            "matchName": "西班牙 vs 佛得角",
+            "kickoff": "已完赛｜2026-06-16 00:00",
+            "predictionScores": "2-0 / 3-0 / 3-1",
+            "pick": "主胜",
+            "totalGoals": "2 和 3",
+            "actualScore": "0-0",
+            "manualStatus": "auto",
+            "probHome": 78,
+            "probDraw": 14,
+            "probAway": 8,
+            "risk": "稳健",
+            "injury": "赛前重点应继续确认西班牙核心边锋/前场是否首发；若核心轮换或状态未满，主胜和大胜概率都要同步下调。",
+            "minutes": "强队首战若前场磨合不足，上一场时间无法参考时，更要看首发质量和替补计划；不能仅凭实力给高比分。",
+            "form": "实际说明佛得角低位防守、门将和整体纪律把西班牙压成无效控球，强弱差没有转化为高质量机会。",
+            "motivation": "西班牙首战理论上需要开门红，但小组赛首战也存在谨慎、先求不失的倾向；弱队拿1分的战意极强。",
+            "weather": "非决定性因素；关键不是天气，而是西班牙是否能早破密防。",
+            "odds": "典型超热主胜爆冷平局样本。若主胜赔率极低但让球过深、平局回报过高，必须把0-0/1-1作为冷门防线。",
+            "spfHomeOdds": "",
+            "spfDrawOdds": "",
+            "spfAwayOdds": "",
+            "rqLine": "",
+            "rqHomeOdds": "",
+            "rqDrawOdds": "",
+            "rqAwayOdds": "",
+            "handicapNote": "强队热盘遇到世界杯新军低位铁桶，先判断能否早破局；不能把名气优势直接转化为2球以上。",
+            "reason": "我们当时主推西班牙2-0，备选3-0/3-1，低估了佛得角首战的防守纪律和门将抗压能力。",
+            "review": "实际0-0，模型失手。新增规则：超强热门首战面对弱队时，若对手是低位死守+门将状态好+强队边路核心未必满状态，应提高0-0/1-1冷门平局权重；强队胜率高不等于比分能打穿。",
+            "createdAt": 1760000000000,
+            "updatedAt": 1760000000000
+      },
+      {
+            "id": "hist-jordan-algeria",
+            "matchNo": "复盘-02",
+            "matchName": "约旦 vs 阿尔及利亚",
+            "kickoff": "已完赛｜截图记录",
+            "predictionScores": "1-2",
+            "pick": "客胜",
+            "totalGoals": "3",
+            "actualScore": "1-2",
+            "manualStatus": "auto",
+            "probHome": 22,
+            "probDraw": 27,
+            "probAway": 51,
+            "risk": "中等",
+            "injury": "复盘资料不足，后续应补入核心前锋/后卫是否首发。",
+            "minutes": "比分命中说明当时对客队优势和主队进球能力的平衡判断较好。",
+            "form": "客队更强，但主队仍有一球能力，适合 1-2 而不是 0-2。",
+            "motivation": "双方都有进球动机，客胜但不零封的脚本成立。",
+            "weather": "未发现决定性天气因素。",
+            "odds": "若客胜倍率没有过热，1-2 是典型优势客队小胜比分。",
+            "spfHomeOdds": "",
+            "spfDrawOdds": "",
+            "spfAwayOdds": "",
+            "rqLine": "",
+            "rqHomeOdds": "",
+            "rqDrawOdds": "",
+            "rqAwayOdds": "",
+            "handicapNote": "优势方小胜局，若客队让 -1，需重点防让平。",
+            "reason": "客队整体优势更明显，但主队并非完全无进球能力。",
+            "review": "结果 1-2 精确命中。模型保留规则：优势方不一定零封；弱队若有主场/反击/定位球能力，应优先考虑 1-2、2-1 这类“胜方小胜 + 双方进球”。",
+            "createdAt": 1760000000000,
+            "updatedAt": 1760000000000
+      },
+      {
+            "id": "hist-norway-senegal",
+            "matchNo": "复盘-03",
+            "matchName": "挪威 vs 塞内加尔",
+            "kickoff": "已完赛｜截图记录",
+            "predictionScores": "2-0 / 2-1",
+            "pick": "主胜",
+            "totalGoals": "2 和 3",
+            "actualScore": "3-2",
+            "manualStatus": "auto",
+            "probHome": 55,
+            "probDraw": 24,
+            "probAway": 21,
+            "risk": "中等",
+            "injury": "复盘提示：赛前必须确认双方防线是否完整，以及核心攻击手是否连续首发。",
+            "minutes": "若两队上一场前场核心出场时间可控，开放对攻概率会高于预期。",
+            "form": "低估了客队进球能力和主队继续进攻的意愿。",
+            "motivation": "若双方都需要赢而非保平，2/3 球区间容易被打穿。",
+            "weather": "如无极端天气，强队领先后也可能继续提速，弱队追分会制造更多空间。",
+            "odds": "若临场总进球水位下调或胜负两端同时受热，应防 3-2、2-2 这种开放比分。",
+            "spfHomeOdds": "",
+            "spfDrawOdds": "",
+            "spfAwayOdds": "",
+            "rqLine": "",
+            "rqHomeOdds": "",
+            "rqDrawOdds": "",
+            "rqAwayOdds": "",
+            "handicapNote": "方向命中，但总进球低估。以后对攻型球队要把 4/5 球纳入防区。",
+            "reason": "当时看主队优势，给 2-0/2-1。",
+            "review": "实际 3-2。复盘重点：方向判断对，但低估开放度。模型修正：只要“双方都有进攻点 + 防线不稳 + 积分战意强”，就不能把总进球锁死在 2/3，应加入 3-2 或 2-2 这类高比分冷门。",
+            "createdAt": 1760000000000,
+            "updatedAt": 1760000000000
+      },
+            {
+                  "id": "chat-belgium-egypt-pending",
+                  "matchNo": "补录-01",
+                  "matchName": "比利时 vs 埃及",
+                  "kickoff": "已完赛｜2026-06-16 03:00",
+                  "predictionScores": "2-1 / 1-1 / 2-2",
+                  "pick": "主队不败",
+                  "totalGoals": "2 和 3",
+                  "actualScore": "1-1",
+                  "manualStatus": "auto",
+                  "probHome": 48,
+                  "probDraw": 31,
+                  "probAway": 21,
+                  "risk": "偏险",
+                  "injury": "赛前需要确认比利时前场核心与卢卡库恢复情况、埃及 Salah/Marmoush 类反击点是否健康；强队名气不能直接等于大胜。",
+                  "minutes": "比利时若前场主力不满状态或需要替补改变局面，领先/扳平后更可能控节奏；埃及反击球员体能充足会抬高平局概率。",
+                  "form": "模型判断比利时创造力更强，但也识别到埃及具备下半场反击亮点，1-1被列入核心防比分。",
+                  "motivation": "小组首战中，强队更重视不输；埃及可以接受守平或偷一球。",
+                  "controlIntent": "比利时属于热门方但不是绝对打穿局；落后或扳平后不一定继续冒险压上，1-1/2-1优先于3-0。",
+                  "weather": "若遇雨战或湿滑场地，传控强队射门质量下降，防平权重继续上调。",
+                  "odds": "若主胜倍率过低、平局倍率被拉高，应把1-1纳入主防；让球盘不宜追比利时打穿。",
+                  "spfHomeOdds": "",
+                  "spfDrawOdds": "",
+                  "spfAwayOdds": "",
+                  "rqLine": "",
+                  "rqHomeOdds": "",
+                  "rqDrawOdds": "",
+                  "rqAwayOdds": "",
+                  "handicapNote": "热门强队 + 非洲队低位/反击 + 平局可接受，是典型防平模型。",
+                  "reason": "我们当时主推比利时2-1，但明确提示最容易出平局，1-1需要重点防。",
+                  "review": "实际1-1，备选比分命中。模型有效点：赛前没有盲目追比利时大胜，正确把平局列入核心防线。修正点：如果要评估主推概率，主胜48%并不够高，遇到埃及这类反击队时应把主推从2-1下调为1-1/2-1并列。",
+                  "createdAt": 1760000000000,
+                  "updatedAt": 1760000000000
+      },
+            {
+                  "id": "chat-saudi-uruguay-pending",
+                  "matchNo": "补录-02",
+                  "matchName": "沙特 vs 乌拉圭",
+                  "kickoff": "已完赛｜2026-06-16 06:00",
+                  "predictionScores": "0-1 / 0-2 / 1-2",
+                  "pick": "客胜",
+                  "totalGoals": "1、2 和 3",
+                  "actualScore": "1-1",
+                  "manualStatus": "auto",
+                  "probHome": 17,
+                  "probDraw": 28,
+                  "probAway": 55,
+                  "risk": "中等",
+                  "injury": "需要确认乌拉圭核心中场和中卫是否首发；沙特若防线完整且门将状态好，能把比赛拖成小比分。",
+                  "minutes": "乌拉圭赛前旅行/航班节奏被打乱时，不能直接推大胜；若主力体能或节奏不满，平局概率应明显上调。",
+                  "form": "牌面显示乌拉圭更成熟、更硬，但进攻启动不顺；沙特能抗压且实际率先进球，说明弱队反击/定位球威胁被低估。",
+                  "motivation": "乌拉圭需要结果但首战不应过度冒险；沙特拿分欲望更强，领先后会全力守住。",
+                  "controlIntent": "原模型把它当优势客队小胜，但没有充分考虑客队旅途扰动和首战状态慢热；应从客胜小胜模型修正为客队不败但防1-1。",
+                  "weather": "炎热、湿度或雷雨风险会压低节奏，支持小比分，但小比分不一定等于强队小胜。",
+                  "odds": "若客胜低赔但让球较深，防客胜赢球不赢盘；若平局赔率偏高，1-1应纳入防冷。",
+                  "spfHomeOdds": "",
+                  "spfDrawOdds": "",
+                  "spfAwayOdds": "",
+                  "rqLine": "",
+                  "rqHomeOdds": "",
+                  "rqDrawOdds": "",
+                  "rqAwayOdds": "",
+                  "handicapNote": "方向失手。以后客队热盘+旅途扰动+首战慢热时，平局概率至少提高到30%-35%。",
+                  "reason": "我们最后把这场从0-2修正为0-1，核心是乌拉圭稳但未必打穿。",
+                  "review": "实际1-1，模型失手。关键错误：把‘乌拉圭不打穿’仍然归为‘乌拉圭小胜’，没有把沙特先进球和门将抗压带来的平局脚本放到核心防区。新增规则：热门客队若有旅行/体能/慢热因素，且对手具备身体对抗和定位球，1-1权重要上调。",
+                  "createdAt": 1760000000000,
+                  "updatedAt": 1760000000000
+      },
+            {
+                  "id": "chat-iran-newzealand-pending",
+                  "matchNo": "补录-03",
+                  "matchName": "伊朗 vs 新西兰",
+                  "kickoff": "已完赛｜2026-06-16 09:00",
+                  "predictionScores": "1-0 / 2-0 / 1-1",
+                  "pick": "主队不败",
+                  "totalGoals": "1 和 2",
+                  "actualScore": "2-2",
+                  "manualStatus": "auto",
+                  "probHome": 52,
+                  "probDraw": 30,
+                  "probAway": 18,
+                  "risk": "中等",
+                  "injury": "需要确认伊朗中前场核心是否首发，以及新西兰支点和二点进攻状态；新西兰并非只有死守能力。",
+                  "minutes": "若新西兰前场核心体能充足，后段仍能形成反击和二次进攻；伊朗防线连续追分会增加失位风险。",
+                  "form": "模型正确判断伊朗不败，但严重低估新西兰进攻效率和比赛开放度。",
+                  "motivation": "双方首战都需要分数，若一方先丢球，比赛会被迫打开，不再是伊朗1-0控局。",
+                  "controlIntent": "原本按伊朗小胜控局，但实际是两度落后追平，说明控局前提不成立；先判断谁能先进球比判断谁更强更关键。",
+                  "weather": "天气不是主因；比赛节奏由早进球和追分状态主导。",
+                  "odds": "若主胜赔率偏低但平局概率高于30%，1-1/2-2要纳入防冷；总进球不能只压1/2。",
+                  "spfHomeOdds": "",
+                  "spfDrawOdds": "",
+                  "spfAwayOdds": "",
+                  "rqLine": "",
+                  "rqHomeOdds": "",
+                  "rqDrawOdds": "",
+                  "rqAwayOdds": "",
+                  "handicapNote": "方向按主队不败命中，但精确比分和总进球失手；以后此类比赛要加入2-2防区。",
+                  "reason": "我们最终主推伊朗1-0，新西兰能抗但进攻端不够。",
+                  "review": "实际2-2。模型部分有效：主队不败方向成立。主要错误：低估新西兰两次领先能力和开放度。新增规则：若双方防线都不是铁板、弱队有明确支点/速度点，不能只把弱队定义为防守方；1-1之外要防2-2。",
+                  "createdAt": 1760000000000,
+                  "updatedAt": 1760000000000
+      },
+      {
+            "id": "045-portugal-uzbekistan",
+            "matchNo": "045",
+            "matchName": "葡萄牙 vs 乌兹别克斯坦",
+            "kickoff": "已完赛",
+            "predictionScores": "2-0 / 3-0 / 2-1",
+            "pick": "主胜",
+            "totalGoals": "2 和 3",
+            "actualScore": "5-0",
+            "manualStatus": "auto",
+            "probHome": 72,
+            "probDraw": 18,
+            "probAway": 10,
+            "risk": "稳健",
+            "injury": "应关注葡萄牙主力攻击手是否首发；强队首战不顺后若核心全上，火力上限明显抬高。",
+            "minutes": "强队阵容深度足，上一场消耗不能简单压低进球；领先后替补也可能继续进球。",
+            "form": "低估了葡萄牙反弹强度、射门转化率和早进球后的连锁效应。",
+            "motivation": "首轮不顺 + 第二轮必须拿三分 + 需要净胜球，是大胜触发条件。",
+            "weather": "天气不是主导变量；早进球会削弱天气/节奏对大比分的限制。",
+            "odds": "没有录入临场让球和大小球，导致只看胜负方向，没识别“打穿局”。",
+            "spfHomeOdds": "",
+            "spfDrawOdds": "",
+            "spfAwayOdds": "",
+            "rqLine": "",
+            "rqHomeOdds": "",
+            "rqDrawOdds": "",
+            "rqAwayOdds": "",
+            "handicapNote": "以后遇到强队反弹局，若让球升深但主胜仍稳，应考虑让胜/总进球 4+ 的防区。",
+            "reason": "赛前判断葡萄牙胜，但按稳健小胜处理。",
+            "review": "实际 5-0。核心错误是把“强队胜”低估成“常规 2-0”。模型新增：强队首战不顺、次战面对弱队、早进球概率高、需要净胜球时，大胜权重必须上调，比分防 4-0/5-0。",
+            "createdAt": 1760000000000,
+            "updatedAt": 1760000000000
+      },
+      {
+            "id": "046-england-ghana",
+            "matchNo": "046",
+            "matchName": "英格兰 vs 加纳",
+            "kickoff": "已完赛",
+            "predictionScores": "2-1 / 2-0 / 1-1",
+            "pick": "主胜",
+            "totalGoals": "2 和 3",
+            "actualScore": "0-0",
+            "manualStatus": "auto",
+            "probHome": 61,
+            "probDraw": 24,
+            "probAway": 15,
+            "risk": "中等",
+            "injury": "应关注英格兰边路/锋线是否首发和状态；强队进攻名气不能等同于有效射正。",
+            "minutes": "英格兰首战进攻消耗和加纳防守体能准备被低估。",
+            "form": "严重低估加纳低位防守强度；高控球不等于高质量机会。",
+            "motivation": "英格兰首战已赢，第二轮未必必须冒险；加纳可接受平局，防守优先。",
+            "weather": "雨战/湿滑会降低传控质量和射门稳定性，低位防守更占便宜。",
+            "odds": "若临场主胜过热、平局倍率过高，必须防 0-0/1-1。",
+            "spfHomeOdds": "",
+            "spfDrawOdds": "",
+            "spfAwayOdds": "",
+            "rqLine": "",
+            "rqHomeOdds": "",
+            "rqDrawOdds": "",
+            "rqAwayOdds": "",
+            "handicapNote": "强队热盘 + 对手低位铁桶 + 强队可接受平局，是爆冷平局组合。",
+            "reason": "赛前过度参考英格兰首战火力，主推 2-1。",
+            "review": "实际 0-0。模型新增：控球型强队遇到纪律性低位防守时，优先判断“能否创造高质量射门”，不能只看控球率和名气；若强队不急需赢，0-0 权重上调。",
+            "createdAt": 1760000000000,
+            "updatedAt": 1760000000000
+      },
+      {
+            "id": "047-panama-croatia",
+            "matchNo": "047",
+            "matchName": "巴拿马 vs 克罗地亚",
+            "kickoff": "已完赛",
+            "predictionScores": "0-2 / 0-1 / 1-2",
+            "pick": "客胜",
+            "totalGoals": "2 和 3",
+            "actualScore": "0-1",
+            "manualStatus": "auto",
+            "probHome": 18,
+            "probDraw": 27,
+            "probAway": 55,
+            "risk": "中等",
+            "injury": "巴拿马中场缺人会影响推进，但不等于防线一定崩盘；克罗地亚进攻效率仍需单独判断。",
+            "minutes": "克罗地亚老将/核心体能影响持续压迫能力，领先后可能控场而非继续追第二球。",
+            "form": "判断到克罗地亚反弹，但把“赢球反弹”和“火力爆发反弹”混在一起。",
+            "motivation": "克罗地亚需要赢，但 1-0 也足够；弱队能把比赛拖入小比分。",
+            "weather": "舒适天气有利技术队控球，但不必然带来大比分。",
+            "odds": "让球若为客队 -1，小胜会落到让平，不能直接追让胜。",
+            "spfHomeOdds": "",
+            "spfDrawOdds": "",
+            "spfAwayOdds": "",
+            "rqLine": "",
+            "rqHomeOdds": "",
+            "rqDrawOdds": "",
+            "rqAwayOdds": "",
+            "handicapNote": "方向和备选比分命中，但总进球偏高；强队控场型反弹优先考虑 0-1。",
+            "reason": "赛前看好克罗地亚实力与经验优势。",
+            "review": "实际 0-1，备选比分命中。模型修正：克罗地亚这类控场型强队，反弹更多表现为“稳住结果”，不一定是大胜；1-0/0-1 权重应高于 2-0/0-2。",
+            "createdAt": 1760000000000,
+            "updatedAt": 1760000000000
+      },
+      {
+            "id": "048-colombia-drcongo",
+            "matchNo": "048",
+            "matchName": "哥伦比亚 vs 刚果民主共和国",
+            "kickoff": "已完赛",
+            "predictionScores": "2-1 / 2-0 / 1-1",
+            "pick": "主胜",
+            "totalGoals": "2 和 3",
+            "actualScore": "1-0",
+            "manualStatus": "auto",
+            "probHome": 57,
+            "probDraw": 26,
+            "probAway": 17,
+            "risk": "中等",
+            "injury": "哥伦比亚攻击点更丰富，但仍需确认首发和核心边锋状态；刚果防守韧性强。",
+            "minutes": "连续高强度比赛会降低进攻转化率，强队射门多不等于进球多。",
+            "form": "高估刚果破门能力，也高估哥伦比亚把优势转化为两球以上的效率。",
+            "motivation": "哥伦比亚赢球即可掌握主动，不必在领先后冒险扩大。",
+            "weather": "节奏波动会让比赛破碎化，利于防守方拖比分。",
+            "odds": "若主胜热但让球不深，说明市场也可能只看小胜。",
+            "spfHomeOdds": "",
+            "spfDrawOdds": "",
+            "spfAwayOdds": "",
+            "rqLine": "",
+            "rqHomeOdds": "",
+            "rqDrawOdds": "",
+            "rqAwayOdds": "",
+            "handicapNote": "主胜方向对，但让球需防主队小胜；1-0/2-0 优先于 2-1。",
+            "reason": "赛前认为双方都有进球，主推 2-1。",
+            "review": "实际 1-0。模型新增：弱队能守并不代表能进；强队射门数高也不等于 xG 高。遇到防守韧性强、反击质量一般的弱队，双方进球概率要下调，1-0 权重上调。",
+            "createdAt": 1760000000000,
+            "updatedAt": 1760000000000
+      }
+];
+    const UPCOMING_RECORDS=[
+      {
+            "id": "049",
+            "matchNo": "049",
+            "matchName": "瑞士 vs 加拿大",
+            "kickoff": "2026-06-25 03:00",
+            "predictionScores": "1-1 / 1-2 / 2-1",
+            "pick": "平",
+            "totalGoals": "2 和 3",
+            "actualScore": "",
+            "manualStatus": "auto",
+            "probHome": 33,
+            "probDraw": 31,
+            "probAway": 36,
+            "risk": "中等",
+            "injury": "加拿大中场伤病风险会影响攻防平衡；瑞士整体完整度更稳。",
+            "minutes": "两队上一场消耗都不低，加拿大更依赖核心球员推进。",
+            "form": "加拿大反击效率较好，瑞士整体控场更成熟。",
+            "motivation": "小组出线压力下，双方都不宜冒进，平局价值较高。",
+            "weather": "比赛节奏不宜过快，偏小比分。",
+            "odds": "若临场加拿大明显受热，需防瑞士 1-0。",
+            "spfHomeOdds": "2.55",
+            "spfDrawOdds": "3.05",
+            "spfAwayOdds": "2.70",
+            "rqLine": "0",
+            "rqHomeOdds": "2.55",
+            "rqDrawOdds": "3.05",
+            "rqAwayOdds": "2.70",
+            "handicapNote": "两队接近，市场若过度偏加拿大，平局与瑞士小胜有冷门价值。",
+            "reason": "双方都有拿分需求，但都不适合完全压上，1-1 是最顺的平局脚本。",
+            "review": "",
+            "createdAt": 1760000000000,
+            "updatedAt": 1760000000000
+      },
+      {
+            "id": "050",
+            "matchNo": "050",
+            "matchName": "波黑 vs 卡塔尔",
+            "kickoff": "2026-06-25 03:00",
+            "predictionScores": "2-1 / 1-1 / 2-0",
+            "pick": "主胜",
+            "totalGoals": "2 和 3",
+            "actualScore": "",
+            "manualStatus": "auto",
+            "probHome": 48,
+            "probDraw": 27,
+            "probAway": 25,
+            "risk": "中等",
+            "injury": "卡塔尔上一场红牌/停赛会影响防线完整性，波黑阵容结构更稳定。",
+            "minutes": "波黑需要主动进攻，核心球员消耗会更大；卡塔尔若早丢球体能压力加倍。",
+            "form": "卡塔尔上一场大败后心理承压，波黑更有反弹空间。",
+            "motivation": "双方都需要分数，开放度高于一般小组赛。",
+            "weather": "若天气闷热，后段防线失误概率提高。",
+            "odds": "若波黑让步升高，2-0 权重上调。",
+            "spfHomeOdds": "2.05",
+            "spfDrawOdds": "3.25",
+            "spfAwayOdds": "3.30",
+            "rqLine": "-1",
+            "rqHomeOdds": "4.15",
+            "rqDrawOdds": "3.55",
+            "rqAwayOdds": "1.70",
+            "handicapNote": "波黑方向更好，但-1 下让胜偏难；主胜可看，让平更像实际脚本。",
+            "reason": "波黑必须争胜，卡塔尔防线不完整，主胜更合理，但卡塔尔反击仍有进球可能。",
+            "review": "",
+            "createdAt": 1760000000000,
+            "updatedAt": 1760000000000
+      },
+      {
+            "id": "051",
+            "matchNo": "051",
+            "matchName": "苏格兰 vs 巴西",
+            "kickoff": "2026-06-25 06:00",
+            "predictionScores": "0-2 / 1-2 / 0-1",
+            "pick": "客胜",
+            "totalGoals": "2 和 3",
+            "actualScore": "",
+            "manualStatus": "auto",
+            "probHome": 16,
+            "probDraw": 25,
+            "probAway": 59,
+            "risk": "中等",
+            "injury": "巴西核心边路伤停或轮换会影响大胜幅度；苏格兰身体对抗强。",
+            "minutes": "巴西若轮换，节奏可能不如首发强阵；苏格兰上场消耗后更可能低位防守。",
+            "form": "巴西个人能力优势明显，但未必持续高压打穿。",
+            "motivation": "巴西争取主动权，苏格兰更看重防守拿分。",
+            "weather": "迈阿密雨/雷阵雨风险会压低节奏，利于小比分。",
+            "odds": "若巴西热度过高，防 0-1 小胜。",
+            "spfHomeOdds": "6.20",
+            "spfDrawOdds": "4.15",
+            "spfAwayOdds": "1.42",
+            "rqLine": "+1",
+            "rqHomeOdds": "2.38",
+            "rqDrawOdds": "3.35",
+            "rqAwayOdds": "2.45",
+            "handicapNote": "巴西客胜强势，但让球后不宜追大；防巴西小胜导致让平/让负。",
+            "reason": "巴西赢面高，但天气和苏格兰防守会限制比分，0-2 比 0-3 更稳。",
+            "review": "",
+            "createdAt": 1760000000000,
+            "updatedAt": 1760000000000
+      },
+      {
+            "id": "052",
+            "matchNo": "052",
+            "matchName": "摩洛哥 vs 海地",
+            "kickoff": "2026-06-25 06:00",
+            "predictionScores": "2-0 / 3-0 / 2-1",
+            "pick": "主胜",
+            "totalGoals": "2 和 3",
+            "actualScore": "",
+            "manualStatus": "auto",
+            "probHome": 66,
+            "probDraw": 21,
+            "probAway": 13,
+            "risk": "稳健",
+            "injury": "摩洛哥整体阵容深度更好；海地防线承压大。",
+            "minutes": "如果摩洛哥核心保持首发，前场压迫会更强；若轮换则更偏 2-0。",
+            "form": "摩洛哥防守组织和反击质量优于海地。",
+            "motivation": "摩洛哥需要稳定拿三分，海地更多是守住不崩。",
+            "weather": "同时间段天气可能影响节奏，但强弱差距仍明显。",
+            "odds": "主胜过热时，比分防 2-1。",
+            "spfHomeOdds": "1.58",
+            "spfDrawOdds": "3.55",
+            "spfAwayOdds": "5.40",
+            "rqLine": "-1",
+            "rqHomeOdds": "2.72",
+            "rqDrawOdds": "3.35",
+            "rqAwayOdds": "2.18",
+            "handicapNote": "摩洛哥胜面高，但若主胜过热，2-0/2-1 比 3-0 更稳，-1 防让平。",
+            "reason": "摩洛哥实力优势和攻防纪律更好，主胜是四场中相对稳的方向。",
+            "review": "",
+            "createdAt": 1760000000000,
+            "updatedAt": 1760000000000
+      },
+      {
+            "id": "053",
+            "matchNo": "053",
+            "matchName": "南非 vs 韩国",
+            "kickoff": "2026-06-25 09:00",
+            "predictionScores": "1-2 / 1-1 / 0-1",
+            "pick": "客胜",
+            "totalGoals": "2 和 3",
+            "actualScore": "",
+            "manualStatus": "auto",
+            "probHome": 24,
+            "probDraw": 30,
+            "probAway": 46,
+            "risk": "中等",
+            "injury": "韩国核心状态仍需看首发，但整体阵容完整度和转换速度优于南非；南非后防连续承压后容易在末段失位。",
+            "minutes": "韩国前两轮对捷克、墨西哥消耗不小，但本场若想避免被捷克追上，仍需要主动争胜；南非必须赢，体能分配更激进。",
+            "form": "南非前两场仅1球，进攻效率一般；韩国虽然输给墨西哥，但对捷克已证明有破门能力。",
+            "motivation": "韩国3分，末轮不能只求平，因为捷克若击败轮换墨西哥可能追上；南非1分必须赢，开放度上升。",
+            "weather": "蒙特雷高温会放大末段体能问题，南非压上后更容易给韩国反击空间。",
+            "odds": "如果韩国客胜继续受热，主推客胜不变，但比分防1-1；若韩国首发强阵，1-2权重上调。",
+            "spfHomeOdds": "3.35",
+            "spfDrawOdds": "3.10",
+            "spfAwayOdds": "2.05",
+            "rqLine": "+1",
+            "rqHomeOdds": "1.58",
+            "rqDrawOdds": "3.70",
+            "rqAwayOdds": "4.55",
+            "handicapNote": "从原先平局主推上调为韩国小胜：南非必须压出，韩国反击效率更可能决定比赛；但受热客队仍要防1-1。",
+            "reason": "结合前四场复盘，不能只按热门降速处理。本场南非必须赢会制造空间，韩国也不能完全接受平局，1-2比1-1更符合战意。",
+            "review": "",
+            "createdAt": 1760000000000,
+            "updatedAt": 1760000000000
+      },
+      {
+            "id": "054",
+            "matchNo": "054",
+            "matchName": "捷克 vs 墨西哥",
+            "kickoff": "2026-06-25 09:00",
+            "predictionScores": "1-1 / 1-0 / 0-1",
+            "pick": "平",
+            "totalGoals": "2 和 3",
+            "actualScore": "",
+            "manualStatus": "auto",
+            "probHome": 30,
+            "probDraw": 36,
+            "probAway": 34,
+            "risk": "偏险",
+            "injury": "墨西哥若轮换，进攻稳定性下降；捷克没有退路，首发会更偏进攻和对抗。",
+            "minutes": "墨西哥6分且净胜球优势明显，主力保体能概率高；捷克需要搏命，后段换人会更激进。",
+            "form": "墨西哥前两场2-0南非、1-0韩国，防守非常稳；捷克1负1平，进攻效率一般但战意更强。",
+            "motivation": "墨西哥大概率已掌握出线和头名主动权，不需要大胜；捷克必须赢才有机会，平局对捷克价值不足但可能成为比赛结果。",
+            "weather": "末轮同步赛果会影响节奏：如果韩国领先，捷克会更急；墨西哥则更倾向控风险。",
+            "odds": "若墨西哥客胜赔率过低但首发轮换，客胜价值下降；需要重点防1-1和捷克1-0小冷。",
+            "spfHomeOdds": "3.80",
+            "spfDrawOdds": "3.20",
+            "spfAwayOdds": "1.88",
+            "rqLine": "+1",
+            "rqHomeOdds": "1.68",
+            "rqDrawOdds": "3.55",
+            "rqAwayOdds": "4.20",
+            "handicapNote": "控局/轮换风险很高，不宜追墨西哥客胜打穿；平局为主，防捷克小胜爆冷和墨西哥0-1。",
+            "reason": "墨西哥实力更强，但末轮战意不如捷克刚性。结合近期强队控局和冷平样本，本场把1-1放到首位，1-0列为爆冷防区。",
+            "review": "",
+            "createdAt": 1760000000000,
+            "updatedAt": 1760000000000
+      },
+{
+                        "id": "055",
+                        "matchNo": "055",
+                        "matchName": "厄瓜多尔 vs 德国",
+                        "kickoff": "2026-06-26 04:00",
+                        "predictionScores": "0-2 / 1-2 / 1-1",
+                        "pick": "客胜",
+                        "totalGoals": "2 和 3",
+                        "actualScore": "",
+                        "manualStatus": "auto",
+                        "probHome": 18,
+                        "probDraw": 24,
+                        "probAway": 58,
+                        "risk": "中等",
+                        "injury": "德国存在轮换和后防人员保护可能；德国替补前场效率很高。厄瓜多尔必须提高进攻投入，但前两场零进球说明终结点不足。",
+                        "minutes": "德国前两轮消耗后可主动分配体能；厄瓜多尔若久攻不下，末段压出会暴露空间。",
+                        "form": "德国7-1库拉索、2-1科特迪瓦，强队反弹和替补冲击力都被验证；厄瓜多尔0-1科特迪瓦、0-0库拉索，防守可用但进攻不顺。",
+                        "motivation": "德国已锁小组第一，目标是保持节奏和健康；厄瓜多尔必须拿分甚至争胜，后段风险上升。",
+                        "controlIntent": "德国属于已出线但轮换冲击型，不是完全控局；领先后可能不追屠杀，但替补球员仍有表现动机。",
+                        "weather": "东卢瑟福比赛日预计部分晴、最高约29℃，天气不极端；对节奏影响小。",
+                        "odds": "最新可见胜平负约5.20/4.95/1.36，市场强烈压低德国客胜；早盘3.70/3.65/1.71说明客胜热度继续上升。",
+                        "spfHomeOdds": "5.20",
+                        "spfDrawOdds": "4.95",
+                        "spfAwayOdds": "1.36",
+                        "rqLine": "+1",
+                        "rqHomeOdds": "1.86",
+                        "rqDrawOdds": "3.50",
+                        "rqAwayOdds": "3.27",
+                        "handicapNote": "胜平负客胜上调为强主线；但德国已锁头名，若轮换后只控小胜，+1更容易落在让平。让球首选让平，防让负。",
+                        "rqPick": "让平 / 让负",
+                        "rqProb": "让胜28%｜让平35%｜让负37%",
+                        "scoreProb": "0-2 18%｜1-2 17%｜1-1 13%｜0-1 12%｜1-3 11%",
+                        "totalGoalProb": "2球29%｜3球31%｜4球18%｜1球11%｜5+球8%｜0球3%",
+                        "halfFullProb": "平-负29%｜负-负23%｜平-平14%｜胜-负9%｜负-平7%",
+                        "reason": "球队实力评分把德国客胜作为主线，但复盘后的新模型不再把强队优势直接等同于大胜。厄瓜多尔必须压出来，德国替补冲击力足够赢球；但德国已锁头名，0-2/1-2比1-3更稳。",
+                        "marketSnapshot": "胜平负：5.20 / 4.95 / 1.36；让球(+1)：1.86 / 3.50 / 3.27；总进球0-7+：13.00 / 4.90 / 3.75 / 3.35 / 5.20 / 9.00 / 16.00 / 24.00；半全场：胜胜6.50、胜平13.00、胜负20.00、平胜9.30、平平6.25、平负4.75、负胜29.00、负平13.00、负负2.60。",
+                        "valueNote": "市场把德国客胜压得很低，说明客胜方向更稳；但总进球3球最低、让球+1的让平/让负都不低，最合理是德国赢1-2球，不建议单追大胜。",
+                        "marketSourceNote": "胜平负参考17500当前模拟选号快照；让球、总进球和半全场参考新浪/500彩票网可检索快照，最终以出票时刻固定奖金为准。",
+                        "review": "",
+                        "createdAt": 1760000000000,
+                        "updatedAt": 1760000000000,
+                        "strengthRating": "厄瓜多尔 78｜德国 91｜实力差：德国 +13",
+                        "strengthNote": "德国属于一档强队，阵容深度和替补冲击力明显高于厄瓜多尔；厄瓜多尔防守韧性可以，但前两轮没有进球，进攻端兑现能力偏弱。",
+                        "strengthImpact": "基础客胜上调；但德国已锁小组头名、可能轮换，因此大胜概率不按强弱差线性放大。",
+                        "strengthConversion": "德国实力优势能转化为胜势，但未必转化为3球以上；更合理是德国赢1-2球，0-2和1-2最顺。"
+},
+{
+                        "id": "056",
+                        "matchNo": "056",
+                        "matchName": "库拉索 vs 科特迪瓦",
+                        "kickoff": "2026-06-26 04:00",
+                        "predictionScores": "0-1 / 0-2 / 1-1",
+                        "pick": "客胜 / 防平",
+                        "totalGoals": "1 和 2",
+                        "actualScore": "",
+                        "manualStatus": "auto",
+                        "probHome": 14,
+                        "probDraw": 26,
+                        "probAway": 60,
+                        "risk": "中等",
+                        "injury": "科特迪瓦个别后防伤情需要关注，但进攻端仍具备速度优势。库拉索依赖门将和整体低位防守。",
+                        "minutes": "科特迪瓦对德国消耗较大，本场可能先稳后攻；库拉索防守消耗大，若60分钟后仍需赢球会被迫压出。",
+                        "form": "库拉索从1-7惨败到0-0守平，防守信心恢复；科特迪瓦1-0厄瓜多尔、1-2德国，竞争力强。",
+                        "motivation": "科特迪瓦赢球最稳，打平也有较大出线机会；库拉索必须赢才有奇迹，后段会变开放。",
+                        "controlIntent": "科特迪瓦是先稳后拿结果型，不宜开局无脑追大；库拉索不是躺平，死守后可能搏一次。",
+                        "weather": "费城比赛日偏热且有潮湿/阵雨可能，可能压低节奏，有利于小比分。",
+                        "odds": "让球库拉索+2约2.46/3.88/2.15，市场承认科特迪瓦优势，但没有把净胜3球压成主线。",
+                        "spfHomeOdds": "",
+                        "spfDrawOdds": "",
+                        "spfAwayOdds": "",
+                        "rqLine": "+2",
+                        "rqHomeOdds": "2.46",
+                        "rqDrawOdds": "3.88",
+                        "rqAwayOdds": "2.15",
+                        "handicapNote": "客胜方向保留，但让球从“让胜单选”调整为让胜/让平双防；若科特迪瓦早进球，0-3让负也不能完全排除。",
+                        "rqPick": "让胜 / 让平",
+                        "rqProb": "让胜45%｜让平30%｜让负25%",
+                        "scoreProb": "0-1 22%｜0-2 20%｜1-1 13%｜1-2 11%｜0-3 10%",
+                        "totalGoalProb": "1球20%｜2球31%｜3球29%｜4球13%｜5+球5%｜0球2%",
+                        "halfFullProb": "平-负34%｜负-负27%｜平-平14%｜胜-负7%｜负-平6%",
+                        "reason": "新增实力模块后，科特迪瓦客胜仍是主线，但强弱差不能机械推0-3。库拉索上一场的防守样本真实存在，科特迪瓦也可接受稳妥出线，因此0-1提升到第一比分。",
+                        "marketSnapshot": "让球(+2)：2.46 / 3.88 / 2.15；总进球0-7+：21.00 / 6.60 / 4.30 / 3.65 / 4.40 / 6.70 / 10.50 / 13.00；半全场参考：胜胜29.00、胜平28.00、胜负30.00、平胜32.00、平平11.00、平负3.95、负胜100.00、负平28.00、负负1.37。",
+                        "valueNote": "半全场负负1.37非常低，说明市场认为科特迪瓦从上半场就占优；但+2让球没有把让负压到极低，说明2球以内客胜仍是主要防区。",
+                        "marketSourceNote": "让球、总进球、半全场参考足彩网/500彩票网可检索快照；056胜平负部分页面显示未开售/未披露。",
+                        "review": "",
+                        "createdAt": 1760000000000,
+                        "updatedAt": 1760000000000,
+                        "strengthRating": "库拉索 58｜科特迪瓦 79｜实力差：科特迪瓦 +21",
+                        "strengthNote": "科特迪瓦身体强度、速度和前场个人能力明显更好；库拉索整体纸面较弱，但上一场0-0厄瓜多尔证明其低位防守和门将状态有价值。",
+                        "strengthImpact": "实力差支持客胜；但科特迪瓦打平也有较大出线价值，且库拉索有铁桶能力，所以比分从0-2下调为0-1优先。",
+                        "strengthConversion": "科特迪瓦优势更容易转化为赢球，而不是一定打穿+2。若久攻不下，1-1冷平要进入防区。"
+},
+{
+                        "id": "057",
+                        "matchNo": "057",
+                        "matchName": "突尼斯 vs 荷兰",
+                        "kickoff": "2026-06-26 07:00",
+                        "predictionScores": "0-3 / 0-2 / 1-3",
+                        "pick": "客胜",
+                        "totalGoals": "3 和 4",
+                        "actualScore": "",
+                        "manualStatus": "auto",
+                        "probHome": 7,
+                        "probDraw": 13,
+                        "probAway": 80,
+                        "risk": "稳健",
+                        "injury": "荷兰个别前场球员可能轮换，但替补质量仍足；突尼斯换帅后仍未止住防线下滑。",
+                        "minutes": "荷兰仍要争小组头名，不是纯控局；突尼斯已出局，比赛后段若体能下降会继续失位。",
+                        "form": "荷兰2-2日本后5-1瑞典，攻击群状态很热；突尼斯1-5瑞典、0-4日本，两场丢9球。",
+                        "motivation": "荷兰争头名，突尼斯为荣誉战；强弱和战意基本同向。",
+                        "controlIntent": "荷兰不是保平控局，仍需要用胜利和净胜球稳住F组头名；即使轮换，也偏替补冲击型。",
+                        "weather": "堪萨斯城预计潮湿且有雨/雷雨风险，可能造成失误，但对突尼斯防线更不利。",
+                        "odds": "让球突尼斯+2约2.60/3.90/2.05，总进球3球低位，盘口支持荷兰打穿。",
+                        "spfHomeOdds": "",
+                        "spfDrawOdds": "",
+                        "spfAwayOdds": "",
+                        "rqLine": "+2",
+                        "rqHomeOdds": "2.60",
+                        "rqDrawOdds": "3.90",
+                        "rqAwayOdds": "2.05",
+                        "handicapNote": "客胜稳，比分首选0-3。让球+2下，荷兰赢3球对应让负；若雨战降速则让平。",
+                        "rqPick": "让负",
+                        "rqProb": "让胜17%｜让平31%｜让负52%",
+                        "scoreProb": "0-3 23%｜0-2 18%｜1-3 13%｜0-4 12%｜1-2 8%",
+                        "totalGoalProb": "3球33%｜4球27%｜2球18%｜5+球17%｜0-1球5%",
+                        "halfFullProb": "负-负59%｜平-负20%｜负-平5%｜平-平4%",
+                        "reason": "球队实力、近期状态、战意、盘口全部同向支持荷兰。相比其他强队轮换场，荷兰仍要争头名，突尼斯防线已被连续打穿，所以0-3继续作为第一比分。",
+                        "marketSnapshot": "让球(+2)：2.60 / 3.90 / 2.05；总进球0-7+：23.00 / 7.00 / 4.40 / 3.60 / 4.25 / 6.25 / 11.00 / 13.00；比分主胜侧高赔示例：1:0 40.00、2:0 120.00、2:1 50.00、3:0 550.00。",
+                        "valueNote": "总进球3球最低、让负最低，和模型0-3主推一致；突尼斯+2如果选让平就是押荷兰刚好赢2球，赔率更像防区而非主线。",
+                        "marketSourceNote": "让球参考500彩票网/足彩网检索快照；总进球参考500彩票网总进球页面检索结果。",
+                        "review": "",
+                        "createdAt": 1760000000000,
+                        "updatedAt": 1760000000000,
+                        "strengthRating": "突尼斯 67｜荷兰 90｜实力差：荷兰 +23",
+                        "strengthNote": "荷兰属于顶级强队，进攻层级和阵容深度显著高于突尼斯；突尼斯前两场连续大败，防线稳定性和心理状态都处于低位。",
+                        "strengthImpact": "实力差、状态差、战意差三项同向，客胜和净胜2球以上概率都上调。",
+                        "strengthConversion": "这是六场中最像强弱差能直接转化为大比分的一场；突尼斯荣誉战有反扑，但更可能让防线更开放。"
+},
+{
+                        "id": "058",
+                        "matchNo": "058",
+                        "matchName": "日本 vs 瑞典",
+                        "kickoff": "2026-06-26 07:00",
+                        "predictionScores": "2-1 / 1-1 / 1-2",
+                        "pick": "主胜 / 防平",
+                        "totalGoals": "2 和 3",
+                        "actualScore": "",
+                        "manualStatus": "auto",
+                        "probHome": 44,
+                        "probDraw": 30,
+                        "probAway": 26,
+                        "risk": "偏险",
+                        "injury": "瑞典伊萨克伤病波动，久克雷斯仍有冲击力；日本镰田大地、上田绮世状态好。",
+                        "minutes": "日本两轮不败心理稳定；瑞典从5-1到1-5，防线修复压力大，但必须赢会提高进攻投入。",
+                        "form": "日本2-2荷兰、4-0突尼斯，整体状态连续向上；瑞典5-1突尼斯后1-5荷兰，攻强守弱特征明显。",
+                        "motivation": "日本平局大概率可接受，瑞典必须赢才更稳；如果另一场荷兰领先，双方后段对平局的接受度可能上升。",
+                        "controlIntent": "日本不是必须追大胜，控风险意识会存在；瑞典必须冒险，比赛可能在60分钟后明显开放。",
+                        "weather": "阿灵顿炎热但球场条件较好；高温会让双方后段更谨慎，平局权重上升。",
+                        "odds": "胜平负约1.64/3.52/4.25，日本主胜被压低；日本-1约2.91/3.60/1.97，市场不支持日本轻松打穿。",
+                        "spfHomeOdds": "1.64",
+                        "spfDrawOdds": "3.52",
+                        "spfAwayOdds": "4.25",
+                        "rqLine": "-1",
+                        "rqHomeOdds": "2.91",
+                        "rqDrawOdds": "3.60",
+                        "rqAwayOdds": "1.97",
+                        "handicapNote": "胜平负从平局主推调整为日本小胜优先；让球日本-1仍首选让负，次选让平。",
+                        "rqPick": "让负",
+                        "rqProb": "让胜17%｜让平30%｜让负53%",
+                        "scoreProb": "2-1 18%｜1-1 18%｜1-2 11%｜1-0 11%｜2-2 10%",
+                        "totalGoalProb": "2球30%｜3球34%｜4球18%｜1球10%｜5+球8%",
+                        "halfFullProb": "平-胜24%｜平-平22%｜胜-胜17%｜平-负12%｜负-平8%",
+                        "reason": "加入实力评分后，不再把日本低赔率直接等同于稳胜。日本综合状态更好，所以2-1保留第一；但双方实力接近、瑞典必须赢且锋线够强，1-1和1-2必须进入核心防区。",
+                        "marketSnapshot": "胜平负：1.64 / 3.52 / 4.25；让球(-1)：2.91 / 3.60 / 1.97；半全场：胜胜2.90、胜平13.50、胜负24.00、平胜4.90、平平5.75、平负8.00、负胜20.00、负平13.50、负负6.00；比分可见参考：1:0 8.00、2:0 10.50。",
+                        "valueNote": "市场明显不把这场当五五开，主胜被压低；但让球盘不支持日本净胜2球，最优路线是日本小胜或平局，不追让胜。",
+                        "marketSourceNote": "胜平负与让球参考足彩网即时快照；半全场/比分参考500彩票网混合玩法检索结果。",
+                        "review": "",
+                        "createdAt": 1760000000000,
+                        "updatedAt": 1760000000000,
+                        "strengthRating": "日本 83｜瑞典 82｜实力差：日本 +1",
+                        "strengthNote": "两队真实实力接近。日本整体性、边中结合和近期执行力更好；瑞典锋线个人能力强，但防守波动极大。",
+                        "strengthImpact": "实力差不支持一边倒，盘口主胜热度需要用瑞典必须赢和锋线威胁来降温。日本胜率最高，但平局和瑞典进球概率不能低估。",
+                        "strengthConversion": "日本优势更像小胜或不败，不像净胜2球；瑞典必须赢会提高开放度，因此2-1和1-1并列核心，1-2作为反向冷门防区。"
+},
+{
+                        "id": "059",
+                        "matchNo": "059",
+                        "matchName": "巴拉圭 vs 澳大利亚",
+                        "kickoff": "2026-06-26 10:00",
+                        "predictionScores": "1-1 / 0-0 / 0-1",
+                        "pick": "平",
+                        "totalGoals": "0 和 2",
+                        "actualScore": "",
+                        "manualStatus": "auto",
+                        "probHome": 28,
+                        "probDraw": 44,
+                        "probAway": 28,
+                        "risk": "偏险",
+                        "injury": "巴拉圭阿尔米隆停赛；澳大利亚Italiano和莱基伤缺，双方边路效率都受损。",
+                        "minutes": "澳大利亚更适合控节奏保平；巴拉圭若久攻不下，最后20分钟才可能冒险。",
+                        "form": "双方都偏低比分，澳大利亚防守执行力更稳定，巴拉圭进攻不稳定。",
+                        "motivation": "澳大利亚平局即可锁第二，巴拉圭需要赢；但这种不对称战意更容易制造澳大利亚低位控局。",
+                        "controlIntent": "澳大利亚是真控局型；巴拉圭必须破局但缺阿尔米隆，平局剧本最强。",
+                        "weather": "圣塔克拉拉天气凉爽，利于高强度防守和执行；不利于通过体能崩盘打开大比分。",
+                        "odds": "胜平负约2.68/2.11/3.55，平局被压得很低；巴拉圭-1让负约1.35，市场极不支持巴拉圭净胜2球。",
+                        "spfHomeOdds": "2.68",
+                        "spfDrawOdds": "2.11",
+                        "spfAwayOdds": "3.55",
+                        "rqLine": "-1",
+                        "rqHomeOdds": "6.20",
+                        "rqDrawOdds": "4.40",
+                        "rqAwayOdds": "1.35",
+                        "handicapNote": "盘口与模型高度一致：平局主线，巴拉圭-1让负最稳。若巴拉圭必须赢导致后段提速，1-0/2-1才是让平防区。",
+                        "rqPick": "让负",
+                        "rqProb": "让胜13%｜让平22%｜让负65%",
+                        "scoreProb": "1-1 28%｜0-0 18%｜0-1 12%｜1-0 11%｜2-1 8%",
+                        "totalGoalProb": "2球36%｜1球23%｜0球19%｜3球15%｜4+球7%",
+                        "halfFullProb": "平-平39%｜平-负13%｜平-胜13%｜胜-平9%｜负-平8%",
+                        "reason": "球队实力接近，盘口又把平局压到低位，这是六场中最明确的平局场。上一版结论保留，但把平局概率从42%上调到44%，比分首选1-1，0-0为第二防区。",
+                        "marketSnapshot": "胜平负：2.68 / 2.11 / 3.55；让球(-1)：6.20 / 4.40 / 1.35；半全场：胜胜4.65、胜平14.00、胜负40.00、平胜4.65、平平2.85、平负6.80、负胜34.00、负平14.00、负负7.75；总进球可见低位：0球4.50、1球4.25。",
+                        "valueNote": "平局赔率2.11和半全场平平2.85都非常低，这是六场里盘口最明确的防平信号；让球-1的让负1.35也说明巴拉圭净胜2球极难。",
+                        "marketSourceNote": "胜平负与让球参考足彩网即时快照；半全场与总进球参考500彩票网检索结果。",
+                        "review": "",
+                        "createdAt": 1760000000000,
+                        "updatedAt": 1760000000000,
+                        "strengthRating": "巴拉圭 76｜澳大利亚 76｜实力差：接近0",
+                        "strengthNote": "两队整体实力非常接近，澳大利亚纪律性和身体对抗强，巴拉圭个人冲击点因阿尔米隆停赛被削弱。",
+                        "strengthImpact": "实力差不给任何一方明显胜率；积分形势和盘口把平局权重上调。",
+                        "strengthConversion": "这是最典型的低比分卡位战。澳大利亚打平即可，巴拉圭必须赢但缺核心爆点，强行压上也未必能转化为进球。"
+},
+{
+                        "id": "060",
+                        "matchNo": "060",
+                        "matchName": "土耳其 vs 美国",
+                        "kickoff": "2026-06-26 10:00",
+                        "predictionScores": "1-1 / 1-2 / 0-1",
+                        "pick": "平 / 防客胜",
+                        "totalGoals": "2 和 3",
+                        "actualScore": "",
+                        "manualStatus": "auto",
+                        "probHome": 27,
+                        "probDraw": 33,
+                        "probAway": 40,
+                        "risk": "偏险",
+                        "injury": "美国普利西奇已接近复出但角色可能受限；美国确认不让4名有黄牌风险的球员首发。土耳其已出局但会为荣誉战。",
+                        "minutes": "美国锁定头名后会保护主力和淘汰赛体能；土耳其压力释放，可能更愿意主动进攻。",
+                        "form": "美国4-1巴拉圭、2-0澳大利亚状态好；土耳其连续输球但并非完全没有进攻能力。",
+                        "motivation": "美国更重视淘汰赛健康，土耳其最后一战要挽回面子。战意差会抵消一部分实力差。",
+                        "controlIntent": "美国是真轮换保守型，不能按全主力美国去估计；土耳其荣誉战有抢开局和进球动机。",
+                        "weather": "洛杉矶/英格尔伍德天气宜人，外部环境不压节奏；决定因素是美国轮换和土耳其心态释放。",
+                        "odds": "胜平负约3.65/3.80/1.69，美国客胜热；但土耳其+1约1.88/3.85/2.96，盘口不支持美国净胜2球。",
+                        "spfHomeOdds": "3.65",
+                        "spfDrawOdds": "3.80",
+                        "spfAwayOdds": "1.69",
+                        "rqLine": "+1",
+                        "rqHomeOdds": "1.88",
+                        "rqDrawOdds": "3.85",
+                        "rqAwayOdds": "2.96",
+                        "handicapNote": "胜平负从平局主推调整为美国小胜优先，但让球+1首看让平，防土耳其+1让胜。",
+                        "rqPick": "让胜 / 让平",
+                        "rqProb": "让胜39%｜让平36%｜让负25%",
+                        "scoreProb": "1-1 19%｜1-2 17%｜0-1 13%｜2-1 9%｜0-2 8%",
+                        "totalGoalProb": "2球34%｜3球29%｜1球17%｜4球12%｜0球8%",
+                        "halfFullProb": "平-平25%｜平-负23%｜负-负15%｜胜-平11%｜胜-胜8%",
+                        "reason": "球队实力模块显示美国只强一档，不是碾压；最新队伍信息又显示美国会保护黄牌球员并可能限制普利西奇时间。因此我把主比分从1-2下调为1-1，客胜作为第二防线，盘口仍看好美国不败但不支持大胜。",
+                        "marketSnapshot": "胜平负：3.65 / 3.80 / 1.69；让球(+1)：1.88 / 3.85 / 2.96；总进球0-7+：14.00 / 5.50 / 3.70 / 3.40 / 4.90 / 8.50 / 14.00 / 23.00；半全场：胜胜5.20、胜平13.00、胜负25.00、平胜8.00、平平6.00、平负4.90、负胜30.00、负平13.00、负负2.95；比分参考：1:0 12.00、2:0 18.00、2:1 9.50、3:0 40.00、3:1 23.00、3:2 28.00。",
+                        "valueNote": "胜平负客胜热，但让球+1的让胜最低，说明市场认为美国不败/小胜可以，但不支持净胜2球。最合理是0-1、1-2、1-1三条线。",
+                        "marketSourceNote": "胜平负与让球参考足彩网即时快照；总进球、半全场和比分参考500彩票网检索结果。",
+                        "review": "",
+                        "createdAt": 1760000000000,
+                        "updatedAt": 1760000000000,
+                        "strengthRating": "土耳其 80｜美国 84｜实力差：美国 +4",
+                        "strengthNote": "美国排名和阵容深度略强，团队状态也更好；土耳其纸面并不弱，且拥有一定前场创造力。实力差不足以支撑美国大胜。",
+                        "strengthImpact": "美国基础胜率上调，但已锁小组头名、黄牌保护和轮换会显著削弱客胜确定性；土耳其荣誉战会提高进球概率。",
+                        "strengthConversion": "美国实力优势更可能转化为不败或一球小胜，而非打穿；若轮换幅度大，1-1比1-2更顺。"
+}
+];
+
+    const RESULT_PATCHES={
+      "hist-spain-cpv": {actualScore:"0-0", kickoff:"已完赛｜2026-06-16 00:00", review:"实际0-0，模型失手。新增规则：超强热门首战面对弱队时，若对手是低位死守+门将状态好+强队边路核心未必满状态，应提高0-0/1-1冷门平局权重；强队胜率高不等于比分能打穿。"},
+      "chat-belgium-egypt-pending": {actualScore:"1-1", kickoff:"已完赛｜2026-06-16 03:00", review:"实际1-1，备选比分命中。模型有效点：赛前没有盲目追比利时大胜，正确把平局列入核心防线。修正点：如果要评估主推概率，主胜48%并不够高，遇到埃及这类反击队时应把主推从2-1下调为1-1/2-1并列。"},
+      "chat-saudi-uruguay-pending": {actualScore:"1-1", kickoff:"已完赛｜2026-06-16 06:00", review:"实际1-1，模型失手。关键错误：把‘乌拉圭不打穿’仍然归为‘乌拉圭小胜’，没有把沙特先进球和门将抗压带来的平局脚本放到核心防区。新增规则：热门客队若有旅行/体能/慢热因素，且对手具备身体对抗和定位球，1-1权重要上调。"},
+      "chat-iran-newzealand-pending": {actualScore:"2-2", kickoff:"已完赛｜2026-06-16 09:00", review:"实际2-2。模型部分有效：主队不败方向成立。主要错误：低估新西兰两次领先能力和开放度。新增规则：若双方防线都不是铁板、弱队有明确支点/速度点，不能只把弱队定义为防守方；1-1之外要防2-2。"},
+      "045-portugal-uzbekistan": {kickoff:"已完赛｜2026-06-24 01:00"},
+      "046-england-ghana": {kickoff:"已完赛｜2026-06-24 04:00"},
+      "047-panama-croatia": {kickoff:"已完赛｜2026-06-24 07:00"},
+      "048-colombia-drcongo": {kickoff:"已完赛｜2026-06-24 10:00"},
+      "049": {actualScore:"2-1", kickoff:"已完赛｜2026-06-25 03:00", review:"实际瑞士2-1加拿大，备选比分命中但主推平局/加拿大方向偏离。复盘：加拿大上一场6-0容易造成市场和模型对其进攻高估；瑞士连续强队式稳定性更好，末轮关键战更适合上调瑞士小胜权重。后续：相近实力局要减少上一场大胜的样本偏差，更多看对手强弱和伤停对中场平衡的影响。"},
+      "050": {actualScore:"3-1", kickoff:"已完赛｜2026-06-25 03:00", review:"实际波黑3-1卡塔尔，方向命中但比分和总进球偏低。复盘：卡塔尔上一场0-6后的心理、防线停赛和必须压出的战意被低估；波黑早破局后比赛从2-1脚本变成3-1。后续：弱队连续大败+红牌停赛+必须抢分时，强队进球上限要上调。"},
+      "051": {actualScore:"0-3", kickoff:"已完赛｜2026-06-25 06:00", review:"实际苏格兰0-3巴西，客胜方向命中但低估巴西打穿能力。复盘：原先过度担心天气和苏格兰低位防守，实际巴西在争小组名次/净胜球背景下没有明显收力。后续：末轮强队如果仍要争头名或净胜球，天气只能下调节奏，不能直接下调到小胜。"},
+      "052": {actualScore:"4-2", kickoff:"已完赛｜2026-06-25 06:00", review:"实际摩洛哥4-2海地，主胜方向命中但严重低估总进球和海地进球能力。复盘：摩洛哥不是2-0后控局，而是开放打穿；海地虽弱但在落后后仍有反击/混战进球。后续：强队末轮需要净胜球时，2-0后降速假设要谨慎；弱队落后压出会同时提高强队第3/4球和弱队进球概率。"},
+      "053": {actualScore:"1-0", kickoff:"已完赛｜2026-06-25 09:00", review:"实际南非1-0韩国，模型方向失手。复盘：把‘韩国必须抢分’误判成‘韩国能赢’，低估了韩国前两场进攻效率不足和后场换人/失误风险；南非生死战不是盲目压出，而是有纪律地压迫等待韩国失误。新增规则：必须赢不等于能赢，热门队若进攻效率低，生死战反而容易焦躁并被弱队偷一个。"},
+      "054": {actualScore:"0-3", kickoff:"已完赛｜2026-06-25 09:00", review:"实际捷克0-3墨西哥，模型方向和比分失手。复盘：把墨西哥轮换误判为降强度，忽略东道主主场、小组全胜、年轻球员争表现带来的‘轮换冲击型’；同时高估捷克必须赢的正面效果，核心前锋未首发使破局能力下降，落后后反而被打穿。新增规则：已出线强队要区分真控局和假控局。"},
+      "055": {actualScore:"2-1", kickoff:"已完赛｜2026-06-26 04:00", review:"实际厄瓜多尔2-1德国，模型方向和让球失手，但总进球3球命中。核心错误：把德国已出线后的轮换/控风险误判为仍有足够冲击力，低估厄瓜多尔必须拿分时的执行力和主观战意。新增规则：已出线强队即便实力高一档，也要先判断‘轮换保守型’还是‘轮换冲击型’；若对手是生死战且防守韧性强，强队客胜和让球都要降权，弱队1球小胜/1-1必须进入防区。"},
+      "056": {actualScore:"0-2", kickoff:"已完赛｜2026-06-26 04:00", review:"实际库拉索0-2科特迪瓦，备选比分命中，客胜方向命中，总进球2球命中，库拉索(+2)让平命中。模型有效点：没有追科特迪瓦3球以上大胜，正确把0-1/0-2作为核心区。修正点：主比分0-1略保守，面对库拉索这种必须赢才有奇迹的球队，若下半场压出，优势方第2球权重要上调。"},
+      "057": {actualScore:"1-3", kickoff:"已完赛｜2026-06-26 07:00", review:"实际突尼斯1-3荷兰，备选比分命中，客胜方向命中，总进球4球命中；但突尼斯(+2)让负失手，实际为让平。模型有效点：准确判断荷兰胜和大比分方向；错误点：把净胜3球当成让球主线，忽略突尼斯荣誉战仍有进球能力。新增规则：让球盘口要把‘赢2球’和‘赢3球’单独拆开，强队大胜方向对，不等于让球一定打穿。"},
+      "058": {actualScore:"1-1", kickoff:"已完赛｜2026-06-26 07:00", review:"实际日本1-1瑞典，备选比分命中，总进球2球命中，日本(-1)让负命中；主胜方向偏热。模型有效点：实力评分指出两队接近，正确把1-1放入核心防区并反对日本让胜。修正点：当实力差只有1分、且一方主胜赔率被明显压低时，平局概率应与主胜几乎并列，而不是只作为第二防线。"},
+    };
+    function applyResultPatches(arr){return (arr||[]).map(r=>RESULT_PATCHES[r.id]?{...r,...RESULT_PATCHES[r.id]}:r)}
+    function removeDeletedPlaceholders(arr){return (arr||[]).filter(r=>r.id!=="share-link-unreadable-placeholder" && r.matchNo!=="待补-分享链接");}
+    const CONTROL_INTENT_PATCHES={
+      "hist-spain-cpv":"强弱差明显且没有必要通过控分挑对手，控局风险低；重点是是否早破局和是否追净胜球。",
+      "hist-jordan-algeria":"非典型强队控局样本；优势方更像正常争胜，小胜脚本优先。",
+      "hist-norway-senegal":"开放对攻样本；双方都有争胜动机，控局风险低，总进球上限要上调。",
+      "045-portugal-uzbekistan":"葡萄牙首轮不顺，第二轮更需要净胜球和士气，控局风险低，反而是打穿风险高。",
+      "046-england-ghana":"英格兰首战已赢，第二轮平局可接受；强队可能不愿过度冒险，是0-0/1-0权重上调的重要原因。",
+      "047-panama-croatia":"克罗地亚需要赢但未必需要大胜；领先后可能控场保结果，1-0/0-1权重高。",
+      "048-colombia-drcongo":"哥伦比亚赢球即可掌握主动，领先后不必冒险追第二球；强队小胜控局样本。",
+      "049":"两队实力接近，不是强队控分挑对手局；更应看同组另一场即时比分对出线名次的影响。",
+      "050":"双方都需要主动争分，控局风险低；若一方早领先，另一方压上会提高2-1/2-2波动。",
+      "051":"巴西实力强但小组未完全安全，通常仍要争胜；若同步赛果使小胜足够，后段可能降速，不追大比分。",
+      "052":"摩洛哥实力占优但若只需三分，可能2-0后降速；让球盘要防赢球不打穿。",
+      "053":"韩国仍需主动拿分避免被捷克追上；南非必须赢会压出，控局风险低，客胜小胜与1-1并重。",
+      "054":"墨西哥6分且净胜球优势明显，控局和轮换风险很高；捷克必须赢，要防1-1、捷克1-0小冷和墨西哥0-1。",
+      "chat-iran-newzealand-pending":"伊朗领先后可能控住1球优势，新西兰韧性强但进攻质量不足，1-0权重最高。",
+      "chat-saudi-uruguay-pending":"乌拉圭优势在硬度和经验，若旅途/天气压节奏，0-1小胜控局权重高。",
+      "chat-belgium-egypt-pending":"比利时是热门方但打穿确定性不足；若领先后控节奏，1-1/2-1优先于3-0。"
+    };
+    function applyControlPatches(arr){return arr.map(r=>({...r,controlIntent: r.controlIntent || CONTROL_INTENT_PATCHES[r.id] || ''}));}
+    const MODEL_UPGRADE_PATCHES = {
+      "055": {
+            "matchNo": "055",
+            "matchName": "厄瓜多尔 vs 德国",
+            "kickoff": "2026-06-26 04:00",
+            "predictionScores": "0-2 / 1-2 / 1-1",
+            "pick": "客胜",
+            "totalGoals": "2 和 3",
+            "probHome": 18,
+            "probDraw": 24,
+            "probAway": 58,
+            "risk": "中等",
+            "strengthRating": "厄瓜多尔 78｜德国 91｜实力差：德国 +13",
+            "strengthNote": "德国属于一档强队，阵容深度和替补冲击力明显高于厄瓜多尔；厄瓜多尔防守韧性可以，但前两轮没有进球，进攻端兑现能力偏弱。",
+            "strengthImpact": "基础客胜上调；但德国已锁小组头名、可能轮换，因此大胜概率不按强弱差线性放大。",
+            "strengthConversion": "德国实力优势能转化为胜势，但未必转化为3球以上；更合理是德国赢1-2球，0-2和1-2最顺。",
+            "injury": "德国存在轮换和后防人员保护可能；德国替补前场效率很高。厄瓜多尔必须提高进攻投入，但前两场零进球说明终结点不足。",
+            "minutes": "德国前两轮消耗后可主动分配体能；厄瓜多尔若久攻不下，末段压出会暴露空间。",
+            "form": "德国7-1库拉索、2-1科特迪瓦，强队反弹和替补冲击力都被验证；厄瓜多尔0-1科特迪瓦、0-0库拉索，防守可用但进攻不顺。",
+            "motivation": "德国已锁小组第一，目标是保持节奏和健康；厄瓜多尔必须拿分甚至争胜，后段风险上升。",
+            "controlIntent": "德国属于已出线但轮换冲击型，不是完全控局；领先后可能不追屠杀，但替补球员仍有表现动机。",
+            "odds": "最新可见胜平负约5.20/4.95/1.36，市场强烈压低德国客胜；早盘3.70/3.65/1.71说明客胜热度继续上升。",
+            "rqPick": "让平 / 让负",
+            "rqProb": "让胜28%｜让平35%｜让负37%",
+            "scoreProb": "0-2 18%｜1-2 17%｜1-1 13%｜0-1 12%｜1-3 11%",
+            "totalGoalProb": "2球29%｜3球31%｜4球18%｜1球11%｜5+球8%｜0球3%",
+            "halfFullProb": "平-负29%｜负-负23%｜平-平14%｜胜-负9%｜负-平7%",
+            "reason": "球队实力评分把德国客胜作为主线，但复盘后的新模型不再把强队优势直接等同于大胜。厄瓜多尔必须压出来，德国替补冲击力足够赢球；但德国已锁头名，0-2/1-2比1-3更稳。"
+      },
+      "056": {
+            "matchNo": "056",
+            "matchName": "库拉索 vs 科特迪瓦",
+            "kickoff": "2026-06-26 04:00",
+            "predictionScores": "0-1 / 0-2 / 1-1",
+            "pick": "客胜 / 防平",
+            "totalGoals": "1 和 2",
+            "probHome": 14,
+            "probDraw": 26,
+            "probAway": 60,
+            "risk": "中等",
+            "strengthRating": "库拉索 58｜科特迪瓦 79｜实力差：科特迪瓦 +21",
+            "strengthNote": "科特迪瓦身体强度、速度和前场个人能力明显更好；库拉索整体纸面较弱，但上一场0-0厄瓜多尔证明其低位防守和门将状态有价值。",
+            "strengthImpact": "实力差支持客胜；但科特迪瓦打平也有较大出线价值，且库拉索有铁桶能力，所以比分从0-2下调为0-1优先。",
+            "strengthConversion": "科特迪瓦优势更容易转化为赢球，而不是一定打穿+2。若久攻不下，1-1冷平要进入防区。",
+            "injury": "科特迪瓦个别后防伤情需要关注，但进攻端仍具备速度优势。库拉索依赖门将和整体低位防守。",
+            "minutes": "科特迪瓦对德国消耗较大，本场可能先稳后攻；库拉索防守消耗大，若60分钟后仍需赢球会被迫压出。",
+            "form": "库拉索从1-7惨败到0-0守平，防守信心恢复；科特迪瓦1-0厄瓜多尔、1-2德国，竞争力强。",
+            "motivation": "科特迪瓦赢球最稳，打平也有较大出线机会；库拉索必须赢才有奇迹，后段会变开放。",
+            "controlIntent": "科特迪瓦是先稳后拿结果型，不宜开局无脑追大；库拉索不是躺平，死守后可能搏一次。",
+            "odds": "让球库拉索+2约2.46/3.88/2.15，市场承认科特迪瓦优势，但没有把净胜3球压成主线。",
+            "rqPick": "让胜 / 让平",
+            "rqProb": "让胜45%｜让平30%｜让负25%",
+            "scoreProb": "0-1 22%｜0-2 20%｜1-1 13%｜1-2 11%｜0-3 10%",
+            "totalGoalProb": "1球20%｜2球31%｜3球29%｜4球13%｜5+球5%｜0球2%",
+            "halfFullProb": "平-负34%｜负-负27%｜平-平14%｜胜-负7%｜负-平6%",
+            "reason": "新增实力模块后，科特迪瓦客胜仍是主线，但强弱差不能机械推0-3。库拉索上一场的防守样本真实存在，科特迪瓦也可接受稳妥出线，因此0-1提升到第一比分。"
+      },
+      "057": {
+            "matchNo": "057",
+            "matchName": "突尼斯 vs 荷兰",
+            "kickoff": "2026-06-26 07:00",
+            "predictionScores": "0-3 / 0-2 / 1-3",
+            "pick": "客胜",
+            "totalGoals": "3 和 4",
+            "probHome": 7,
+            "probDraw": 13,
+            "probAway": 80,
+            "risk": "稳健",
+            "strengthRating": "突尼斯 67｜荷兰 90｜实力差：荷兰 +23",
+            "strengthNote": "荷兰属于顶级强队，进攻层级和阵容深度显著高于突尼斯；突尼斯前两场连续大败，防线稳定性和心理状态都处于低位。",
+            "strengthImpact": "实力差、状态差、战意差三项同向，客胜和净胜2球以上概率都上调。",
+            "strengthConversion": "这是六场中最像强弱差能直接转化为大比分的一场；突尼斯荣誉战有反扑，但更可能让防线更开放。",
+            "injury": "荷兰个别前场球员可能轮换，但替补质量仍足；突尼斯换帅后仍未止住防线下滑。",
+            "minutes": "荷兰仍要争小组头名，不是纯控局；突尼斯已出局，比赛后段若体能下降会继续失位。",
+            "form": "荷兰2-2日本后5-1瑞典，攻击群状态很热；突尼斯1-5瑞典、0-4日本，两场丢9球。",
+            "motivation": "荷兰争头名，突尼斯为荣誉战；强弱和战意基本同向。",
+            "controlIntent": "荷兰不是保平控局，仍需要用胜利和净胜球稳住F组头名；即使轮换，也偏替补冲击型。",
+            "odds": "让球突尼斯+2约2.60/3.90/2.05，总进球3球低位，盘口支持荷兰打穿。",
+            "rqPick": "让负",
+            "rqProb": "让胜17%｜让平31%｜让负52%",
+            "scoreProb": "0-3 23%｜0-2 18%｜1-3 13%｜0-4 12%｜1-2 8%",
+            "totalGoalProb": "3球33%｜4球27%｜2球18%｜5+球17%｜0-1球5%",
+            "halfFullProb": "负-负59%｜平-负20%｜负-平5%｜平-平4%",
+            "reason": "球队实力、近期状态、战意、盘口全部同向支持荷兰。相比其他强队轮换场，荷兰仍要争头名，突尼斯防线已被连续打穿，所以0-3继续作为第一比分。"
+      },
+      "058": {
+            "matchNo": "058",
+            "matchName": "日本 vs 瑞典",
+            "kickoff": "2026-06-26 07:00",
+            "predictionScores": "2-1 / 1-1 / 1-2",
+            "pick": "主胜 / 防平",
+            "totalGoals": "2 和 3",
+            "probHome": 44,
+            "probDraw": 30,
+            "probAway": 26,
+            "risk": "偏险",
+            "strengthRating": "日本 83｜瑞典 82｜实力差：日本 +1",
+            "strengthNote": "两队真实实力接近。日本整体性、边中结合和近期执行力更好；瑞典锋线个人能力强，但防守波动极大。",
+            "strengthImpact": "实力差不支持一边倒，盘口主胜热度需要用瑞典必须赢和锋线威胁来降温。日本胜率最高，但平局和瑞典进球概率不能低估。",
+            "strengthConversion": "日本优势更像小胜或不败，不像净胜2球；瑞典必须赢会提高开放度，因此2-1和1-1并列核心，1-2作为反向冷门防区。",
+            "injury": "瑞典伊萨克伤病波动，久克雷斯仍有冲击力；日本镰田大地、上田绮世状态好。",
+            "minutes": "日本两轮不败心理稳定；瑞典从5-1到1-5，防线修复压力大，但必须赢会提高进攻投入。",
+            "form": "日本2-2荷兰、4-0突尼斯，整体状态连续向上；瑞典5-1突尼斯后1-5荷兰，攻强守弱特征明显。",
+            "motivation": "日本平局大概率可接受，瑞典必须赢才更稳；如果另一场荷兰领先，双方后段对平局的接受度可能上升。",
+            "controlIntent": "日本不是必须追大胜，控风险意识会存在；瑞典必须冒险，比赛可能在60分钟后明显开放。",
+            "odds": "胜平负约1.64/3.52/4.25，日本主胜被压低；日本-1约2.91/3.60/1.97，市场不支持日本轻松打穿。",
+            "rqPick": "让负",
+            "rqProb": "让胜17%｜让平30%｜让负53%",
+            "scoreProb": "2-1 18%｜1-1 18%｜1-2 11%｜1-0 11%｜2-2 10%",
+            "totalGoalProb": "2球30%｜3球34%｜4球18%｜1球10%｜5+球8%",
+            "halfFullProb": "平-胜24%｜平-平22%｜胜-胜17%｜平-负12%｜负-平8%",
+            "reason": "加入实力评分后，不再把日本低赔率直接等同于稳胜。日本综合状态更好，所以2-1保留第一；但双方实力接近、瑞典必须赢且锋线够强，1-1和1-2必须进入核心防区。"
+      },
+      "059": {
+            "matchNo": "059",
+            "matchName": "巴拉圭 vs 澳大利亚",
+            "kickoff": "2026-06-26 10:00",
+            "predictionScores": "1-1 / 0-0 / 0-1",
+            "pick": "平",
+            "totalGoals": "0 和 2",
+            "probHome": 28,
+            "probDraw": 44,
+            "probAway": 28,
+            "risk": "偏险",
+            "strengthRating": "巴拉圭 76｜澳大利亚 76｜实力差：接近0",
+            "strengthNote": "两队整体实力非常接近，澳大利亚纪律性和身体对抗强，巴拉圭个人冲击点因阿尔米隆停赛被削弱。",
+            "strengthImpact": "实力差不给任何一方明显胜率；积分形势和盘口把平局权重上调。",
+            "strengthConversion": "这是最典型的低比分卡位战。澳大利亚打平即可，巴拉圭必须赢但缺核心爆点，强行压上也未必能转化为进球。",
+            "injury": "巴拉圭阿尔米隆停赛；澳大利亚Italiano和莱基伤缺，双方边路效率都受损。",
+            "minutes": "澳大利亚更适合控节奏保平；巴拉圭若久攻不下，最后20分钟才可能冒险。",
+            "form": "双方都偏低比分，澳大利亚防守执行力更稳定，巴拉圭进攻不稳定。",
+            "motivation": "澳大利亚平局即可锁第二，巴拉圭需要赢；但这种不对称战意更容易制造澳大利亚低位控局。",
+            "controlIntent": "澳大利亚是真控局型；巴拉圭必须破局但缺阿尔米隆，平局剧本最强。",
+            "odds": "胜平负约2.68/2.11/3.55，平局被压得很低；巴拉圭-1让负约1.35，市场极不支持巴拉圭净胜2球。",
+            "rqPick": "让负",
+            "rqProb": "让胜13%｜让平22%｜让负65%",
+            "scoreProb": "1-1 28%｜0-0 18%｜0-1 12%｜1-0 11%｜2-1 8%",
+            "totalGoalProb": "2球36%｜1球23%｜0球19%｜3球15%｜4+球7%",
+            "halfFullProb": "平-平39%｜平-负13%｜平-胜13%｜胜-平9%｜负-平8%",
+            "reason": "球队实力接近，盘口又把平局压到低位，这是六场中最明确的平局场。上一版结论保留，但把平局概率从42%上调到44%，比分首选1-1，0-0为第二防区。"
+      },
+      "060": {
+            "matchNo": "060",
+            "matchName": "土耳其 vs 美国",
+            "kickoff": "2026-06-26 10:00",
+            "predictionScores": "1-1 / 1-2 / 0-1",
+            "pick": "平 / 防客胜",
+            "totalGoals": "2 和 3",
+            "probHome": 27,
+            "probDraw": 33,
+            "probAway": 40,
+            "risk": "偏险",
+            "strengthRating": "土耳其 80｜美国 84｜实力差：美国 +4",
+            "strengthNote": "美国排名和阵容深度略强，团队状态也更好；土耳其纸面并不弱，且拥有一定前场创造力。实力差不足以支撑美国大胜。",
+            "strengthImpact": "美国基础胜率上调，但已锁小组头名、黄牌保护和轮换会显著削弱客胜确定性；土耳其荣誉战会提高进球概率。",
+            "strengthConversion": "美国实力优势更可能转化为不败或一球小胜，而非打穿；若轮换幅度大，1-1比1-2更顺。",
+            "injury": "美国普利西奇已接近复出但角色可能受限；美国确认不让4名有黄牌风险的球员首发。土耳其已出局但会为荣誉战。",
+            "minutes": "美国锁定头名后会保护主力和淘汰赛体能；土耳其压力释放，可能更愿意主动进攻。",
+            "form": "美国4-1巴拉圭、2-0澳大利亚状态好；土耳其连续输球但并非完全没有进攻能力。",
+            "motivation": "美国更重视淘汰赛健康，土耳其最后一战要挽回面子。战意差会抵消一部分实力差。",
+            "controlIntent": "美国是真轮换保守型，不能按全主力美国去估计；土耳其荣誉战有抢开局和进球动机。",
+            "odds": "胜平负约3.65/3.80/1.69，美国客胜热；但土耳其+1约1.88/3.85/2.96，盘口不支持美国净胜2球。",
+            "rqPick": "让胜 / 让平",
+            "rqProb": "让胜39%｜让平36%｜让负25%",
+            "scoreProb": "1-1 19%｜1-2 17%｜0-1 13%｜2-1 9%｜0-2 8%",
+            "totalGoalProb": "2球34%｜3球29%｜1球17%｜4球12%｜0球8%",
+            "halfFullProb": "平-平25%｜平-负23%｜负-负15%｜胜-平11%｜胜-胜8%",
+            "reason": "球队实力模块显示美国只强一档，不是碾压；最新队伍信息又显示美国会保护黄牌球员并可能限制普利西奇时间。因此我把主比分从1-2下调为1-1，客胜作为第二防线，盘口仍看好美国不败但不支持大胜。"
+      }
+};
+    function applyModelUpgradePatches(arr){
+      return (arr||[]).map(r=>MODEL_UPGRADE_PATCHES[r.id]?{...r,...MODEL_UPGRADE_PATCHES[r.id]}:r);
+    }
+    const POST_RESULT_MODEL_PATCHES={
+      "059":{
+        predictionScores:"1-1 / 0-0 / 1-0", pick:"平", probHome:29, probDraw:46, probAway:25, totalGoals:"0 / 1 / 2",
+        rqPick:"让负", rqProb:"让胜12%｜让平23%｜让负65%", scoreProb:"1-1 29%｜0-0 18%｜1-0 12%｜0-1 11%｜2-1 8%",
+        totalGoalProb:"2球37%｜1球23%｜0球19%｜3球14%｜4+球7%", halfFullProb:"平-平41%｜平-胜13%｜平-负12%｜胜-平9%｜负-平8%",
+        reason:"结合055-058复盘后继续提高平局权重：实力接近时不要被必须赢一方带偏；澳大利亚打平即可且防守纪律更好，巴拉圭缺阿尔米隆后破密集防守能力下降。主线仍是1-1/0-0，竞彩主玩法优先巴拉圭(-1)让负。",
+        handicapNote:"四场复盘显示让球边界比胜负更敏感。本场让负仍是最稳表达：巴拉圭即使赢，也更可能只赢1球；澳大利亚守平剧本强。",
+        controlIntent:"澳大利亚是真控局型；巴拉圭必须破局但缺核心爆点，越急越可能被拖入低比分平局。"
+      },
+      "060":{
+        predictionScores:"1-1 / 0-1 / 1-2", pick:"平 / 防客胜", probHome:26, probDraw:36, probAway:38, totalGoals:"1 / 2 / 3",
+        rqPick:"让胜 / 让平", rqProb:"让胜41%｜让平35%｜让负24%", scoreProb:"1-1 21%｜0-1 15%｜1-2 14%｜0-0 10%｜0-2 8%",
+        totalGoalProb:"2球35%｜1球20%｜3球27%｜0球8%｜4+球10%", halfFullProb:"平-平27%｜平-负22%｜负-负14%｜胜-平11%｜胜-胜7%",
+        reason:"055德国输球再次证明：已出线强队如果轮换/控风险，实力优势会被明显削弱。美国比土耳其强，但已锁头名且保护黄牌/主力，主胜不稳；土耳其荣誉战有抢分动力。主推1-1，防美国0-1或1-2小胜；体彩优先土耳其(+1)让胜/让平。",
+        handicapNote:"盘口不支持美国净胜2球。结合已出线强队爆冷样本，土耳其+1让胜权重略高，让平作为美国一球小胜防线。",
+        controlIntent:"美国是真轮换保守型；土耳其无出线压力但有荣誉战动机，不能按全主力美国大胜处理。"
+      }
+    };
+    function applyPostResultModelPatches(arr){return (arr||[]).map(r=>POST_RESULT_MODEL_PATCHES[r.id]?{...r,...POST_RESULT_MODEL_PATCHES[r.id]}:r)}
+    const DEFAULT_RECORDS=applyPostResultModelPatches(applyModelUpgradePatches(applyResultPatches(applyControlPatches([...HISTORICAL_RECORDS, ...UPCOMING_RECORDS]))));
+    let records=[];
+    let activeRecordView='done';
+    const el=id=>document.getElementById(id);
+    function mergeRecords(base, extra){
+      const map=new Map();
+      (base||[]).forEach(r=>map.set(r.id, r));
+      (extra||[]).forEach(r=>map.set(r.id, {...(map.get(r.id)||{}), ...r}));
+      return Array.from(map.values());
+    }
+    function load(){
+      const raw=localStorage.getItem(STORAGE_KEY);
+      const legacy=localStorage.getItem(LEGACY_STORAGE_KEY);
+      try{
+        if(raw) records=mergeRecords(DEFAULT_RECORDS, JSON.parse(raw));
+        else if(legacy) records=mergeRecords(DEFAULT_RECORDS, JSON.parse(legacy));
+        else records=DEFAULT_RECORDS;
+      }catch(e){ records=DEFAULT_RECORDS; }
+      records=applyPostResultModelPatches(applyModelUpgradePatches(removeDeletedPlaceholders(applyResultPatches(records))));
+      save(false); render();
+      el('cloudUrl').value=localStorage.getItem(CLOUD_URL_KEY)||'';
+      el('cloudToken').value=localStorage.getItem(CLOUD_TOKEN_KEY)||'';
+    }
+    function save(renderNow=true){records=removeDeletedPlaceholders(records); localStorage.setItem(STORAGE_KEY,JSON.stringify(records)); if(renderNow) render();}
+    function outcomeFromScore(score){
+      if(!score || !/^\d+\s*-\s*\d+$/.test(score.trim())) return null;
+      const [h,a]=score.split('-').map(x=>parseInt(x.trim(),10));
+      if(h>a) return '主胜'; if(h<a) return '客胜'; return '平';
+    }
+    function normalizeScores(s){return (s||'').split(/[\/、，,；;]/).map(x=>x.trim().replace(/\s/g,'')).filter(Boolean)}
+    function calcStatus(r){
+      if(r.manualStatus && r.manualStatus!=='auto') return r.manualStatus;
+      if(!r.actualScore) return '待验证';
+      const actual=r.actualScore.trim().replace(/\s/g,'');
+      if(normalizeScores(r.predictionScores).includes(actual)) return '比分命中';
+      const actualOutcome=outcomeFromScore(actual);
+      if(!actualOutcome) return '待验证';
+      if(r.pick===actualOutcome) return '方向命中';
+      if(r.pick==='主队不败' && (actualOutcome==='主胜'||actualOutcome==='平')) return '方向命中';
+      if(r.pick==='客队不败' && (actualOutcome==='客胜'||actualOutcome==='平')) return '方向命中';
+      return '失手';
+    }
+    function statusClass(s){return s==='比分命中'?'exact':s==='方向命中'?'direction':s==='失手'?'miss':'pending'}
+    function statusTag(s){return s==='比分命中'?'green':s==='方向命中'?'blue':s==='失手'?'red':''}
+
+    function renderAccuracy(){
+      const done=records.filter(r=>r.actualScore && /^\d+\s*-\s*\d+$/.test((r.actualScore||'').trim()) && !/待补|placeholder/.test(r.id||''));
+      const exact=done.filter(r=>calcStatus(r)==='比分命中').length;
+      const direction=done.filter(r=>calcStatus(r)==='方向命中').length;
+      const miss=done.filter(r=>calcStatus(r)==='失手').length;
+      const topHit=done.filter(r=>{
+        const actual=outcomeFromScore((r.actualScore||'').trim().replace(/\s/g,''));
+        const arr=[['主胜',Number(r.probHome||0)],['平',Number(r.probDraw||0)],['客胜',Number(r.probAway||0)]].sort((a,b)=>b[1]-a[1]);
+        return actual && arr[0][0]===actual;
+      }).length;
+      const total=done.length||1;
+      el('accuracyPanel').innerHTML=`<h2>模型正确率复盘</h2><div class="hint">只统计已填赛果且非待补占位的样本。三层指标分开看：精确比分、胜平负/不败方向、以及模型最高概率方向。</div><div class="summary" style="margin:10px 0 0"><div class="sum-card"><div class="sum-label">已验证样本</div><div class="sum-value">${done.length}</div></div><div class="sum-card"><div class="sum-label">精确比分命中</div><div class="sum-value green">${exact}/${done.length}</div><div class="small">${Math.round(exact/total*100)}%</div></div><div class="sum-card"><div class="sum-label">方向命中含比分</div><div class="sum-value gold">${exact+direction}/${done.length}</div><div class="small">${Math.round((exact+direction)/total*100)}%</div></div><div class="sum-card"><div class="sum-label">最高概率方向命中</div><div class="sum-value ${topHit>=done.length/2?'green':'red'}">${topHit}/${done.length}</div><div class="small">${Math.round(topHit/total*100)}%</div></div></div><div class="note-warn">当前结论：模型对“方向/不败”有一定参考价值，但最高概率方向偏热门，遇到强队控局、低位防守、热门客队慢热时，平局概率需要继续上调；比分玩法仍属于高波动，只适合小额复盘。</div>`;
+    }
+    function isFinishedRecord(r){return /^\d+\s*-\s*\d+$/.test((r.actualScore||'').trim()) && !/待补|placeholder/.test(r.id||'');}
+    const DATE_FALLBACKS={
+      "hist-spain-cpv":"2026-06-16 00:00",
+      "chat-belgium-egypt-pending":"2026-06-16 03:00",
+      "chat-saudi-uruguay-pending":"2026-06-16 06:00",
+      "chat-iran-newzealand-pending":"2026-06-16 09:00",
+      "045-portugal-uzbekistan":"2026-06-24 01:00",
+      "046-england-ghana":"2026-06-24 04:00",
+      "047-panama-croatia":"2026-06-24 07:00",
+      "048-colombia-drcongo":"2026-06-24 10:00",
+      "049":"2026-06-25 03:00",
+      "050":"2026-06-25 03:00",
+      "051":"2026-06-25 06:00",
+      "052":"2026-06-25 06:00",
+      "053":"2026-06-25 09:00",
+      "054":"2026-06-25 09:00",
+      "055":"2026-06-26 04:00",
+      "056":"2026-06-26 04:00",
+      "057":"2026-06-26 07:00",
+      "058":"2026-06-26 07:00",
+      "059":"2026-06-26 10:00",
+      "060":"2026-06-26 10:00"
+    };
+    function parseDateKey(r){
+      const text=`${r.kickoff||''} ${DATE_FALLBACKS[r.id]||''}`;
+      const m=text.match(/(20\d{2})[-\/](\d{1,2})[-\/](\d{1,2})\s+(\d{1,2}):(\d{2})/);
+      if(!m) return Number.POSITIVE_INFINITY;
+      const [,y,mo,d,h,mi]=m;
+      return new Date(Number(y), Number(mo)-1, Number(d), Number(h), Number(mi)).getTime();
+    }
+    function compareByDateThenNo(a,b){
+      const da=parseDateKey(a), db=parseDateKey(b);
+      if(da!==db) return da-db;
+      return (a.matchNo||'').localeCompare(b.matchNo||'', 'zh-Hans-CN', {numeric:true});
+    }
+    function compareByDateThenNoDesc(a,b){
+      const da=parseDateKey(a), db=parseDateKey(b);
+      const aKnown=Number.isFinite(da), bKnown=Number.isFinite(db);
+      if(aKnown && bKnown && da!==db) return db-da;
+      if(aKnown!==bKnown) return aKnown ? -1 : 1;
+      return (b.matchNo||'').localeCompare(a.matchNo||'', 'zh-Hans-CN', {numeric:true});
+    }
+
+    function recommendedBettingHtml(pending){
+      const ids=(pending||[]).map(r=>String(r.id));
+      const hasRemaining=ids.includes('059') || ids.includes('060');
+      if(!hasRemaining) return '';
+      return `<section class="best-bets"><div class="best-head"><div><div class="best-title">最建议体彩玩法｜只看剩余预测中</div><div class="best-sub">055-058已完赛并进入复盘；当前主方案只使用仍未开赛的059、060。优先按中国体彩已开售的胜平负/让球胜平负处理，比分和半全场只做小额补充。</div></div><span class="tag">赛后修正版</span></div>
+        <div class="sale-panel"><div class="sale-title">开售限制先过筛<span class="tag">中国体彩口径</span></div>
+          <div class="sale-line"><span class="sale-ok">可作为主串：</span>059 巴拉圭(-1)让负；060 土耳其(+1)让胜/让平。</div>
+          <div class="sale-line"><span class="sale-no">不再纳入：</span>055-058 已完赛，所有相关串关作废；060不追美国让负，059不追巴拉圭让胜。</div>
+          <div class="sale-line"><span class="sale-warn">最新复盘原则：</span>已出线强队要降大胜权重；实力接近+一方打平即可时，让球比直接胜平负更稳。</div>
+        </div>
+        <div class="combo-list">
+          <div class="combo-card combo-risk-low"><b>二串一｜当前最稳主方案</b><div class="bet-line">059 巴拉圭(-1)让负 × 060 土耳其(+1)让胜/让平</div><div class="bet-detail">059表达“巴拉圭不能净胜2球”；060复式覆盖土耳其不败或美国只赢1球。2注，稳妥性高于直接猜胜平负。</div><div class="combo-meta"><span>难度：低-中</span><span>复式2注</span><span>主方案</span></div></div>
+          <div class="combo-card combo-risk-mid"><b>胜平负小串｜更高倍率但更难</b><div class="bet-line">059 平 × 060 平/美国胜</div><div class="bet-detail">059平局信号最强；060美国实力略强但轮换，平局和美国小胜并列防区。2注，倍率更高但比让球更难。</div><div class="combo-meta"><span>难度：中高</span><span>复式2注</span><span>小额</span></div></div>
+          <div class="combo-card combo-risk-high"><b>比分小注｜只做娱乐</b><div class="bet-line">059 1-1 × 060 1-1 / 0-1 / 1-2</div><div class="bet-detail">精确比分波动最大，只建议极小注。059 1-1 是当前最强比分；060以1-1为主，防美国一球小胜。</div><div class="combo-meta"><span>难度：高</span><span>3注</span><span>非主方案</span></div></div>
+          <div class="combo-card combo-risk-high"><b>半全场补充｜开售时再考虑</b><div class="bet-line">059 平-平 × 060 平-平 / 平-负</div><div class="bet-detail">两场都倾向上半场谨慎。059更像全程僵持；060若美国替补下半场发力，平-负是防线。</div><div class="combo-meta"><span>半全场</span><span>小额</span><span>需确认开售</span></div></div>
+        </div>
+        <div class="best-note"><b>避坑提醒：</b>055-058已经比完，不再参与任何串关；060不要因为美国实力更强就追净胜2球，055德国失手已经验证“已出线强队轮换后不等于稳穿盘”；059直接猜平赔率虽高，但让负容错更好。</div>
+        <div class="avoid-list"><span>少碰：060美国让负</span><span>少碰：059巴拉圭让胜</span><span>比分最多小串</span><span>主串优先让球</span></div>
+      </section>`;
+    }
+
+    function groupHtml(title, cls, items, sub){
+      const body=items.length?items.map(r=>{
+        const unknown=!Number.isFinite(parseDateKey(r));
+        return unknown?cardHtml({...r,kickoff:(r.kickoff||'日期待补')+'｜日期待补'}).replace('match-card ', 'match-card unknown-date '):cardHtml(r)
+      }).join(''):'<div class="empty">暂无记录。</div>';
+      return `<section class="record-group"><div class="record-group-head"><div class="record-group-title ${cls}">${title}<span class="record-count">${items.length}</span></div><div class="record-group-sub">${sub}</div></div>${cls==='done'?'<div class="date-note">已完赛记录按比赛开赛时间从晚到早排列；日期待补的历史截图样本会排在本组末尾。</div>':''}<div class="cards">${body}</div></section>`;
+    }
+    function render(){
+      renderAccuracy();
+      const total=records.length, exact=records.filter(r=>calcStatus(r)==='比分命中').length, direction=records.filter(r=>calcStatus(r)==='方向命中').length, miss=records.filter(r=>calcStatus(r)==='失手').length;
+      const finished=records.filter(isFinishedRecord).sort(compareByDateThenNoDesc);
+      const pending=records.filter(r=>!isFinishedRecord(r)).sort(compareByDateThenNo);
+      el('summary').innerHTML=`<div class="sum-card"><div class="sum-label">总记录</div><div class="sum-value">${total}</div></div><div class="sum-card"><div class="sum-label">已完赛</div><div class="sum-value green">${finished.length}</div></div><div class="sum-card"><div class="sum-label">预测中/待验证</div><div class="sum-value gold">${pending.length}</div></div><div class="sum-card"><div class="sum-label">失手</div><div class="sum-value red">${miss}</div></div>`;
+      if(el('doneCountBadge')) el('doneCountBadge').textContent=finished.length;
+      if(el('pendingCountBadge')) el('pendingCountBadge').textContent=pending.length;
+      if(el('viewDoneBtn')) el('viewDoneBtn').classList.toggle('active', activeRecordView==='done');
+      if(el('viewPendingBtn')) el('viewPendingBtn').classList.toggle('active', activeRecordView==='pending');
+      if(el('filterHint')) el('filterHint').textContent=activeRecordView==='done'?'当前显示：已完赛复盘。这里按比赛日期从晚到早排序，并计入命中率统计。':'当前显示：预测中 / 待验证。这里按比赛日期从早到晚排序，填入赛果后会自动转入完赛。';
+      if(!records.length){el('cards').innerHTML='<div class="empty">暂无记录，点击“新增预测”开始。</div>';return;}
+      if(activeRecordView==='done') el('cards').innerHTML=groupHtml('已完赛复盘', 'done', finished, '赛果已填，可进入命中率统计');
+      else el('cards').innerHTML=recommendedBettingHtml(pending)+groupHtml('预测中 / 待验证', 'pending', pending, '尚未填赛果或分享记录待补');
+      document.querySelectorAll('[data-edit]').forEach(btn=>btn.onclick=()=>openEdit(btn.dataset.edit));
+      document.querySelectorAll('[data-delete]').forEach(btn=>btn.onclick=()=>deleteRecord(btn.dataset.delete));
+    }
+    function safe(v){return (v??'').toString().replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+
+    function n(v){const x=parseFloat(v); return Number.isFinite(x)&&x>0?x:null;}
+    function marketProbs(h,d,a){h=n(h);d=n(d);a=n(a); if(!h||!d||!a) return null; const raw=[1/h,1/d,1/a]; const sum=raw[0]+raw[1]+raw[2]; return {home:raw[0]/sum*100,draw:raw[1]/sum*100,away:raw[2]/sum*100,overround:(sum-1)*100};}
+    function fmt(x){return Number.isFinite(x)?x.toFixed(1):'-'}
+    function maxKey(obj){return Object.entries(obj).sort((a,b)=>b[1]-a[1])[0]?.[0]}
+    function favFromOdds(h,d,a){const arr=[['home',n(h)],['draw',n(d)],['away',n(a)]].filter(x=>x[1]); if(arr.length<3) return null; return arr.sort((a,b)=>a[1]-b[1])[0][0];}
+    function zhOutcome(k){return {home:'主胜',draw:'平局',away:'客胜'}[k]||'-'}
+    function handicapResult(score,line){
+      line=parseFloat(line);
+      if(!Number.isFinite(line)||!/^\d+\s*-\s*\d+$/.test(score)) return null;
+      const [h,a]=score.split('-').map(x=>parseInt(x.trim(),10));
+      const ah=h+line;
+      if(ah>a) return '让胜'; if(ah===a) return '让平'; return '让负';
+    }
+    function commonHandicapPick(r){const scores=normalizeScores(r.predictionScores); const counts={让胜:0,让平:0,让负:0}; scores.forEach(sc=>{const v=handicapResult(sc,r.rqLine); if(v) counts[v]++;}); const best=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0]; return best&&best[1]>0?best[0]:'';}
+    function marketHtml(r){
+      const mp=marketProbs(r.spfHomeOdds,r.spfDrawOdds,r.spfAwayOdds);
+      const probs={home:Number(r.probHome||0),draw:Number(r.probDraw||0),away:Number(r.probAway||0)};
+      if(!mp) return `<div class="market"><div class="market-title">盘口分析<span class="tag">未录入倍率</span></div><div class="small">录入体彩胜平负倍率后，可自动显示市场隐含概率、模型差值和冷门预警。</div></div>`;
+      const edges={home:probs.home-mp.home, draw:probs.draw-mp.draw, away:probs.away-mp.away};
+      const model=maxKey(probs), fav=favFromOdds(r.spfHomeOdds,r.spfDrawOdds,r.spfAwayOdds);
+      const bestEdge=maxKey(edges);
+      let level='low', text='低冷门：模型与市场基本一致，优先按主方向处理。';
+      if((fav && model && fav!==model && probs[model] >= 30) || Math.abs(edges[bestEdge])>=10){level='high'; text=`高冷门预警：市场最热是${zhOutcome(fav)}，但你的综合概率更偏${zhOutcome(model)}；${zhOutcome(bestEdge)}相对市场高估差为 ${fmt(edges[bestEdge])}%。`;}
+      else if(Math.abs(edges[bestEdge])>=6 || (fav && model && fav!==model)){level='mid'; text=`中等冷门：${zhOutcome(bestEdge)}相对市场有 ${fmt(edges[bestEdge])}% 的差值，适合纳入防选。`;}
+      const hp=commonHandicapPick(r);
+      const cls={low:'alert-low',mid:'alert-mid',high:'alert-high'}[level];
+      return `<div class="market"><div class="market-title">盘口分析<span class="tag ${level==='high'?'red':level==='mid'?'':'green'}">${level==='high'?'高冷门':level==='mid'?'中冷门':'低冷门'}</span></div>
+        <div class="market-grid"><div class="market-box"><div class="lab">主胜 倍率/市场/差值</div><div class="val mono">${safe(r.spfHomeOdds)}｜${fmt(mp.home)}%｜<span class="${edges.home>=0?'edge-pos':'edge-neg'}">${fmt(edges.home)}%</span></div></div><div class="market-box"><div class="lab">平局 倍率/市场/差值</div><div class="val mono">${safe(r.spfDrawOdds)}｜${fmt(mp.draw)}%｜<span class="${edges.draw>=0?'edge-pos':'edge-neg'}">${fmt(edges.draw)}%</span></div></div><div class="market-box"><div class="lab">客胜 倍率/市场/差值</div><div class="val mono">${safe(r.spfAwayOdds)}｜${fmt(mp.away)}%｜<span class="${edges.away>=0?'edge-pos':'edge-neg'}">${fmt(edges.away)}%</span></div></div></div>
+        <div class="alert-card ${cls}">${text}</div>
+        <div class="small" style="margin-top:8px">返还率/水位估算：${fmt(100/(1+mp.overround/100))}%；官方让球：${safe(r.rqLine||'-')}；预测比分多数指向：${safe(hp||'-')}；盘口结论：${safe(r.handicapNote||'-')}</div></div>`;
+    }
+    function controlIntentHtml(r){
+      if(!r.controlIntent) return '';
+      const hot=/(已出线|锁定|挑对手|控制|控局|轮换|避开|不追|保平|接受平局|控风险|小胜足够)/.test(r.controlIntent);
+      return `<div class="alert-card ${hot?'alert-mid':'alert-low'}" style="margin:10px 0"><b>控局/挑对手提示：</b>${safe(r.controlIntent)}</div>`;
+    }
+
+
+
+    function strengthHtml(r){
+      if(!(r.strengthRating||r.strengthNote||r.strengthImpact||r.strengthConversion)) return '';
+      return `<div class="strength-panel"><div class="strength-title">球队实力评分<span class="tag">Team Strength</span></div>
+        <div class="strength-grid">
+          <div class="strength-item"><b>实力评分</b><span class="strength-score">${safe(r.strengthRating||'-')}</span></div>
+          <div class="strength-item"><b>实力差解读</b><span>${safe(r.strengthNote||'-')}</span></div>
+          <div class="strength-item"><b>概率修正</b><span>${safe(r.strengthImpact||'-')}</span></div>
+        </div>
+        ${r.strengthConversion?`<div class="alert-card alert-mid" style="margin-top:10px"><b>强弱转化：</b>${safe(r.strengthConversion)}</div>`:''}
+      </div>`;
+    }
+
+    function saleAvailabilityHtml(r){
+      const saleMap={
+        '055':{open:'胜平负、让球胜平负', closed:'比分/半全场/总进球需以出票页为准，不作为主方案', advice:'德国方向只取胜平负客胜；让球(+1)可作防区，不建议重追德国让负。'},
+        '056':{open:'让球胜平负（库拉索+2）', closed:'胜平负、比分、半全场、总进球当前未作为主串', advice:'只用+2让胜/让平表达“科特迪瓦赢1-2球或冷平”，不硬追让负。'},
+        '057':{open:'让球胜平负（突尼斯+2）', closed:'胜平负、比分、半全场、总进球当前未作为主串', advice:'主线是+2让负，即荷兰净胜3球及以上；让平是雨战/轮换防区。'},
+        '058':{open:'胜平负、让球胜平负', closed:'比分/半全场/总进球需出票页确认', advice:'日本主胜热，但更稳表达是日本(-1)让负，防1球小胜或平局。'},
+        '059':{open:'胜平负、让球胜平负', closed:'比分/半全场/总进球需出票页确认', advice:'平局与巴拉圭(-1)让负是强信号；让负比直接猜平容错更高。'},
+        '060':{open:'胜平负、让球胜平负', closed:'比分/半全场/总进球需出票页确认', advice:'美国客胜热但不支持大胜；土耳其(+1)让胜/让平优先于美国客胜。'}
+      };
+      const x=saleMap[String(r.id||r.matchNo||'')];
+      if(!x) return '';
+      return `<div class="sale-panel"><div class="sale-title">体彩开售玩法筛选<span class="tag">只用可买盘</span></div>
+        <div class="sale-line"><span class="sale-ok">当前主用：</span>${safe(x.open)}</div>
+        <div class="sale-line"><span class="sale-no">不纳入主串：</span>${safe(x.closed)}</div>
+        <div class="sale-line"><span class="sale-warn">玩法建议：</span>${safe(x.advice)}</div>
+      </div>`;
+    }
+
+    function marketSnapshotHtml(r){
+      if(!(r.marketSnapshot||r.valueNote||r.marketSourceNote)) return '';
+      return `<div class="market-snapshot"><div class="market-title">体彩倍率快照<span class="tag">盘口二次校准</span></div>
+        ${r.marketSnapshot?`<div class="line"><b>倍率：</b>${safe(r.marketSnapshot)}</div>`:''}
+        ${r.valueNote?`<div class="line warn"><b>盘口解读：</b>${safe(r.valueNote)}</div>`:''}
+        ${r.marketSourceNote?`<div class="line"><b>来源说明：</b>${safe(r.marketSourceNote)}</div>`:''}
+      </div>`;
+    }
+
+    function playHtml(r){
+      if(!(r.rqPick||r.rqProb||r.scoreProb||r.totalGoalProb||r.halfFullProb)) return '';
+      const chipify=(txt)=>safe(txt||'-').split('｜').map(x=>`<span class="prob-chip">${x}</span>`).join('');
+      return `<div class="play-panel"><div class="play-title">玩法概率预测<span class="tag">新版策略</span></div><div class="play-grid">
+        <div class="play-item"><b>让球胜平负</b><div class="main">${safe(r.rqPick||'-')}</div><span>${chipify(r.rqProb)}</span></div>
+        <div class="play-item"><b>比分概率</b><span>${chipify(r.scoreProb)}</span></div>
+        <div class="play-item"><b>总进球概率</b><span>${chipify(r.totalGoalProb)}</span></div>
+        <div class="play-item"><b>半全场概率</b><span>${chipify(r.halfFullProb)}</span></div>
+      </div></div>`;
+    }
+    function cardHtml(r){
+      const s=calcStatus(r);
+      const status=statusClass(s), tag=statusTag(s);
+      const ph=Number(r.probHome||0), pd=Number(r.probDraw||0), pa=Number(r.probAway||0);
+      return `<article class="match-card ${status}">
+        <div class="top"><div><div class="match-no">${safe(r.matchNo)}｜${safe(r.risk||'')}</div><div class="match-title">${safe(r.matchName)}</div><div class="kick">${safe(r.kickoff||'')}</div></div><div class="tag ${tag}">${s}</div></div>
+        <div class="boxes"><div class="box"><div class="box-label">预测比分</div><div class="box-value">${safe(r.predictionScores||'-')}</div></div><div class="box"><div class="box-label">实际/待填</div><div class="box-value gold">${safe(r.actualScore||'待验证')}</div></div></div>
+        <div class="pills"><span class="pill gold">${safe(r.pick||'-')}</span><span class="pill green">总进球：${safe(r.totalGoals||'-')}</span></div>
+        <div class="prob"><div class="prob-title">胜平负概率</div><div class="prob-row"><span>主胜</span><div class="bar"><div class="fill" style="width:${Math.min(ph,100)}%"></div></div><b>${ph}%</b></div><div class="prob-row"><span>平局</span><div class="bar"><div class="fill draw" style="width:${Math.min(pd,100)}%"></div></div><b>${pd}%</b></div><div class="prob-row"><span>客胜</span><div class="bar"><div class="fill away" style="width:${Math.min(pa,100)}%"></div></div><b>${pa}%</b></div></div>${marketHtml(r)}${strengthHtml(r)}${marketSnapshotHtml(r)}${saleAvailabilityHtml(r)}${playHtml(r)}${controlIntentHtml(r)}
+        <div class="factor-grid"><div class="factor"><b>球队实力</b>${safe(r.strengthRating||'-')}<br>${safe(r.strengthConversion||'')}</div><div class="factor"><b>伤停/停赛</b>${safe(r.injury||'-')}</div><div class="factor"><b>上场时间/体能</b>${safe(r.minutes||'-')}</div><div class="factor"><b>上一场状态</b>${safe(r.form||'-')}</div><div class="factor"><b>战意/积分</b>${safe(r.motivation||'-')}</div><div class="factor"><b>控局/挑对手</b>${safe(r.controlIntent||'-')}</div><div class="factor"><b>天气/场地</b>${safe(r.weather||'-')}</div><div class="factor"><b>赔率/让球</b>${safe(r.odds||'-')}</div></div>
+        <div class="reason"><b>预测理由：</b>${safe(r.reason||'-')}</div>${r.review?`<div class="reason"><b>赛后复盘：</b>${safe(r.review)}</div>`:''}
+        <div class="actions"><button class="btn-light" data-edit="${r.id}">编辑/填结果</button><button class="btn-red" data-delete="${r.id}">删除</button></div>
+      </article>`;
+    }
+    function openEdit(id){
+      const r=id?records.find(x=>x.id===id):{};
+      ['id','matchNo','matchName','kickoff','predictionScores','pick','totalGoals','actualScore','manualStatus','probHome','probDraw','probAway','risk','strengthRating','strengthNote','strengthImpact','strengthConversion','injury','minutes','form','motivation','controlIntent','weather','odds','spfHomeOdds','spfDrawOdds','spfAwayOdds','rqLine','rqHomeOdds','rqDrawOdds','rqAwayOdds','handicapNote','reason','review'].forEach(k=>{ if(el(k)) el(k).value=r?.[k]??(k==='manualStatus'?'auto':''); });
+      el('modalTitle').textContent=id?'编辑预测记录':'新增预测'; el('editDialog').showModal();
+    }
+    function formRecord(){
+      const fields=['id','matchNo','matchName','kickoff','predictionScores','pick','totalGoals','actualScore','manualStatus','probHome','probDraw','probAway','risk','strengthRating','strengthNote','strengthImpact','strengthConversion','injury','minutes','form','motivation','controlIntent','weather','odds','spfHomeOdds','spfDrawOdds','spfAwayOdds','rqLine','rqHomeOdds','rqDrawOdds','rqAwayOdds','handicapNote','reason','review'];
+      const obj={}; fields.forEach(k=>obj[k]=el(k).value.trim());
+      obj.id=obj.id||crypto.randomUUID(); obj.probHome=Number(obj.probHome||0); obj.probDraw=Number(obj.probDraw||0); obj.probAway=Number(obj.probAway||0); obj.updatedAt=Date.now(); obj.createdAt=(records.find(x=>x.id===obj.id)?.createdAt)||Date.now(); return obj;
+    }
+    async function upsertRecord(r, sync=true){
+      const i=records.findIndex(x=>x.id===r.id); if(i>=0) records[i]=r; else records.push(r); save(); if(sync) await cloudUpsert(r);
+    }
+    async function deleteRecord(id){if(!confirm('确定删除这条记录吗？')) return; records=records.filter(r=>r.id!==id); save(); await cloudDelete(id);}
+    el('addBtn').onclick=()=>openEdit(null); el('settingsBtn').onclick=()=>el('settingsPanel').classList.toggle('open');
+    const lessonToggleBtn=el('lessonToggleBtn');
+    if(lessonToggleBtn){
+      const lessonBody=el('lessonBody');
+      lessonBody.hidden=true;
+      lessonToggleBtn.setAttribute('aria-expanded','false');
+      lessonToggleBtn.textContent='展开';
+      lessonToggleBtn.onclick=()=>{
+        const shouldOpen=lessonBody.hidden;
+        lessonBody.hidden=!shouldOpen;
+        lessonToggleBtn.setAttribute('aria-expanded', String(shouldOpen));
+        lessonToggleBtn.textContent=shouldOpen?'收起':'展开';
+      };
+    }
+    el('mergeHistoryBtn').onclick=()=>{records=applyResultPatches(mergeRecords(records, HISTORICAL_RECORDS)); save(); alert('已合并历史复盘样本');};
+    el('resetWithDefaultsBtn').onclick=()=>{if(confirm('会用新版默认样本重置当前浏览器记录，确定吗？')){records=DEFAULT_RECORDS; save();}};
+    el('viewDoneBtn').onclick=()=>{activeRecordView='done'; render();};
+    el('viewPendingBtn').onclick=()=>{activeRecordView='pending'; render();};
+    el('closeDialog').onclick=()=>el('editDialog').close(); el('cancelBtn').onclick=()=>el('editDialog').close();
+    el('recordForm').onsubmit=async e=>{e.preventDefault(); await upsertRecord(formRecord()); el('editDialog').close();};
+    el('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(records,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`yunze_prediction_records_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(a.href);};
+    el('importFile').onchange=e=>{const f=e.target.files[0]; if(!f) return; const reader=new FileReader(); reader.onload=()=>{try{const data=JSON.parse(reader.result); if(!Array.isArray(data)) throw new Error('格式不是数组'); records=data; save(); alert('导入完成');}catch(err){alert('导入失败：'+err.message)}}; reader.readAsText(f);};
+    el('saveCloudBtn').onclick=()=>{localStorage.setItem(CLOUD_URL_KEY,el('cloudUrl').value.trim());localStorage.setItem(CLOUD_TOKEN_KEY,el('cloudToken').value.trim());alert('已保存云同步设置');};
+    el('clearLocalBtn').onclick=()=>{if(confirm('只清空当前浏览器本机记录，不影响云端。确定吗？')){records=[];save();}};
+    function cloudCfg(){return {url:localStorage.getItem(CLOUD_URL_KEY)||el('cloudUrl').value.trim(), token:localStorage.getItem(CLOUD_TOKEN_KEY)||el('cloudToken').value.trim()}}
+    function jsonp(params){return new Promise((resolve,reject)=>{const {url,token}=cloudCfg(); if(!url||!token){resolve(null);return;} const cb='cb_'+Math.random().toString(36).slice(2); window[cb]=data=>{resolve(data); delete window[cb]; script.remove();}; const script=document.createElement('script'); const qs=new URLSearchParams({...params,token,callback:cb}); script.src=url+(url.includes('?')?'&':'?')+qs.toString(); script.onerror=()=>{delete window[cb]; script.remove(); reject(new Error('云端连接失败'))}; document.body.appendChild(script); setTimeout(()=>{if(window[cb]){delete window[cb]; script.remove(); reject(new Error('云端超时'))}},20000);});}
+    async function cloudUpsert(r){try{const {url,token}=cloudCfg(); if(!url||!token) return; await jsonp({action:'upsert',record:JSON.stringify(r)});}catch(e){console.warn(e);}}
+    async function cloudDelete(id){try{const {url,token}=cloudCfg(); if(!url||!token) return; await jsonp({action:'delete',id});}catch(e){console.warn(e);}}
+    el('pullCloudBtn').onclick=async()=>{try{const data=await jsonp({action:'list'}); if(data&&data.ok&&Array.isArray(data.records)){records=data.records; save(); alert('已从云端拉取 '+records.length+' 条记录');}else alert('云端无有效数据');}catch(e){alert(e.message)}};
+    el('pushCloudBtn').onclick=async()=>{try{for(const r of records) await jsonp({action:'upsert',record:JSON.stringify(r)}); alert('已推送 '+records.length+' 条记录到云端');}catch(e){alert(e.message)}};
+    load();
+  </script>
+</body>
+</html>
