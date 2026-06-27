@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Yunze 赛事预测记录系统｜球队实力+盘口多玩法模型版</title>
+  <title>Yunze 赛事预测记录系统｜实力优先+盘口校准模型版</title>
   <style>
     :root{
       --bg:#f2f4f7; --ink:#101820; --muted:#6b7786; --card:#111923; --card2:#0d141d;
@@ -48,7 +48,7 @@
 <body>
   <main class="wrap">
     <section class="header">
-      <div class="title-row"><div class="round">×</div><div class="title"><h1>赛事预测记录</h1><div class="subtitle">Yunze 专属｜球队实力评分、体彩开售盘筛选、盘口赔率、多串关玩法、强队控局/轮换、赛后复盘模型</div></div><div class="round more">···</div></div>
+      <div class="title-row"><div class="round">×</div><div class="title"><h1>赛事预测记录</h1><div class="subtitle">Yunze 专属｜球队实力优先、盘口降权校准、轮换类型识别、赛后复盘模型</div></div><div class="round more">···</div></div>
       <div class="toolbar">
         <button class="btn-gold" id="addBtn">新增预测</button>
         <button class="btn-light" id="settingsBtn">云同步设置</button>
@@ -88,6 +88,12 @@
         <div class="lesson"><b>让球边界要拆成赢1/2/3球</b><span>荷兰1-3突尼斯说明：客胜和总进球判断正确，不代表深盘一定打穿；+2/-2盘口必须单独评估“刚好赢2球”的概率。</span></div>
         <div class="lesson"><b>已出线强队会被生死战弱队反噬</b><span>德国1-2厄瓜多尔、土耳其3-2美国提示：已出线/轮换/保护主力时，实力优势会被削弱；对手若必须抢分或荣誉战释放，冷门权重上调。</span></div>
       </div>
+
+        <div class="lesson"><b>盘口权重降级为校准项</b><span>盘口是市场情绪和资金分布，不是比赛底层逻辑。后续盘口只用于确认热度和打穿边界，不能压过球队实力、阵容深度和当届状态。</span></div>
+        <div class="lesson"><b>轮换必须区分类型</b><span>轮换不等于变弱。法国属于火力释放型轮换，美国/德国部分场次属于稳定性下降型轮换；要分清是前场替补抢表现，还是防线/核心被保护。</span></div>
+        <div class="lesson"><b>强队名气要被当届状态折算</b><span>比利时这类名气强队如果连续低效，就不能继续按传统强队模板给2球以上；法国这类当届兑现强的队伍则不能过度防控局。</span></div>
+        <div class="lesson"><b>战意不等于进球能力</b><span>佛得角、沙特、乌拉圭等样本显示，必须赢只能提高进攻意愿，不能直接提高进球数；还要看终结能力、射正质量和定位球效率。</span></div>
+        <div class="lesson"><b>红牌/早进球要有崩盘分支</b><span>塞内加尔5-0伊拉克说明，弱队早段红牌或早丢球会让2-0模型迅速变成4-0/5-0，比分预测必须写基准剧本和崩盘剧本。</span></div>
       <div class="note-warn">提示：如果你已经在旧版网页里录入过数据，点击下面按钮可把本次整理的历史复盘样本合并进当前记录，不会覆盖你已编辑过的同 ID 记录。</div>
       <div class="lesson-actions"><button class="btn-green" id="mergeHistoryBtn">合并历史复盘样本</button><button class="btn-light" id="resetWithDefaultsBtn">重置为新版默认样本</button></div>
       </div>
@@ -109,7 +115,7 @@
       <div class="small">提示：云同步采用 JSONP，适配 Google Apps Script。口令仅保存在当前浏览器本地。</div>
     </section>
 
-    <div class="section-title">预测记录｜按比赛日期从早到晚排序</div>
+    <div class="section-title">预测记录｜完赛从晚到早，预测中从早到晚</div>
     <div class="view-tabs" aria-label="记录分类切换">
       <button type="button" class="view-tab active" id="viewDoneBtn">✅ 完赛 <span class="badge" id="doneCountBadge">0</span></button>
       <button type="button" class="view-tab" id="viewPendingBtn">⏳ 预测中 <span class="badge" id="pendingCountBadge">0</span></button>
@@ -1049,9 +1055,21 @@
       "058": {actualScore:"1-1", kickoff:"已完赛｜2026-06-26 07:00", review:"实际日本1-1瑞典，备选比分命中，总进球2球命中，日本(-1)让负命中；主胜方向偏热。模型有效点：实力评分指出两队接近，正确把1-1放入核心防区并反对日本让胜。修正点：当实力差只有1分、且一方主胜赔率被明显压低时，平局概率应与主胜几乎并列，而不是只作为第二防线。"},
       "059": {actualScore:"0-0", kickoff:"已完赛｜2026-06-26 10:00", review:"实际巴拉圭0-0澳大利亚，主方向平局命中，备选比分0-0命中，巴拉圭(-1)让负命中。模型有效点：正确识别澳大利亚打平即可、巴拉圭缺少爆点、盘口平局低位和让负强信号。后续规则：一方打平即可且另一方破密集能力不足时，0-0/1-1要作为核心比分，不要因‘必须赢’盲目抬高进球数。"},
       "060": {actualScore:"3-2", kickoff:"已完赛｜2026-06-26 10:00", review:"实际土耳其3-2美国，胜平负方向失手，但土耳其(+1)让胜命中，总进球高于预期。复盘：美国已出线轮换保守判断正确，但低估了土耳其荣誉战释放后的进攻火力，也低估了美国替补防线开放度。后续规则：已出线强队轮换时，不仅要降客胜，还要上调对手进球和3-2/2-2这类开放比分。"},
+
+      "061": {actualScore:"1-4", kickoff:"已完赛｜2026-06-27 03:00", manualStatus:"方向命中", review:"实际挪威1-4法国。复盘：方向防到法国客胜，但严重低估法国打穿能力。错误在于把法国已出线/轮换理解成控局降速，忽略法国阵容深度和火力释放型轮换；法国替补和半主力仍具备顶级冲击力，早段进球后比分被快速放大。模型修正：盘口权重下调，强队轮换要区分火力释放型与稳定性下降型。"},
+      "062": {actualScore:"5-0", kickoff:"已完赛｜2026-06-27 03:00", manualStatus:"方向命中", review:"实际塞内加尔5-0伊拉克。复盘：主胜方向正确，但比分严重保守。早段红牌/早破局让原本2-0模型直接进入崩盘分支，塞内加尔还有净胜球需求。模型修正：弱队防线连续承压、心理崩盘、早段红牌同时出现时，要上调4-0/5-0比分权重。"},
+      "063": {actualScore:"0-0", kickoff:"已完赛｜2026-06-27 08:00", manualStatus:"方向命中", review:"实际佛得角0-0沙特。复盘：防平方向命中，但主胜与进球数被高估。战意只能决定进攻意愿，不能保证进球；佛得角有机会但终结效率不足，沙特必须赢却缺少足够破局质量。模型修正：必须赢/想赢不能直接上调进球数，必须结合射正质量、终结点和定位球效率。"},
+      "064": {actualScore:"0-1", kickoff:"已完赛｜2026-06-27 08:00", manualStatus:"方向命中", review:"实际乌拉圭0-1西班牙。复盘：防客胜方向命中，但高估乌拉圭进球。西班牙控球型强队领先后能把比赛锁死，乌拉圭即使必须抢分也缺少持续高质量终结。模型修正：面对西班牙这类控球强队，对手战意不能自动换算成双方进球。"},
     };
     function applyResultPatches(arr){return (arr||[]).map(r=>RESULT_PATCHES[r.id]?{...r,...RESULT_PATCHES[r.id]}:r)}
     function removeDeletedPlaceholders(arr){return (arr||[]).filter(r=>r.id!=="share-link-unreadable-placeholder" && r.matchNo!=="待补-分享链接");}
+    function keepUnplayedPending(arr){
+      const pendingFix={
+        "065": {kickoff:"2026-06-27 11:00", actualScore:"", manualStatus:"auto", review:""},
+        "066": {kickoff:"2026-06-27 11:00", actualScore:"", manualStatus:"auto", review:""}
+      };
+      return (arr||[]).map(r=>pendingFix[r.id]?{...r,...pendingFix[r.id]}:r);
+    }
     const CONTROL_INTENT_PATCHES={
       "hist-spain-cpv":"强弱差明显且没有必要通过控分挑对手，控局风险低；重点是是否早破局和是否追净胜球。",
       "hist-jordan-algeria":"非典型强队控局样本；优势方更像正常争胜，小胜脚本优先。",
@@ -1263,7 +1281,10 @@
       }
     };
     function applyPostResultModelPatches(arr){return (arr||[]).map(r=>POST_RESULT_MODEL_PATCHES[r.id]?{...r,...POST_RESULT_MODEL_PATCHES[r.id]}:r)}
-    const DEFAULT_RECORDS=applyPostResultModelPatches(applyModelUpgradePatches(applyResultPatches(applyControlPatches([...HISTORICAL_RECORDS, ...UPCOMING_RECORDS]))));
+    const DEFAULT_RECORDS=keepUnplayedPending(applyPostResultModelPatches(applyModelUpgradePatches(applyResultPatches(applyControlPatches([...HISTORICAL_RECORDS, ...UPCOMING_RECORDS])))));
+    function normalizeRecordsForCurrentVersion(arr){
+      return keepUnplayedPending(applyPostResultModelPatches(applyModelUpgradePatches(removeDeletedPlaceholders(applyResultPatches(arr||[])))));
+    }
     let records=[];
     let activeRecordView='done';
     const el=id=>document.getElementById(id);
@@ -1281,7 +1302,7 @@
         else if(legacy) records=mergeRecords(DEFAULT_RECORDS, JSON.parse(legacy));
         else records=DEFAULT_RECORDS;
       }catch(e){ records=DEFAULT_RECORDS; }
-      records=applyPostResultModelPatches(applyModelUpgradePatches(removeDeletedPlaceholders(applyResultPatches(records))));
+      records=normalizeRecordsForCurrentVersion(records);
       save(false); render();
       el('cloudUrl').value=localStorage.getItem(CLOUD_URL_KEY)||'';
       el('cloudToken').value=localStorage.getItem(CLOUD_TOKEN_KEY)||'';
@@ -1319,7 +1340,7 @@
         return actual && arr[0][0]===actual;
       }).length;
       const total=done.length||1;
-      el('accuracyPanel').innerHTML=`<h2>模型正确率复盘</h2><div class="hint">只统计已填赛果且非待补占位的样本。三层指标分开看：精确比分、胜平负/不败方向、以及模型最高概率方向。</div><div class="summary" style="margin:10px 0 0"><div class="sum-card"><div class="sum-label">已验证样本</div><div class="sum-value">${done.length}</div></div><div class="sum-card"><div class="sum-label">精确比分命中</div><div class="sum-value green">${exact}/${done.length}</div><div class="small">${Math.round(exact/total*100)}%</div></div><div class="sum-card"><div class="sum-label">方向命中含比分</div><div class="sum-value gold">${exact+direction}/${done.length}</div><div class="small">${Math.round((exact+direction)/total*100)}%</div></div><div class="sum-card"><div class="sum-label">最高概率方向命中</div><div class="sum-value ${topHit>=done.length/2?'green':'red'}">${topHit}/${done.length}</div><div class="small">${Math.round(topHit/total*100)}%</div></div></div><div class="note-warn">当前结论：模型对“方向/不败”有一定参考价值，但最高概率方向偏热门，遇到强队控局、低位防守、热门客队慢热时，平局概率需要继续上调；比分玩法仍属于高波动，只适合小额复盘。</div>`;
+      el('accuracyPanel').innerHTML=`<h2>模型正确率复盘</h2><div class="hint">只统计已填赛果且非待补占位的样本。三层指标分开看：精确比分、胜平负/不败方向、以及模型最高概率方向。</div><div class="summary" style="margin:10px 0 0"><div class="sum-card"><div class="sum-label">已验证样本</div><div class="sum-value">${done.length}</div></div><div class="sum-card"><div class="sum-label">精确比分命中</div><div class="sum-value green">${exact}/${done.length}</div><div class="small">${Math.round(exact/total*100)}%</div></div><div class="sum-card"><div class="sum-label">方向命中含比分</div><div class="sum-value gold">${exact+direction}/${done.length}</div><div class="small">${Math.round((exact+direction)/total*100)}%</div></div><div class="sum-card"><div class="sum-label">最高概率方向命中</div><div class="sum-value ${topHit>=done.length/2?'green':'red'}">${topHit}/${done.length}</div><div class="small">${Math.round(topHit/total*100)}%</div></div></div><div class="note-warn">当前结论：盘口权重已下调，模型改为“球队真实实力与当届状态优先，盘口只做校准”。强队轮换要先分清是火力释放型还是稳定性下降型；比分玩法仍属于高波动，只适合小额复盘。</div>`;
     }
     function isFinishedRecord(r){return /^\d+\s*-\s*\d+$/.test((r.actualScore||'').trim()) && !/待补|placeholder/.test(r.id||'');}
     const DATE_FALLBACKS={
@@ -1556,14 +1577,14 @@
     el('closeDialog').onclick=()=>el('editDialog').close(); el('cancelBtn').onclick=()=>el('editDialog').close();
     el('recordForm').onsubmit=async e=>{e.preventDefault(); await upsertRecord(formRecord()); el('editDialog').close();};
     el('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(records,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`yunze_prediction_records_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(a.href);};
-    el('importFile').onchange=e=>{const f=e.target.files[0]; if(!f) return; const reader=new FileReader(); reader.onload=()=>{try{const data=JSON.parse(reader.result); if(!Array.isArray(data)) throw new Error('格式不是数组'); records=data; save(); alert('导入完成');}catch(err){alert('导入失败：'+err.message)}}; reader.readAsText(f);};
+    el('importFile').onchange=e=>{const f=e.target.files[0]; if(!f) return; const reader=new FileReader(); reader.onload=()=>{try{const data=JSON.parse(reader.result); if(!Array.isArray(data)) throw new Error('格式不是数组'); records=normalizeRecordsForCurrentVersion(data); save(); alert('导入完成：已自动应用061-064复盘补丁，并保持065/066为预测中');}catch(err){alert('导入失败：'+err.message)}}; reader.readAsText(f);};
     el('saveCloudBtn').onclick=()=>{localStorage.setItem(CLOUD_URL_KEY,el('cloudUrl').value.trim());localStorage.setItem(CLOUD_TOKEN_KEY,el('cloudToken').value.trim());alert('已保存云同步设置');};
     el('clearLocalBtn').onclick=()=>{if(confirm('只清空当前浏览器本机记录，不影响云端。确定吗？')){records=[];save();}};
     function cloudCfg(){return {url:localStorage.getItem(CLOUD_URL_KEY)||el('cloudUrl').value.trim(), token:localStorage.getItem(CLOUD_TOKEN_KEY)||el('cloudToken').value.trim()}}
     function jsonp(params){return new Promise((resolve,reject)=>{const {url,token}=cloudCfg(); if(!url||!token){resolve(null);return;} const cb='cb_'+Math.random().toString(36).slice(2); window[cb]=data=>{resolve(data); delete window[cb]; script.remove();}; const script=document.createElement('script'); const qs=new URLSearchParams({...params,token,callback:cb}); script.src=url+(url.includes('?')?'&':'?')+qs.toString(); script.onerror=()=>{delete window[cb]; script.remove(); reject(new Error('云端连接失败'))}; document.body.appendChild(script); setTimeout(()=>{if(window[cb]){delete window[cb]; script.remove(); reject(new Error('云端超时'))}},20000);});}
     async function cloudUpsert(r){try{const {url,token}=cloudCfg(); if(!url||!token) return; await jsonp({action:'upsert',record:JSON.stringify(r)});}catch(e){console.warn(e);}}
     async function cloudDelete(id){try{const {url,token}=cloudCfg(); if(!url||!token) return; await jsonp({action:'delete',id});}catch(e){console.warn(e);}}
-    el('pullCloudBtn').onclick=async()=>{try{const data=await jsonp({action:'list'}); if(data&&data.ok&&Array.isArray(data.records)){records=data.records; save(); alert('已从云端拉取 '+records.length+' 条记录');}else alert('云端无有效数据');}catch(e){alert(e.message)}};
+    el('pullCloudBtn').onclick=async()=>{try{const data=await jsonp({action:'list'}); if(data&&data.ok&&Array.isArray(data.records)){records=normalizeRecordsForCurrentVersion(data.records); save(); alert('已从云端拉取 '+records.length+' 条记录，并已应用当前版本状态修正');}else alert('云端无有效数据');}catch(e){alert(e.message)}};
     el('pushCloudBtn').onclick=async()=>{try{for(const r of records) await jsonp({action:'upsert',record:JSON.stringify(r)}); alert('已推送 '+records.length+' 条记录到云端');}catch(e){alert(e.message)}};
     load();
   </script>
