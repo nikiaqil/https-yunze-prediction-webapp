@@ -1555,40 +1555,54 @@
 
     function renderBracketView(){
       const round32 = [
-        {time:'06月30日 周二 04:30',home:'德国',away:'巴拉圭',homeFlag:'🇩🇪',awayFlag:'🇵🇾',slot:'已确定'},
-        {time:'07月01日 周三 05:00',home:'法国',away:'瑞典',homeFlag:'🇫🇷',awayFlag:'🇸🇪',slot:'已确定'},
-        {time:'06月29日 周一 03:00',home:'南非',away:'加拿大',homeFlag:'🇿🇦',awayFlag:'🇨🇦',slot:'已确定'},
-        {time:'06月30日 周二 09:00',home:'荷兰',away:'摩洛哥',homeFlag:'🇳🇱',awayFlag:'🇲🇦',slot:'已确定'},
-        {time:'07月03日 周五 07:00',home:'哥伦比亚',away:'克罗地亚',homeFlag:'🇨🇴',awayFlag:'🇭🇷',homeTag:'K2 预测',awayTag:'L2 预测',slot:'模型预测'},
-        {time:'07月03日 周五 03:00',home:'西班牙',away:'阿尔及利亚',homeFlag:'🇪🇸',awayFlag:'🇩🇿',awayTag:'J2 预测',slot:'模型预测'},
-        {time:'07月02日 周四 08:00',home:'埃及',away:'澳大利亚',homeFlag:'🇪🇬',awayFlag:'🇦🇺',slot:'已确定'},
-        {time:'07月02日 周四 04:00',home:'比利时',away:'最佳第三名',homeFlag:'🇧🇪',awayFlag:'⭐',awayTag:'待定',slot:'待定'}
+        {time:'M73｜06月28日 20:00',home:'南非',away:'加拿大',homeFlag:'🇿🇦',awayFlag:'🇨🇦',slot:'已确定'},
+        {time:'M74｜06月29日 21:30',home:'德国',away:'巴拉圭',homeFlag:'🇩🇪',awayFlag:'🇵🇾',slot:'已确定'},
+        {time:'M75｜06月30日 02:00',home:'荷兰',away:'摩洛哥',homeFlag:'🇳🇱',awayFlag:'🇲🇦',slot:'已确定'},
+        {time:'M76｜06月29日 18:00',home:'巴西',away:'日本',homeFlag:'🇧🇷',awayFlag:'🇯🇵',slot:'已确定'},
+        {time:'M77｜06月30日 22:00',home:'法国',away:'瑞典',homeFlag:'🇫🇷',awayFlag:'🇸🇪',slot:'已确定'},
+        {time:'M78｜06月30日 18:00',home:'科特迪瓦',away:'挪威',homeFlag:'🇨🇮',awayFlag:'🇳🇴',slot:'已确定'},
+        {time:'M79｜07月01日 02:00',home:'墨西哥',away:'最佳第三名',homeFlag:'🇲🇽',awayFlag:'⭐',awayTag:'C/E/F/H/I',slot:'待定'},
+        {time:'M80｜07月01日 17:00',home:'英格兰',away:'最佳第三名',homeFlag:'🏴',awayFlag:'⭐',homeTag:'L1预测',awayTag:'E/H/I/J/K',slot:'模型预测'},
+        {time:'M81｜07月02日 01:00',home:'美国',away:'波黑',homeFlag:'🇺🇸',awayFlag:'🇧🇦',slot:'已确定'},
+        {time:'M82｜07月01日 21:00',home:'比利时',away:'最佳第三名',homeFlag:'🇧🇪',awayFlag:'⭐',awayTag:'A/E/H/I/J',slot:'待定'},
+        {time:'M83｜07月03日 00:00',home:'葡萄牙',away:'克罗地亚',homeFlag:'🇵🇹',awayFlag:'🇭🇷',homeTag:'K2预测',awayTag:'L2预测',slot:'模型预测'},
+        {time:'M84｜07月02日 20:00',home:'西班牙',away:'奥地利',homeFlag:'🇪🇸',awayFlag:'🇦🇹',awayTag:'J2预测',slot:'模型预测'},
+        {time:'M85｜07月03日 04:00',home:'瑞士',away:'最佳第三名',homeFlag:'🇨🇭',awayFlag:'⭐',awayTag:'E/F/G/I/J',slot:'待定'},
+        {time:'M86｜07月03日 23:00',home:'阿根廷',away:'佛得角',homeFlag:'🇦🇷',awayFlag:'🇨🇻',slot:'已确定'},
+        {time:'M87｜07月04日 02:30',home:'哥伦比亚',away:'最佳第三名',homeFlag:'🇨🇴',awayFlag:'⭐',homeTag:'K1预测',awayTag:'D/E/I/J/L',slot:'模型预测'},
+        {time:'M88｜07月03日 19:00',home:'澳大利亚',away:'埃及',homeFlag:'🇦🇺',awayFlag:'🇪🇬',slot:'已确定'}
       ];
       const round16 = [
-        {time:'07月05日 周日 05:00',home:'待定',away:'待定',homeFlag:'◻',awayFlag:'◻',slot:'待定'},
-        {time:'07月05日 周日 01:00',home:'待定',away:'待定',homeFlag:'◻',awayFlag:'◻',slot:'待定'},
-        {time:'07月07日 周二 03:00',home:'待定',away:'待定',homeFlag:'◻',awayFlag:'◻',slot:'待定'},
-        {time:'07月06日 周一 09:00',home:'待定',away:'待定',homeFlag:'◻',awayFlag:'◻',slot:'待定'}
+        {time:'M89｜07月04/05',home:'M73胜者',away:'M75胜者',homeFlag:'◻',awayFlag:'◻',slot:'待定'},
+        {time:'M90｜07月04/05',home:'M76胜者',away:'M78胜者',homeFlag:'◻',awayFlag:'◻',slot:'待定'},
+        {time:'M91｜07月05/06',home:'M74胜者',away:'M77胜者',homeFlag:'◻',awayFlag:'◻',slot:'待定'},
+        {time:'M92｜07月05/06',home:'M86胜者',away:'M88胜者',homeFlag:'◻',awayFlag:'◻',slot:'待定'},
+        {time:'M93｜07月06',home:'M83胜者',away:'M84胜者',homeFlag:'◻',awayFlag:'◻',slot:'待定'},
+        {time:'M94｜07月06',home:'M81胜者',away:'M82胜者',homeFlag:'◻',awayFlag:'◻',slot:'待定'},
+        {time:'M95｜07月07',home:'M86/M88路径',away:'M85/M87路径',homeFlag:'◻',awayFlag:'◻',slot:'待定'},
+        {time:'M96｜07月07',home:'M85胜者',away:'M87胜者',homeFlag:'◻',awayFlag:'◻',slot:'待定'}
       ];
       const quarter = [
-        {time:'07月10日 周五 06:00',home:'待定',away:'待定',homeFlag:'◻',awayFlag:'◻',slot:'待定'},
-        {time:'07月11日 周六 09:00',home:'待定',away:'待定',homeFlag:'◻',awayFlag:'◻',slot:'待定'}
+        {time:'M97｜07月09/10',home:'1/8胜者',away:'1/8胜者',homeFlag:'◻',awayFlag:'◻',slot:'待定'},
+        {time:'M98｜07月10/11',home:'1/8胜者',away:'1/8胜者',homeFlag:'◻',awayFlag:'◻',slot:'待定'},
+        {time:'M99｜07月11',home:'1/8胜者',away:'1/8胜者',homeFlag:'◻',awayFlag:'◻',slot:'待定'},
+        {time:'M100｜07月11',home:'1/8胜者',away:'1/8胜者',homeFlag:'◻',awayFlag:'◻',slot:'待定'}
       ];
-      return `<section class="record-group"><div class="record-group-head"><div class="record-group-title pending">晋级图<span class="record-count">32强</span></div><div class="record-group-sub">按当前已知赛果 + 067-072 模型预测生成</div></div>
+      return `<section class="record-group"><div class="record-group-head"><div class="record-group-title pending">晋级图<span class="record-count">32强</span></div><div class="record-group-sub">已补全目前可确定的 1/16 决赛对阵</div></div>
         <div class="bracket-shell">
-          <div class="bracket-top"><div><div class="bracket-title">小组出线 / 淘汰赛晋级图</div><div class="bracket-sub">展示风格按你给的赛程数据示意来做。已确定的对阵直接写球队，尚未踢完的小组名次位用我们的当前预测填充，仍保留“预测/待定”标记。</div></div><div class="tag blue">完赛 - 预测中 - 晋级图</div></div>
+          <div class="bracket-top"><div><div class="bracket-title">小组出线 / 淘汰赛晋级图</div><div class="bracket-sub">现在按完整 16 场 1/16 决赛展示：已确定的直接显示球队；还依赖 067-072 或最佳第三名分配的槽位，用“预测/待定”标记。</div></div><div class="tag blue">完赛 - 预测中 - 晋级图</div></div>
           <div class="bracket-stage-tabs"><div class="bracket-stage active">1/16决赛</div><div class="bracket-stage active">1/8决赛</div><div class="bracket-stage">1/4决赛</div><div class="bracket-stage">半决赛</div><div class="bracket-stage">决赛</div></div>
           <div class="bracket-board">
-            <div class="bracket-col"><div class="bracket-col-title">1/16决赛</div><div class="bracket-stack spaced-large">${round32.map(bracketMatchHtml).join('')}</div></div>
-            <div class="bracket-col"><div class="bracket-col-title">1/8决赛</div><div class="bracket-stack spaced-medium">${round16.map(bracketMatchHtml).join('')}</div></div>
-            <div class="bracket-col"><div class="bracket-col-title">1/4决赛（预留）</div><div class="bracket-stack spaced-medium">${quarter.map(bracketMatchHtml).join('')}</div></div>
+            <div class="bracket-col"><div class="bracket-col-title">1/16决赛｜Round of 32</div><div class="bracket-stack">${round32.map(bracketMatchHtml).join('')}</div></div>
+            <div class="bracket-col"><div class="bracket-col-title">1/8决赛｜路径预留</div><div class="bracket-stack">${round16.map(bracketMatchHtml).join('')}</div></div>
+            <div class="bracket-col"><div class="bracket-col-title">1/4决赛｜路径预留</div><div class="bracket-stack">${quarter.map(bracketMatchHtml).join('')}</div></div>
           </div>
           <div class="bracket-mini-grid">
-            <div class="bracket-mini"><b>G组已确定</b><div>比利时头名出线，对阵最佳第三名之一；埃及第二出线，对阵澳大利亚。</div></div>
-            <div class="bracket-mini"><b>067-072 当前预测</b><div>L组：英格兰第1、克罗地亚第2；K组：葡萄牙第1、哥伦比亚第2；J组：阿根廷第1、阿尔及利亚第2。</div></div>
-            <div class="bracket-mini"><b>使用说明</b><div>带“预测”标签的淘汰赛槽位会在相关小组赛完赛后自动改成真实球队。你后面给我赛果，我再继续往下更新 1/8、1/4 和半决赛路径。</div></div>
+            <div class="bracket-mini"><b>已经确定的重点对阵</b><div>南非vs加拿大、德国vs巴拉圭、荷兰vs摩洛哥、巴西vs日本、法国vs瑞典、科特迪瓦vs挪威、美国vs波黑、澳大利亚vs埃及、阿根廷vs佛得角。</div></div>
+            <div class="bracket-mini"><b>067-072 模型投射</b><div>L组：英格兰第1、克罗地亚第2；K组：哥伦比亚第1、葡萄牙第2；J组：阿根廷已锁第1，按我们071的1-1主线，奥地利更可能拿J2。</div></div>
+            <div class="bracket-mini"><b>仍待官方确认</b><div>最佳第三名分配、K/L组最终名次、J组第二名会影响 M79、M80、M82、M83、M84、M85、M87 的最终显示。</div></div>
           </div>
-          <div class="bracket-note"><b>当前口径：</b>065 埃及 vs 伊朗、066 新西兰 vs 比利时已经写入真实赛果；067-072 仍按我们当前预测结果投射到晋级图中。这样你在“预测中”看单场分析，在“晋级图”里看整体出线和对阵关系，会更直观。</div>
+          <div class="bracket-note"><b>当前修正：</b>上一版只放了半张晋级图，这一版已经把 1/16 决赛 16 个槽位全部列出；其中 9 组左右已经可以直接写成明确对阵，其余按当前预测或官方待定槽位显示。</div>
         </div></section>`;
     }
 
