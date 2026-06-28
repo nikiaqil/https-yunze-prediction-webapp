@@ -130,6 +130,59 @@
     }
     /* Yunze tab row fix end */
 
+  
+    /* Yunze bracket true center fix start */
+    body.bracket-view .wrap{
+      max-width:none!important;
+      width:100%!important;
+      margin:0!important;
+      padding-left:0!important;
+      padding-right:0!important;
+      box-sizing:border-box!important;
+    }
+    body.bracket-view .summary,
+    body.bracket-view #accuracyPanel,
+    body.bracket-view #filterHint,
+    body.bracket-view .view-tabs{
+      max-width:1120px!important;
+      margin-left:auto!important;
+      margin-right:auto!important;
+    }
+    body.bracket-view #cards{
+      display:flex!important;
+      justify-content:center!important;
+      width:100%!important;
+      margin-left:auto!important;
+      margin-right:auto!important;
+    }
+    body.bracket-view #cards > .record-group{
+      width:max-content!important;
+      max-width:calc(100vw - 24px)!important;
+      margin-left:auto!important;
+      margin-right:auto!important;
+    }
+    body.bracket-view .wc-tree-shell{
+      width:max-content!important;
+      max-width:calc(100vw - 24px)!important;
+      margin-left:auto!important;
+      margin-right:auto!important;
+      overflow-x:auto!important;
+      box-sizing:border-box!important;
+    }
+    body.bracket-view .wc-tree-center{
+      width:1120px!important;
+      min-width:1120px!important;
+      margin-left:auto!important;
+      margin-right:auto!important;
+    }
+    @media(max-width:720px){
+      body.bracket-view #cards > .record-group,
+      body.bracket-view .wc-tree-shell{
+        max-width:calc(100vw - 12px)!important;
+      }
+    }
+    /* Yunze bracket true center fix end */
+
   </style>
 </head>
 <body>
@@ -2359,6 +2412,7 @@
 
 
     function render(){
+      document.body.classList.toggle('bracket-view', activeRecordView==='bracket');
       renderAccuracy();
       const total=records.length, exact=records.filter(r=>calcStatus(r)==='比分命中').length, direction=records.filter(r=>calcStatus(r)==='方向命中').length, miss=records.filter(r=>calcStatus(r)==='失手').length;
       const finished=records.filter(isFinishedRecord).sort(compareByDateThenNoDesc);
