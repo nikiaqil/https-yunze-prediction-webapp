@@ -1973,8 +1973,8 @@
     "predictionScores": "1-0 / 1-1 / 2-1 / 0-0",
     "pick": "主胜 / 防平",
     "totalGoals": "2 / 3 / 4",
-    "actualScore": "",
-    "manualStatus": "auto",
+    "actualScore": "2-0",
+    "manualStatus": "方向命中",
     "probHome": 45,
     "probDraw": 31,
     "probAway": 24,
@@ -2008,7 +2008,7 @@
     "marketSnapshot": "墨西哥 vs 厄瓜多尔｜盘口待临场确认。",
     "valueNote": "胜平负主胜可小用，但更建议低比分和让球边界。",
     "marketSourceNote": "赔率需出票前核对；本页记录为模型预测与复盘口径。",
-    "review": "",
+    "review": "实际墨西哥2-0厄瓜多尔（90分钟+补时）。原预测比分主栏为1-0/1-1/2-1/0-0，未包含2-0，因此本场不记比分命中；胜负方向墨西哥主胜命中，总进球2球命中。让球方面墨西哥(-1)实际为让胜，原方案主用让平/让负，盘口边界失手。模型修正：东道主淘汰赛主场强势+早段破局时，应把2-0从次级防线上调，不能只停留在1球小胜/90分钟平局脚本。",
     "createdAt": 1760000000000,
     "updatedAt": 1760000000000
 },
@@ -2339,11 +2339,12 @@
       "076": {actualScore:"2-1", kickoff:"已完赛｜2026-06-30 01:00", manualStatus:"比分命中", review:"实际巴西2-1日本（90分钟+补时）。原预测2-1/3-1/2-0，比分命中。复盘重点：日本五后卫压低了巴西早段效率，但巴西通过下半场调整和补时终结完成逆转。模型正确识别巴西方向，但仍需提高强队落后后下半场加速的比分放大分支。"},
       "077": {actualScore:"3-0", kickoff:"已完赛｜2026-07-01 05:00", manualStatus:"方向命中", review:"实际法国3-0瑞典（90分钟+补时）。原预测比分主栏为2-0/2-1/3-1/1-0，未包含3-0，因此本场只记方向命中，不记比分命中；比分分布里的3-0只能作为尾部防线参考，不进入比分命中率。模型修正：法国这类火力释放型强队面对后防伤停/年轻化对手时，3-0应从尾部防线前移到核心比分区。"},
       "078": {actualScore:"1-2", kickoff:"已完赛｜2026-07-01 01:00", manualStatus:"比分命中", review:"实际按官方竞彩顺序为科特迪瓦1-2挪威（即挪威2-1取胜，90分钟+补时）。原预测主线比分为1-2，因此078应记为比分命中，不是只记方向命中。模型有效点：挪威一球小胜、科特迪瓦(+1)让平、总进球3球均落在主线区间；后续继续保留热门小胜与受让保护并行的策略。"},
+      "079": {actualScore:"2-0", kickoff:"已完赛｜2026-07-01 09:00", manualStatus:"方向命中", review:"实际墨西哥2-0厄瓜多尔（90分钟+补时）。原预测比分主栏为1-0/1-1/2-1/0-0，未包含2-0，因此本场不记比分命中；胜负方向墨西哥主胜命中，总进球2球命中。让球方面墨西哥(-1)实际为让胜，原方案主用让平/让负，盘口边界失手。模型修正：东道主淘汰赛主场强势+早段破局时，应把2-0从次级防线上调，不能只停留在1球小胜/90分钟平局脚本。"},
     };
     function applyResultPatches(arr){return (arr||[]).map(r=>RESULT_PATCHES[r.id]?{...r,...RESULT_PATCHES[r.id]}:r)}
     function removeDeletedPlaceholders(arr){return (arr||[]).filter(r=>r.id!=="share-link-unreadable-placeholder" && r.matchNo!=="待补-分享链接");}
     function keepUnplayedPending(arr){
-      // 历史函数名保留以兼容旧逻辑；当前版本锁定065-076已完赛复盘结果，避免旧本地/云端缓存覆盖赛果。
+      // 历史函数名保留以兼容旧逻辑；当前版本锁定065-079已完赛复盘结果，避免旧本地/云端缓存覆盖赛果。
       // 淘汰赛复盘比分只记录90分钟+补时；加时/点球仅用于晋级图下轮晋级者显示。
       const resultFix={
         "065": {kickoff:"已完赛｜2026-06-27 11:00", actualScore:"1-1", manualStatus:"比分命中"},
@@ -2359,7 +2360,8 @@
         "075": {kickoff:"已完赛｜2026-06-30 09:00", actualScore:"1-1", manualStatus:"比分命中"},
         "076": {kickoff:"已完赛｜2026-06-30 01:00", actualScore:"2-1", manualStatus:"比分命中"},
         "077": {matchNo:"077", matchName:"法国 vs 瑞典", kickoff:"已完赛｜2026-07-01 05:00", actualScore:"3-0", manualStatus:"方向命中"},
-        "078": {matchNo:"078", matchName:"科特迪瓦 vs 挪威", kickoff:"已完赛｜2026-07-01 01:00", actualScore:"1-2", manualStatus:"比分命中"}
+        "078": {matchNo:"078", matchName:"科特迪瓦 vs 挪威", kickoff:"已完赛｜2026-07-01 01:00", actualScore:"1-2", manualStatus:"比分命中"},
+        "079": {matchNo:"079", matchName:"墨西哥 vs 厄瓜多尔", kickoff:"已完赛｜2026-07-01 09:00", actualScore:"2-0", manualStatus:"方向命中"}
       };
       return (arr||[]).map(r=>resultFix[r.id]?{...r,...resultFix[r.id]}:r);
     }
@@ -2641,7 +2643,7 @@
     function applyOddsPatches(arr){return (arr||[]).map(r=>ODDS_PATCHES[String(r.id||r.matchNo)]?{...r,...ODDS_PATCHES[String(r.id||r.matchNo)]}:r)}
 
     const OFFICIAL_RECORD_LOCKS={
-      // 强制覆盖旧浏览器 localStorage / 云同步缓存里的 077、078 错位数据：编号、对阵、实际比分与命中标签必须同时锁定；077=方向命中，078=比分命中。
+      // 强制覆盖旧浏览器 localStorage / 云同步缓存里的 077、078、079 错位数据：编号、对阵、实际比分与命中标签必须同时锁定；077=方向命中，078=比分命中，079=方向命中。
       "077": {
         id:"077", matchNo:"077", matchName:"法国 vs 瑞典", kickoff:"已完赛｜2026-07-01 05:00",
         predictionScores:"2-0 / 2-1 / 3-1 / 1-0", pick:"主胜", totalGoals:"2 / 3 / 4",
@@ -2653,6 +2655,12 @@
         predictionScores:"1-2 / 1-1 / 2-2 / 0-2", pick:"客胜 / 防平", totalGoals:"2 / 3 / 4",
         actualScore:"1-2", manualStatus:"比分命中",
         review:"实际按官方竞彩顺序为科特迪瓦1-2挪威（即挪威2-1取胜，90分钟+补时）。078对应科特迪瓦 vs 挪威，实际比分必须记录为1-2；原预测主线比分为1-2，因此按比分命中处理。模型有效点：挪威一球小胜、科特迪瓦(+1)让平、总进球3球均落在主线区间。"
+      },
+      "079": {
+        id:"079", matchNo:"079", matchName:"墨西哥 vs 厄瓜多尔", kickoff:"已完赛｜2026-07-01 09:00",
+        predictionScores:"1-0 / 1-1 / 2-1 / 0-0", pick:"主胜 / 防平", totalGoals:"2 / 3 / 4",
+        actualScore:"2-0", manualStatus:"方向命中",
+        review:"实际墨西哥2-0厄瓜多尔（90分钟+补时）。原预测比分主栏为1-0/1-1/2-1/0-0，未包含2-0，因此本场不记比分命中；胜负方向墨西哥主胜命中，总进球2球命中。让球方面墨西哥(-1)实际为让胜，原方案主用让平/让负，盘口边界失手。模型修正：东道主淘汰赛主场强势+早段破局时，应把2-0从次级防线上调，不能只停留在1球小胜/90分钟平局脚本。"
       }
     };
     function enforceOfficialRecordLocks(arr){
@@ -2793,21 +2801,21 @@
 
     function recommendedBettingHtml(pending){
       const ids=(pending||[]).map(r=>String(r.id||r.matchNo));
-      const has079085=ids.some(id=>['079','080','081','082','083','084','085'].includes(id));
-      if(!has079085) return '';
-      return `<details class="best-bets"><summary><div class="best-head"><div><div class="best-title">最建议体彩玩法｜079-085 预测中方案</div><div class="best-sub">默认隐藏，点击右侧按钮展开。073-078 已进入复盘；当前只对 079-085 做赛前预测与晋级图投射。</div></div><span class="best-toggle-chip">079-085 新预测</span></div></summary><div class="best-content">
+      const has080085=ids.some(id=>['080','081','082','083','084','085'].includes(id));
+      if(!has080085) return '';
+      return `<details class="best-bets"><summary><div class="best-head"><div><div class="best-title">最建议体彩玩法｜080-085 预测中方案</div><div class="best-sub">默认隐藏，点击右侧按钮展开。073-079 已进入复盘；当前只对 080-085 做赛前预测与晋级图投射。</div></div><span class="best-toggle-chip">080-085 新预测</span></div></summary><div class="best-content">
           <div class="sale-panel"><div class="sale-title">当前主线口径<span class="tag">90分钟+补时</span></div>
-            <div class="sale-line"><span class="sale-ok">优先主串：</span>080英格兰(-1)让胜/让平、084西班牙(-1)让胜/让平、079墨西哥不败/让平、085瑞士胜或让平。</div>
-            <div class="sale-line"><span class="sale-warn">低比分/防平场：</span>079墨西哥(-1)让平/让负、081美国(-1)让平/让负、083葡萄牙(-1)让负/让平、085瑞士(-1)让平/让负。</div>
+            <div class="sale-line"><span class="sale-ok">优先主串：</span>080英格兰(-1)让胜/让平、084西班牙(-1)让胜/让平、085瑞士胜或让平。</div>
+            <div class="sale-line"><span class="sale-warn">低比分/防平场：</span>081美国(-1)让平/让负、083葡萄牙(-1)让负/让平、085瑞士(-1)让平/让负。</div>
             <div class="sale-line"><span class="sale-warn">高波动场：</span>082比利时 vs 塞内加尔，主线比利时小胜但防 1-1 / 2-2 / 塞内加尔不败；更适合小额或放入复式。</div>
-            <div class="sale-line"><span class="sale-no">不建议重仓：</span>083葡萄牙主胜单选、082比利时让胜、081美国让胜单挑、079墨西哥大胜。</div>
+            <div class="sale-line"><span class="sale-no">不建议重仓：</span>083葡萄牙主胜单选、082比利时让胜、081美国让胜单挑。</div>
           </div>
           <div class="combo-list">
             <div class="combo-card combo-risk-low"><b>二串一｜稳妥基础</b><div class="bet-line">080 英格兰(-1)让胜/让平 × 084 西班牙(-1)让胜/让平</div><div class="bet-detail">两个强队方向都占优，但都按赢1球/赢2球边界拆分，不直接追深盘。</div><div class="combo-meta"><span>难度：中</span><span>主方案</span><span>容错优先</span></div></div>
-            <div class="combo-card combo-risk-low"><b>二串一｜低比分保护</b><div class="bet-line">079 墨西哥(-1)让平/让负 × 085 瑞士胜/让平</div><div class="bet-detail">079重点防1球小胜或90分钟平局；085瑞士方向可以做，但让球不追穿。</div><div class="combo-meta"><span>难度：中</span><span>复式</span><span>防平</span></div></div>
+            <div class="combo-card combo-risk-low"><b>二串一｜低比分保护</b><div class="bet-line">080 英格兰(-1)让胜/让平 × 085 瑞士胜/让平</div><div class="bet-detail">080重点拆分赢1球/赢2球边界；085瑞士方向可以做，但让球不追穿。</div><div class="combo-meta"><span>难度：中</span><span>复式</span><span>防平</span></div></div>
             <div class="combo-card combo-risk-mid"><b>三串一｜079-085核心</b><div class="bet-line">080让胜/让平 × 084让胜/让平 × 085瑞士胜/让平</div><div class="bet-detail">强队胜方向为骨架，但每场都单独拆分让球边界。</div><div class="combo-meta"><span>难度：中高</span><span>小额</span><span>不追深盘</span></div></div>
-            <div class="combo-card combo-risk-high"><b>冷门防线｜小额覆盖</b><div class="bet-line">079平局、081平局、083平局、082塞内加尔不败</div><div class="bet-detail">淘汰赛强队优势会被保守开局、低位防守和加时预期稀释；这些只作防线，不作重仓主串。</div><div class="combo-meta"><span>高风险</span><span>防平</span><span>非主方案</span></div></div>
-            <div class="combo-card combo-risk-high"><b>比分/角球小注</b><div class="bet-line">079比分：1-0/1-1；080比分：2-0/2-1；084比分：2-0/2-1。角球示例：079墨西哥5-4厄瓜多尔，080英格兰7-3民主刚果，084西班牙7-3奥地利。</div><div class="bet-detail">比分只指90分钟+补时，不含加时和点球；角球为每支队伍的角球数，不是两队总角球。</div><div class="combo-meta"><span>高风险</span><span>单队角球</span><span>复盘记录</span></div></div>
+            <div class="combo-card combo-risk-high"><b>冷门防线｜小额覆盖</b><div class="bet-line">081平局、083平局、082塞内加尔不败</div><div class="bet-detail">淘汰赛强队优势会被保守开局、低位防守和加时预期稀释；这些只作防线，不作重仓主串。</div><div class="combo-meta"><span>高风险</span><span>防平</span><span>非主方案</span></div></div>
+            <div class="combo-card combo-risk-high"><b>比分/角球小注</b><div class="bet-line">080比分：2-0/2-1；084比分：2-0/2-1；085比分：2-1/1-1。角球示例：080英格兰7-3民主刚果，084西班牙7-3奥地利，085瑞士5-4阿尔及利亚。</div><div class="bet-detail">比分只指90分钟+补时，不含加时和点球；角球为每支队伍的角球数，不是两队总角球。</div><div class="combo-meta"><span>高风险</span><span>单队角球</span><span>复盘记录</span></div></div>
           </div>
           <div class="best-note"><b>模型应用：</b>073-078复盘后，当前规则继续强化三点：强队胜不等于打穿；淘汰赛1-1/0-0要进入核心防区；加时/点球只影响晋级图，不影响比分命中率。</div>
           <div class="avoid-list"><span>少碰：083葡萄牙胜单选</span><span>少碰：082比利时让胜</span><span>少碰：081美国让胜单挑</span><span>比分=90分钟+补时；角球=单队角球</span></div>
@@ -2857,7 +2865,7 @@
       const r32Right=[
         match('076','06/30 01:00','巴西','日本','wc-right-yellow','2','1','done'),
         match('078','07/01 01:00','科特迪瓦','挪威','wc-right-yellow','1','2','done'),
-        match('079','07/01 09:00','墨西哥','厄瓜多尔','wc-right-yellow','','','pred'),
+        match('079','07/01 09:00','墨西哥','厄瓜多尔','wc-right-yellow','2','0','done'),
         match('080','07/02 00:00','英格兰','民主刚果','wc-right-yellow','','','pred'),
         match('086','待补','阿根廷','佛得角','wc-right-blue','','',''),
         match('088','待补','澳大利亚','埃及','wc-right-blue','','',''),
@@ -2866,7 +2874,7 @@
       ].join('');
       const r16Right=[
         pathMatch('M91','07/05 16:00','巴西','挪威','W076','W078','done'),
-        pathMatch('M92','07/05 18:00','W079','W080','墨西哥/厄瓜多尔','英格兰/民主刚果','pred'),
+        pathMatch('M92','07/05 18:00','墨西哥','W080','W079','英格兰/民主刚果','pred'),
         pathMatch('M95','07/07 12:00','W086','W088','阿根廷/佛得角','澳大利亚/埃及'),
         pathMatch('M96','07/07 13:00','W085','W087','瑞士/阿尔及利亚','哥伦比亚/加纳','pred')
       ].join('');
@@ -2874,10 +2882,10 @@
         pathMatch('M99','07/11 17:00','W091','W092','巴西/挪威','M92胜者'),
         pathMatch('M100','07/11 20:00','W095','W096','M95胜者','M96胜者')
       ].join('');
-      return `<section class="record-group"><div class="record-group-head"><div class="record-group-title pending">晋级图<span class="record-count">32强</span></div><div class="record-group-sub">073-078已复盘；079-085预测中；已按官方淘汰赛路径重新分区</div></div>
+      return `<section class="record-group"><div class="record-group-head"><div class="record-group-title pending">晋级图<span class="record-count">32强</span></div><div class="record-group-sub">073-079已复盘；080-085预测中；已按官方淘汰赛路径重新分区</div></div>
         <div class="wc-tree-shell">
           <div class="wc-tree-center">
-            <div class="wc-tree-title"><div><b>世界杯 32强晋级图</b><br><span>绿色边框=已完赛；金色边框=079-085预测中；比分标签只显示90分钟+补时。</span></div><span>完赛 ｜ 预测中 ｜ 晋级图</span></div>
+            <div class="wc-tree-title"><div><b>世界杯 32强晋级图</b><br><span>绿色边框=已完赛；金色边框=080-085预测中；比分标签只显示90分钟+补时。</span></div><span>完赛 ｜ 预测中 ｜ 晋级图</span></div>
             <div class="wc-stage-head"><div>32强</div><div>16强</div><div>8强</div><div>4强 / 决赛</div><div>8强</div><div>16强</div><div>32强</div></div>
             <div class="wc-tree">
               <div class="wc-round r32">${r32Left}</div>
@@ -2888,7 +2896,7 @@
               <div class="wc-round r16">${r16Right}</div>
               <div class="wc-round r32">${r32Right}</div>
             </div>
-            <div class="wc-tree-note"><b>本次修正：</b>按官方路径重排整棵树，而不是只把晋级者文字塞进同一格。M89 = W074 vs W077，M90 = W073 vs W075，所以加拿大和摩洛哥现在是M90的上下两队；M93/M94同属M98，M91/M92同属M99，M95/M96同属M100。比分仍只记录90分钟+补时；点球/加时只用于确认晋级者。本版同时修正077/078复盘结果：077法国3-0记为比分命中；078按官方竞彩顺序为科特迪瓦1-2挪威（即挪威2-1）并记为比分命中。</div>
+            <div class="wc-tree-note"><b>本次修正：</b>按官方路径重排整棵树，而不是只把晋级者文字塞进同一格。M89 = W074 vs W077，M90 = W073 vs W075，所以加拿大和摩洛哥现在是M90的上下两队；M93/M94同属M98，M91/M92同属M99，M95/M96同属M100。比分仍只记录90分钟+补时；点球/加时只用于确认晋级者。本版同步更新079：墨西哥2-0厄瓜多尔，墨西哥晋级M92；079因预测主栏未包含2-0，所以记为方向命中，不记比分命中。077仍为方向命中，078为比分命中。</div>
           </div>
         </div></section>`;
     }
@@ -2911,7 +2919,7 @@
       if(el('filterHint')){
         if(activeRecordView==='done') el('filterHint').textContent='当前显示：已完赛复盘。这里按比赛日期从晚到早排序，并计入命中率统计。';
         else if(activeRecordView==='pending') el('filterHint').textContent='当前显示：预测中 / 待验证。这里按比赛日期从早到晚排序；预测比分统一指90分钟+补时，不含加时与点球。';
-        else el('filterHint').textContent='当前显示：晋级图。这里汇总已确定晋级球队、待定槽位，以及079-085的90分钟+补时预测投射。';
+        else el('filterHint').textContent='当前显示：晋级图。这里汇总已确定晋级球队、待定槽位，以及080-085的90分钟+补时预测投射。';
       }
       if(!records.length){el('cards').innerHTML='<div class="empty">暂无记录，点击“新增预测”开始。</div>';return;}
       if(activeRecordView==='done') el('cards').innerHTML=groupHtml('已完赛复盘', 'done', finished, '赛果已填，可进入命中率统计');
