@@ -2601,17 +2601,17 @@
     "matchNo": "092",
     "matchName": "墨西哥 vs 英格兰",
     "kickoff": "2026-07-06 08:00",
-    "predictionScores": "1-1 / 0-1 / 1-2 / 0-0",
-    "pick": "平 / 防客胜",
-    "totalGoals": "0 / 1 / 2 / 3",
-    "probHome": 28,
+    "predictionScores": "1-1 / 0-1 / 1-0 / 1-2",
+    "pick": "平 / 防客胜 / 小防主胜",
+    "totalGoals": "1 / 2 / 3",
+    "probHome": 30,
     "probDraw": 34,
-    "probAway": 38,
+    "probAway": 36,
     "risk": "高",
     "strengthRating": "墨西哥 82｜英格兰 90｜实力差：英格兰 +8",
     "strengthNote": "英格兰纸面实力和前场终结更强；墨西哥主场、海拔、熟悉环境和防守纪律会显著削弱英格兰优势。",
-    "strengthImpact": "080英格兰2-1民主刚果说明英格兰能赢但不轻松；079墨西哥2-0厄瓜多尔说明东道主压制力真实。092必须上调平局和墨西哥+1保护。",
-    "injury": "英格兰关注Kane/Saka等核心体能、海拔适应和中场推进效率；墨西哥关注边路冲击、门将状态和主场情绪控制。",
+    "strengthImpact": "080英格兰2-1民主刚果说明英格兰能赢但不轻松；079墨西哥2-0厄瓜多尔说明东道主压制力真实；090加拿大0-3也提醒：主场气势不能替代终结质量。092维持英格兰略优，但把1-1、墨西哥+1和墨西哥1-0冷门分支继续上调。",
+    "injury": "英格兰关注Rice疼痛反应、Reece James/Jarell Quansah伤病背景、Kane/Saka等核心体能、海拔适应和中场推进效率；墨西哥关注边路冲击、门将状态和主场情绪控制。",
     "form": "英格兰连续过关但有慢热和被冲击问题；墨西哥主场连续兑现，防守和定位球质量都不可忽略。",
     "controlIntent": "英格兰不会盲目冒进，墨西哥会利用主场与海拔把比赛拖进低比分；若上半场0-0，1-1/0-0权重继续上调。",
     "weather": "Mexico City Stadium｜当地7月5日18:00开球。墨西哥城海拔高，赛时云雨和雷雨风险存在；这会削弱英格兰持续高强度逼抢，低比分和延时/中断风险上升。",
@@ -2619,14 +2619,14 @@
     "rqLine": "+1",
     "rqPick": "让胜 / 让平",
     "rqProb": "让胜45%｜让平35%｜让负20%",
-    "scoreProb": "1-1 24%｜0-1 16%｜1-2 14%｜0-0 12%｜1-0 9%",
+    "scoreProb": "1-1 25%｜0-1 15%｜1-0 12%｜1-2 13%｜0-0 10%",
     "totalGoalProb": "2球35%｜1球24%｜3球22%｜0球12%｜4+球7%",
-    "halfFullProb": "平-平29%｜平-负22%｜负-负14%｜平-胜12%",
+    "halfFullProb": "平-平30%｜平-负21%｜平-胜15%｜负-负12%",
     "cornerProb": "角球比分：墨西哥4-5英格兰｜墨西哥3-5个｜英格兰4-6个｜备选：4-4/5-5",
-    "reason": "纸面实力英格兰更强，但比赛环境把优势打折。墨西哥主场+海拔+天气扰动让90分钟平局成为第一防线；晋级投射：英格兰略优，可能一球小胜或加时解决。",
+    "reason": "纸面实力英格兰更强，但比赛环境把优势打折。墨西哥主场+海拔+天气扰动让90分钟平局成为第一防线；结合090复盘，主场热度不能盲目变成主胜，但墨西哥比加拿大更熟悉高海拔且防守更完整，1-0冷门从尾部升到次级防线。晋级投射：英格兰略优，可能一球小胜或加时解决。",
     "handicapNote": "墨西哥+1下，墨西哥不败为让胜，英格兰赢1球为让平；优先让胜/让平，少追英格兰净胜2球。",
     "marketSnapshot": "092 墨西哥 vs 英格兰｜16强；FIFA赛程为7月5日18:00当地，对应北京时间/新加坡时间7月6日08:00。",
-    "valueNote": "英格兰可防晋级，但90分钟不宜追客胜打穿；1-1/0-1/1-2为核心。"
+    "valueNote": "英格兰可防晋级，但90分钟不宜追客胜打穿；1-1/0-1/1-0/1-2为核心。"
   },
   {
     "actualScore": "",
@@ -3162,7 +3162,7 @@
     function applyOddsPatches(arr){return (arr||[]).map(r=>ODDS_PATCHES[String(r.id||r.matchNo)]?{...r,...ODDS_PATCHES[String(r.id||r.matchNo)]}:r)}
 
     const OFFICIAL_RECORD_LOCKS={
-      // 强制覆盖旧浏览器 localStorage / 云同步缓存里的 077-082 错位数据：编号、对阵、实际比分与命中标签必须同时锁定；077=方向命中，078=比分命中，079=方向命中，080-082=比分命中。
+      // 强制覆盖旧浏览器 localStorage / 云同步缓存里的 077-082及089-090错位数据：编号、对阵、实际比分与命中标签必须同时锁定；077=方向命中，078=比分命中，079=方向命中，080-082=比分命中，089=比分命中，090=方向命中。
       "077": {
         id:"077", matchNo:"077", matchName:"法国 vs 瑞典", kickoff:"已完赛｜2026-07-01 05:00",
         predictionScores:"2-0 / 2-1 / 3-1 / 1-0", pick:"主胜", totalGoals:"2 / 3 / 4",
@@ -3198,6 +3198,18 @@
         predictionScores:"2-1 / 1-1 / 2-2 / 1-2", pick:"主胜 / 防平", totalGoals:"2 / 3 / 4",
         actualScore:"2-2", manualStatus:"比分命中",
         review:"实际比利时2-2塞内加尔（90分钟+补时），加时后比利时3-2晋级。本系统比分统计只记录90分钟+补时，因此实际比分填2-2；原预测比分主栏包含2-2，记为比分命中。模型有效点：正确防到塞内加尔不败/高波动和比利时(-1)让负；修正点：比利时常规时间慢热但末段爆发明显，加时晋级只更新晋级图，不进入比分命中率。"
+      },
+      "089": {
+        id:"089", matchNo:"089", matchName:"巴拉圭 vs 法国", kickoff:"已完赛｜2026-07-05 05:00",
+        predictionScores:"0-2 / 1-2 / 0-1 / 1-1", pick:"客胜 / 防平", totalGoals:"1 / 2 / 3",
+        actualScore:"0-1", manualStatus:"比分命中",
+        review:"实际巴拉圭0-1法国（90分钟+补时），法国晋级八强。原预测比分主栏为0-2/1-2/0-1/1-1，0-1在核心比分内，因此记为比分命中；法国客胜方向命中，总进球1球命中。让球方面巴拉圭(+1)实际为让平，模型赛前强调0-1/1-2边界正确。专业复盘：法国控球和个人能力优势真实，但费城极热环境、巴拉圭5-4-1低位和淘汰赛保守策略显著压低了连续打穿概率；姆巴佩点球成为决定点。模型修正：大热强队要拆成胜负方向、1球小胜、深盘打穿三层；高温+低位密集时，点球/定位球破局和1-0守胜必须升为核心分支，不能把上一场3-0火力直接外推。"
+      },
+      "090": {
+        id:"090", matchNo:"090", matchName:"加拿大 vs 摩洛哥", kickoff:"已完赛｜2026-07-05 01:00",
+        predictionScores:"1-1 / 0-0 / 1-2 / 0-1", pick:"平 / 防客胜", totalGoals:"0 / 1 / 2 / 3",
+        actualScore:"0-3", manualStatus:"方向命中",
+        review:"实际加拿大0-3摩洛哥（90分钟+补时），摩洛哥晋级八强。原预测比分主栏为1-1/0-0/1-2/0-1，未包含0-3，因此不记比分命中；但赛前防客胜方向命中，总进球3球命中。专业复盘：加拿大前段压迫和主场气势没有转化为进球，Davies未出场削弱了边路推进与终结威胁；摩洛哥并非单纯拖节奏，而是在承压后通过定位球套路、二点球和反击把效率放大，Ounahi双响和Rahimi补时进球体现了成熟淘汰赛队伍的终结质量。模型修正：摩洛哥从‘低比分拖加时型’升级为‘吸收压力后高效终结型’；面对东道主热度，控球/压迫不能替代射正质量和核心球员可用性，3-0这种效率型打穿要进入次级防线。"
       }
     };
 
@@ -3645,17 +3657,17 @@
     "matchNo": "092",
     "matchName": "墨西哥 vs 英格兰",
     "kickoff": "2026-07-06 08:00",
-    "predictionScores": "1-1 / 0-1 / 1-2 / 0-0",
-    "pick": "平 / 防客胜",
-    "totalGoals": "0 / 1 / 2 / 3",
-    "probHome": 28,
+    "predictionScores": "1-1 / 0-1 / 1-0 / 1-2",
+    "pick": "平 / 防客胜 / 小防主胜",
+    "totalGoals": "1 / 2 / 3",
+    "probHome": 30,
     "probDraw": 34,
-    "probAway": 38,
+    "probAway": 36,
     "risk": "高",
     "strengthRating": "墨西哥 82｜英格兰 90｜实力差：英格兰 +8",
     "strengthNote": "英格兰纸面实力和前场终结更强；墨西哥主场、海拔、熟悉环境和防守纪律会显著削弱英格兰优势。",
-    "strengthImpact": "080英格兰2-1民主刚果说明英格兰能赢但不轻松；079墨西哥2-0厄瓜多尔说明东道主压制力真实。092必须上调平局和墨西哥+1保护。",
-    "injury": "英格兰关注Kane/Saka等核心体能、海拔适应和中场推进效率；墨西哥关注边路冲击、门将状态和主场情绪控制。",
+    "strengthImpact": "080英格兰2-1民主刚果说明英格兰能赢但不轻松；079墨西哥2-0厄瓜多尔说明东道主压制力真实；090加拿大0-3也提醒：主场气势不能替代终结质量。092维持英格兰略优，但把1-1、墨西哥+1和墨西哥1-0冷门分支继续上调。",
+    "injury": "英格兰关注Rice疼痛反应、Reece James/Jarell Quansah伤病背景、Kane/Saka等核心体能、海拔适应和中场推进效率；墨西哥关注边路冲击、门将状态和主场情绪控制。",
     "form": "英格兰连续过关但有慢热和被冲击问题；墨西哥主场连续兑现，防守和定位球质量都不可忽略。",
     "controlIntent": "英格兰不会盲目冒进，墨西哥会利用主场与海拔把比赛拖进低比分；若上半场0-0，1-1/0-0权重继续上调。",
     "weather": "Mexico City Stadium｜当地7月5日18:00开球。墨西哥城海拔高，赛时云雨和雷雨风险存在；这会削弱英格兰持续高强度逼抢，低比分和延时/中断风险上升。",
@@ -3663,14 +3675,14 @@
     "rqLine": "+1",
     "rqPick": "让胜 / 让平",
     "rqProb": "让胜45%｜让平35%｜让负20%",
-    "scoreProb": "1-1 24%｜0-1 16%｜1-2 14%｜0-0 12%｜1-0 9%",
+    "scoreProb": "1-1 25%｜0-1 15%｜1-0 12%｜1-2 13%｜0-0 10%",
     "totalGoalProb": "2球35%｜1球24%｜3球22%｜0球12%｜4+球7%",
-    "halfFullProb": "平-平29%｜平-负22%｜负-负14%｜平-胜12%",
+    "halfFullProb": "平-平30%｜平-负21%｜平-胜15%｜负-负12%",
     "cornerProb": "角球比分：墨西哥4-5英格兰｜墨西哥3-5个｜英格兰4-6个｜备选：4-4/5-5",
-    "reason": "纸面实力英格兰更强，但比赛环境把优势打折。墨西哥主场+海拔+天气扰动让90分钟平局成为第一防线；晋级投射：英格兰略优，可能一球小胜或加时解决。",
+    "reason": "纸面实力英格兰更强，但比赛环境把优势打折。墨西哥主场+海拔+天气扰动让90分钟平局成为第一防线；结合090复盘，主场热度不能盲目变成主胜，但墨西哥比加拿大更熟悉高海拔且防守更完整，1-0冷门从尾部升到次级防线。晋级投射：英格兰略优，可能一球小胜或加时解决。",
     "handicapNote": "墨西哥+1下，墨西哥不败为让胜，英格兰赢1球为让平；优先让胜/让平，少追英格兰净胜2球。",
     "marketSnapshot": "092 墨西哥 vs 英格兰｜16强；FIFA赛程为7月5日18:00当地，对应北京时间/新加坡时间7月6日08:00。",
-    "valueNote": "英格兰可防晋级，但90分钟不宜追客胜打穿；1-1/0-1/1-2为核心。"
+    "valueNote": "英格兰可防晋级，但90分钟不宜追客胜打穿；1-1/0-1/1-0/1-2为核心。"
   },
   "093": {
     "actualScore": "",
@@ -3834,7 +3846,7 @@
         return actual && arr[0][0]===actual;
       }).length;
       const total=done.length||1;
-      el('accuracyPanel').innerHTML=`<h2>模型正确率复盘</h2><div class="hint">只统计已填赛果且非待补占位的样本。三层指标分开看：精确比分、胜平负/不败方向、以及模型最高概率方向。</div><div class="summary" style="margin:10px 0 0"><div class="sum-card"><div class="sum-label">已验证样本</div><div class="sum-value">${done.length}</div></div><div class="sum-card"><div class="sum-label">精确比分命中</div><div class="sum-value green">${exact}/${done.length}</div><div class="small">${Math.round(exact/total*100)}%</div></div><div class="sum-card"><div class="sum-label">方向命中含比分</div><div class="sum-value gold">${exact+direction}/${done.length}</div><div class="small">${Math.round((exact+direction)/total*100)}%</div></div><div class="sum-card"><div class="sum-label">最高概率方向命中</div><div class="sum-value ${topHit>=done.length/2?'green':'red'}">${topHit}/${done.length}</div><div class="small">${Math.round(topHit/total*100)}%</div></div></div><div class="lesson-grid"><div class="lesson"><b>热门晋级≠90分钟主胜</b><span>086阿根廷加时晋级但90分钟1-1，强弱差要拆成晋级/90分钟/让球三层。</span></div><div class="lesson"><b>16强低比分平局继续上调</b><span>088命中1-1，090/092/094继续优先防平、防加时。</span></div><div class="lesson"><b>小优结构队早破局可锁1-0</b><span>087哥伦比亚1-0命中，领先后控风险比继续追2球更常见。</span></div></div><div class="note-warn">当前结论：盘口权重继续下调，模型改为“球队真实实力、当届状态、场地天气、90分钟策略优先，盘口只做校准”。083-088复盘显示：顶级强队仍可打出3-0，但热门晋级不等于90分钟主胜；低比分平局、加时/点球分支和小优方1-0控局要继续上调。</div>`;
+      el('accuracyPanel').innerHTML=`<h2>模型正确率复盘</h2><div class="hint">只统计已填赛果且非待补占位的样本。三层指标分开看：精确比分、胜平负/不败方向、以及模型最高概率方向。</div><div class="summary" style="margin:10px 0 0"><div class="sum-card"><div class="sum-label">已验证样本</div><div class="sum-value">${done.length}</div></div><div class="sum-card"><div class="sum-label">精确比分命中</div><div class="sum-value green">${exact}/${done.length}</div><div class="small">${Math.round(exact/total*100)}%</div></div><div class="sum-card"><div class="sum-label">方向命中含比分</div><div class="sum-value gold">${exact+direction}/${done.length}</div><div class="small">${Math.round((exact+direction)/total*100)}%</div></div><div class="sum-card"><div class="sum-label">最高概率方向命中</div><div class="sum-value ${topHit>=done.length/2?'green':'red'}">${topHit}/${done.length}</div><div class="small">${Math.round(topHit/total*100)}%</div></div></div><div class="lesson-grid"><div class="lesson"><b>大热强队≠深盘打穿</b><span>089法国0-1命中：高温+低位密集下，强队胜要优先拆成1球胜/2球胜/深盘。</span></div><div class="lesson"><b>成熟防反队可效率型打穿</b><span>090摩洛哥0-3说明：承压不等于被动，射正质量和定位球套路能直接放大比分。</span></div><div class="lesson"><b>主场热度不能替代终结</b><span>加拿大有主场和压迫但缺少兑现；092墨西哥需小防主胜，但仍以1-1为第一分支。</span></div></div><div class="note-warn">当前结论：盘口权重继续下调，模型改为“球队真实实力、当届状态、场地天气、90分钟策略、终结效率优先，盘口只做校准”。083-090复盘显示：顶级强队有时只赢1球，成熟防反队也能3-0打穿；后续091-094必须把深盘、平局、效率型打穿和加时/点球分支分开建模。</div>`;
     }
     function isFinishedRecord(r){return /^\d+\s*-\s*\d+$/.test((r.actualScore||'').trim()) && !/待补|placeholder/.test(r.id||'');}
     const DATE_FALLBACKS={
@@ -3915,25 +3927,22 @@
 
     function recommendedBettingHtml(pending){
       const ids=(pending||[]).map(r=>String(r.id||r.matchNo));
-      const has089094=ids.some(id=>['089','090','091','092','093','094'].includes(id));
-      if(!has089094) return '';
-      return `<details class="best-bets"><summary><div class="best-head"><div><div class="best-title">最建议体彩玩法｜089-094 复盘后模型方案</div><div class="best-sub">默认隐藏，点击右侧按钮展开。073-088 已复盘；当前只剩089-094待验证，比分只按90分钟+补时。</div></div><span class="best-toggle-chip">089-094 新预测</span></div></summary><div class="best-content">
-          <div class="sale-panel"><div class="sale-title">当前主线口径<span class="tag">90分钟+补时</span></div>
-            <div class="sale-line"><span class="sale-ok">稳胆方向：</span>089法国不败/客胜、093西班牙不败。注意：这只是90分钟方向，晋级者和比分命中分开统计。</div>
-            <div class="sale-line"><span class="sale-warn">防平核心：</span>090加拿大vs摩洛哥、092墨西哥vs英格兰、094美国vs比利时继续把1-1放入第一防线。</div>
-            <div class="sale-line"><span class="sale-warn">高波动场：</span>091巴西vs挪威、093西班牙vs葡萄牙属于强强/准强强，不建议单挑让胜。</div>
-            <div class="sale-line"><span class="sale-no">不建议重仓：</span>法国0-3大胜、巴西-1让胜、英格兰净胜2球、西班牙-1让胜、美国主胜单挑。</div>
+      const has091094=ids.some(id=>['091','092','093','094'].includes(id));
+      if(!has091094) return '';
+      return `<details class="best-bets"><summary><div class="best-head"><div><div class="best-title">最建议体彩玩法｜091-094 复盘后模型方案</div><div class="best-sub">默认隐藏，点击右侧按钮展开。073-090 已复盘；当前只剩 091-094 待验证，比分只按90分钟+补时。</div></div><span class="best-toggle-chip">091-094 新预测</span></div></summary><div class="best-content">
+          <div class="sale-box">
+            <div class="sale-title">模型加强后的投注/复盘口径</div>
+            <div class="sale-line"><span class="sale-ok">主线方向：</span>091巴西不败、093西班牙不败仍可保留，但都不追深盘。</div>
+            <div class="sale-line"><span class="sale-warn">防平核心：</span>092墨西哥vs英格兰、094美国vs比利时继续把1-1放入第一防线。</div>
+            <div class="sale-line"><span class="sale-warn">新增修正：</span>089法国1-0证明强队热度不等于打穿；090摩洛哥3-0证明成熟防反队也可能效率型打穿。</div>
           </div>
-          <div class="combo-list">
-            <div class="combo-card combo-risk-low"><b>稳妥二串一｜方向+不败</b><div class="bet-line">089 法国客胜/不败 × 093 西班牙不败</div><div class="bet-detail">两场实力优势更清楚，但都不追深盘，主看90分钟方向与1球边界。</div><div class="combo-meta"><span>难度：中</span><span>主方案</span><span>方向优先</span></div></div>
-            <div class="combo-card combo-risk-low"><b>防平组合｜低比分保护</b><div class="bet-line">090 1-1/0-0 × 092 1-1/0-1 × 094 1-1/1-2</div><div class="bet-detail">086和088复盘后，16强常规时间平局权重继续上调；这组只做保护，不做重仓。</div><div class="combo-meta"><span>难度：中高</span><span>防平</span><span>加时分支</span></div></div>
-            <div class="combo-card combo-risk-mid"><b>三串一｜强队小胜边界</b><div class="bet-line">089法国胜 × 091巴西不败 × 093西班牙不败</div><div class="bet-detail">三场热门都要防1球胜或平，不建议改成让胜串关。</div><div class="combo-meta"><span>难度：中高</span><span>小额</span><span>不追打穿</span></div></div>
-            <div class="combo-card combo-risk-high"><b>冷门防线｜加时/点球</b><div class="bet-line">090平、092平、094平；比分核心均为1-1</div><div class="bet-detail">淘汰赛的防守质量和加时心理会稀释90分钟胜负；只做小额覆盖。</div><div class="combo-meta"><span>高风险</span><span>比分小注</span><span>非主方案</span></div></div>
-            <div class="combo-card combo-risk-high"><b>比分/角球小注</b><div class="bet-line">089：0-2/1-2；090：1-1/0-0；091：2-1/1-1；092：1-1/0-1；093：1-1/2-1；094：1-1/1-2。角球均为每队角球数。</div><div class="bet-detail">比分只指90分钟+补时，不含加时和点球；角球为每支队伍的角球数，不是两队总角球。</div><div class="combo-meta"><span>高风险</span><span>单队角球</span><span>复盘记录</span></div></div>
-          </div>
-          <div class="best-note"><b>模型应用：</b>086-088复盘后新增三条硬规则：第一，热门晋级不等于90分钟主胜；第二，16强低比分平局和加时分支继续上调；第三，小优结构队早破局后，1-0控局要高于盲目追2-1。</div>
-          <div class="avoid-list"><span>少碰：法国0-3单挑</span><span>少碰：巴西让胜</span><span>少碰：英格兰净胜2球</span><span>比分=90分钟+补时；角球=单队角球</span></div>
-        </div></details>`;
+          <div class="combo-grid">
+            <div class="combo-card combo-risk-low"><b>稳妥二串一｜不追让胜</b><div class="bet-line">091 巴西不败 × 093 西班牙不败</div><div class="bet-detail">两场实力优势更清楚，但都先看90分钟不败和1球边界，不做净胜2球以上主胆。</div><div class="combo-meta"><span>难度：中</span><span>方向优先</span><span>不追深盘</span></div></div>
+            <div class="combo-card combo-risk-low"><b>防平组合｜低比分保护</b><div class="bet-line">092 1-1/0-1/1-0 × 094 1-1/1-2</div><div class="bet-detail">089和090复盘后，16强继续拆分控球优势、终结效率和晋级者；092小防墨西哥1-0。</div><div class="combo-meta"><span>难度：中高</span><span>防平</span><span>加时分支</span></div></div>
+            <div class="combo-card combo-risk-mid"><b>三串一｜小胜边界</b><div class="bet-line">091巴西不败 × 092英格兰不败/防平 × 093西班牙不败</div><div class="bet-detail">热门都要防1球胜或平，不建议改成让胜串关。</div><div class="combo-meta"><span>难度：中高</span><span>小额</span><span>边界保护</span></div></div>
+            <div class="combo-card combo-risk-high"><b>冷门防线｜主场与效率</b><div class="bet-line">092墨西哥1-0/1-1；094美国1-1/2-1</div><div class="bet-detail">只做小额覆盖：东道主氛围不能直接等于主胜，但高海拔、伤病和终结效率会放大冷门窗口。</div><div class="combo-meta"><span>高风险</span><span>比分小注</span><span>非主方案</span></div></div>
+            <div class="combo-card combo-risk-high"><b>比分/角球小注</b><div class="bet-line">091：2-1/1-1；092：1-1/0-1/1-0；093：1-1/2-1；094：1-1/1-2。角球均为每队角球数。</div><div class="bet-detail">比分只指90分钟+补时，不含加时和点球；角球为每支队伍的角球数，不是两队总角球。</div><div class="combo-meta"><span>高风险</span><span>单队角球</span><span>复盘记录</span></div></div>
+          </div></div></details>`;
     }
 
     function groupHtml(title, cls, items, sub){
@@ -3967,13 +3976,13 @@
         match('082','07/02 04:00','比利时','塞内加尔','wc-left-red','2','2｜加时比利时','done')
       ].join('');
       const r16Left=[
-        pathMatch('M89','07/05 05:00','巴拉圭','法国','W074 点球｜预测0-2/1-2','W077｜预测晋级','pred'),
-        pathMatch('M90','07/05 01:00','加拿大','摩洛哥','W073｜预测1-1/0-0','W075 点球｜预测晋级','pred'),
+        pathMatch('M89','07/05 05:00','巴拉圭','法国','0','1｜法国晋级','done'),
+        pathMatch('M90','07/05 01:00','加拿大','摩洛哥','0','3｜摩洛哥晋级','done'),
         pathMatch('M93','07/07 03:00','西班牙','葡萄牙','W083｜预测1-1/2-1','W084｜防2-2','pred'),
         pathMatch('M94','07/07 08:00','美国','比利时','W081｜预测1-1','W082 加时｜防1-2','pred')
       ].join('');
       const r8Left=[
-        pathMatch('M97','07/10 04:00','法国','摩洛哥','预测W089','预测W090'),
+        pathMatch('M97','07/10 04:00','法国','摩洛哥','W089已确定','W090已确定','pred'),
         pathMatch('M98','07/10 03:00','西班牙','比利时','预测W093','预测W094')
       ].join('');
       const r32Right=[
@@ -3996,10 +4005,10 @@
         pathMatch('M99','07/11 05:00','巴西','英格兰','预测W091','预测W092'),
         pathMatch('M100','07/12 09:00','阿根廷/埃及','瑞士/哥伦比亚','W095','W096')
       ].join('');
-      return `<section class="record-group"><div class="record-group-head"><div class="record-group-title pending">晋级图<span class="record-count">32强</span></div><div class="record-group-sub">073-088已复盘；089-094预测中；M91-M94已加入最新模型投射</div></div>
+      return `<section class="record-group"><div class="record-group-head"><div class="record-group-title pending">晋级图<span class="record-count">32强</span></div><div class="record-group-sub">073-090已复盘；091-094预测中；M91-M94继续按最新模型投射</div></div>
         <div class="wc-tree-shell">
           <div class="wc-tree-center">
-            <div class="wc-tree-title"><div><b>世界杯 32强晋级图</b><br><span>绿色边框=已完赛；金色边框=089-094预测中；比分标签只显示90分钟+补时，加时/点球只标晋级者。</span></div><span>完赛 ｜ 预测中 ｜ 晋级图</span></div>
+            <div class="wc-tree-title"><div><b>世界杯 32强晋级图</b><br><span>绿色边框=已完赛；金色边框=091-094预测中；比分标签只显示90分钟+补时，加时/点球只标晋级者。</span></div><span>完赛 ｜ 预测中 ｜ 晋级图</span></div>
             <div class="wc-stage-head"><div>32强</div><div>16强</div><div>8强</div><div>4强 / 决赛</div><div>8强</div><div>16强</div><div>32强</div></div>
             <div class="wc-tree">
               <div class="wc-round r32">${r32Left}</div>
@@ -4010,7 +4019,7 @@
               <div class="wc-round r16">${r16Right}</div>
               <div class="wc-round r32">${r32Right}</div>
             </div>
-            <div class="wc-tree-note"><b>本次更新：</b>086阿根廷1-1佛得角（加时晋级）、087哥伦比亚1-0加纳、088澳大利亚1-1埃及（点球埃及）已复盘。089-094继续按官方路径预测；所有比分统计仍只按90分钟+补时，加时/点球只更新晋级图。</div>
+            <div class="wc-tree-note"><b>本次更新：</b>089巴拉圭0-1法国、090加拿大0-3摩洛哥已复盘；法国与摩洛哥进入M97。091-094继续按官方路径预测；所有比分统计仍只按90分钟+补时，加时/点球只更新晋级图。</div>
           </div>
         </div></section>`;
     }
@@ -4033,7 +4042,7 @@
       if(el('filterHint')){
         if(activeRecordView==='done') el('filterHint').textContent='当前显示：已完赛复盘。这里按比赛日期从晚到早排序，并计入命中率统计。';
         else if(activeRecordView==='pending') el('filterHint').textContent='当前显示：预测中 / 待验证。这里按比赛日期从早到晚排序；预测比分统一指90分钟+补时，不含加时与点球。';
-        else el('filterHint').textContent='当前显示：晋级图。这里汇总已确定晋级球队、待定槽位，以及089-094的90分钟+补时预测投射。';
+        else el('filterHint').textContent='当前显示：晋级图。这里汇总已确定晋级球队、待定槽位，以及091-094的90分钟+补时预测投射。';
       }
       if(!records.length){el('cards').innerHTML='<div class="empty">暂无记录，点击“新增预测”开始。</div>';return;}
       if(activeRecordView==='done') el('cards').innerHTML=groupHtml('已完赛复盘', 'done', finished, '赛果已填，可进入命中率统计');
@@ -4210,7 +4219,7 @@
     el('closeDialog').onclick=()=>el('editDialog').close(); el('cancelBtn').onclick=()=>el('editDialog').close();
     el('recordForm').onsubmit=async e=>{e.preventDefault(); await upsertRecord(formRecord()); el('editDialog').close();};
     el('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(records,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`yunze_prediction_records_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(a.href);};
-    el('importFile').onchange=e=>{const f=e.target.files[0]; if(!f) return; const reader=new FileReader(); reader.onload=()=>{try{const data=JSON.parse(reader.result); if(!Array.isArray(data)) throw new Error('格式不是数组'); records=normalizeRecordsForCurrentVersion(mergeRecords(DEFAULT_RECORDS, data)); save(); alert('导入完成：已自动应用067-088复盘、089-094预测，以及新版晋级图口径');}catch(err){alert('导入失败：'+err.message)}}; reader.readAsText(f);};
+    el('importFile').onchange=e=>{const f=e.target.files[0]; if(!f) return; const reader=new FileReader(); reader.onload=()=>{try{const data=JSON.parse(reader.result); if(!Array.isArray(data)) throw new Error('格式不是数组'); records=normalizeRecordsForCurrentVersion(mergeRecords(DEFAULT_RECORDS, data)); save(); alert('导入完成：已自动应用067-090复盘、091-094预测，以及新版晋级图口径');}catch(err){alert('导入失败：'+err.message)}}; reader.readAsText(f);};
     el('saveCloudBtn').onclick=()=>{localStorage.setItem(CLOUD_URL_KEY,el('cloudUrl').value.trim());localStorage.setItem(CLOUD_TOKEN_KEY,el('cloudToken').value.trim());alert('已保存云同步设置');};
     el('clearLocalBtn').onclick=()=>{if(confirm('只清空当前浏览器本机记录，不影响云端。确定吗？')){records=[];save();}};
     function cloudCfg(){return {url:localStorage.getItem(CLOUD_URL_KEY)||el('cloudUrl').value.trim(), token:localStorage.getItem(CLOUD_TOKEN_KEY)||el('cloudToken').value.trim()}}
